@@ -1,11 +1,11 @@
-package com.awsPracticeTaichi.api
+package com.example.meetolio_api
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class ApiApplication
+class MeetolioApiApplication
 
 fun main(args: Array<String>) {
-	runApplication<ApiApplication>(*args)
+	runApplication<MeetolioApiApplication>(*args)
 }
