@@ -10,7 +10,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 0;
+  padding: 16px 0;
 }
 
 .logo {
@@ -40,6 +40,29 @@
 .nav {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-right: 16px;
+  min-width: 300px;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
 }
 
 .nav-link {
@@ -47,7 +70,7 @@
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
-  padding: 0;
+  padding: 8px 0;
   font-size: 16px;
   position: relative;
 }
@@ -204,7 +227,7 @@
 /* デスクトップ対応 */
 @media (min-width: 1025px) {
   .header-content {
-    padding: 24px 0;
+    padding: 12px 0;
   }
 
   .nav {

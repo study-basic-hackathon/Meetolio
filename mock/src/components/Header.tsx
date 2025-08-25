@@ -64,50 +64,56 @@ const Header: React.FC = () => {
           <nav className={`nav ${isMobileMenuOpen ? "active" : ""}`}>
             {isAuthenticated ? (
               <>
-                <Link
-                  to="/mypage"
-                  className="nav-link"
-                  onClick={handleNavLinkClick}
-                >
-                  マイページ
-                </Link>
-                <Link
-                  to="/profile/edit"
-                  className="nav-link"
-                  onClick={handleNavLinkClick}
-                >
-                  プロフィール編集
-                </Link>
-                <Link
-                  to="/settings"
-                  className="nav-link"
-                  onClick={handleNavLinkClick}
-                >
-                  設定
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="btn btn-secondary btn-full"
-                >
-                  ログアウト
-                </button>
+                <div className="nav-links">
+                  <Link
+                    to="/mypage"
+                    className="nav-link"
+                    onClick={handleNavLinkClick}
+                  >
+                    マイページ
+                  </Link>
+                  <Link
+                    to="/profile/edit"
+                    className="nav-link"
+                    onClick={handleNavLinkClick}
+                  >
+                    プロフィール編集
+                  </Link>
+                  <Link
+                    to="/settings"
+                    className="nav-link"
+                    onClick={handleNavLinkClick}
+                  >
+                    設定
+                  </Link>
+                </div>
+                <div className="nav-actions">
+                  <button
+                    onClick={handleLogout}
+                    className="nav-link logout-btn"
+                  >
+                    ログアウト
+                  </button>
+                </div>
               </>
             ) : (
               <>
-                <Link
-                  to="/login"
-                  className="btn btn-secondary btn-full"
-                  onClick={handleNavLinkClick}
-                >
-                  ログイン
-                </Link>
-                <Link
-                  to="/register"
-                  className="btn btn-primary btn-full"
-                  onClick={handleNavLinkClick}
-                >
-                  新規登録
-                </Link>
+                <div className="nav-links">
+                  <Link
+                    to="/login"
+                    className="btn btn-secondary"
+                    onClick={handleNavLinkClick}
+                  >
+                    ログイン
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="btn btn-primary"
+                    onClick={handleNavLinkClick}
+                  >
+                    新規登録
+                  </Link>
+                </div>
               </>
             )}
           </nav>

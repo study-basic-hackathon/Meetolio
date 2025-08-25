@@ -23,7 +23,7 @@ const MyPage: React.FC = () => {
       profileImageUrl:
         "https://via.placeholder.com/300x180/667eea/ffffff?text=Meetolio+名刺",
       jobTitle: "フロントエンドエンジニア",
-      company: "株式会社テックソリューション",
+      company: "株式会社テック",
       bio: "React、TypeScript、Node.jsを使用したWebアプリケーション開発に従事しています。ユーザー体験を重視したUI/UXデザインが得意です。新しい技術の習得と実践的なアプリケーション開発に情熱を持って取り組んでいます。",
       contactInfo: {
         email: "test@example.com",
