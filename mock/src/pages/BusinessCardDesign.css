@@ -1,0 +1,623 @@
+.business-card-design {
+  background: white;
+  min-height: 100vh;
+  padding: 32px 0;
+  overflow-y: auto;
+}
+
+.business-card-design .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.design-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.design-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.design-header p {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.design-container {
+  background: white;
+  padding: 0;
+}
+
+/* サイド選択タブ */
+.side-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+  gap: 8px;
+}
+
+.side-tab {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+}
+
+.side-tab:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.side-tab.active {
+  background: #111827;
+  color: white;
+  border-color: #111827;
+}
+
+/* キャンバスコンテナ */
+.canvas-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.canvas-wrapper {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: visible;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 下部ツールバー */
+.bottom-toolbar {
+  margin-bottom: 32px;
+  padding: 8px 0;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  overflow: visible;
+}
+
+.toolbar-scroll {
+  display: flex;
+  gap: 32px;
+  overflow-x: auto;
+  padding: 0 16px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.toolbar-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.toolbar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border-radius: 8px;
+  min-width: 80px;
+  text-align: center;
+}
+
+.toolbar-item:hover {
+  background: #e2e8f0;
+  transform: translateY(-2px);
+}
+
+.toolbar-item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.toolbar-item.disabled:hover {
+  background: transparent;
+  transform: none;
+}
+
+.toolbar-icon {
+  font-size: 28px;
+  color: #374151;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.toolbar-label {
+  font-size: 11px;
+  color: #6b7280;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* コンテキストメニュー */
+.context-menu {
+  display: flex;
+  gap: 8px;
+  background: white;
+  border-radius: 20px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e5e7eb;
+}
+
+.context-menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-size: 16px;
+}
+
+.context-menu-btn.edit-btn {
+  color: #3b82f6;
+}
+
+.context-menu-btn.edit-btn:hover {
+  background: #eff6ff;
+}
+
+.context-menu-btn.delete-btn {
+  color: #6b7280;
+}
+
+.context-menu-btn.delete-btn:hover {
+  background: #f3f4f6;
+}
+
+/* モーダル */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 16px 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.modal-close:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+/* 検索セクション */
+.search-section {
+  margin-bottom: 24px;
+}
+
+.search-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  color: #9ca3af;
+  font-size: 16px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #f9fafb;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* テキストオプション */
+.text-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.text-option-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+  width: 100%;
+}
+
+.text-option-btn:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+
+.text-option-btn.primary {
+  background: #8b5cf6;
+  color: white;
+  border-color: #8b5cf6;
+}
+
+.text-option-btn.primary:hover {
+  background: #7c3aed;
+  border-color: #7c3aed;
+}
+
+.text-option-btn.secondary {
+  background: white;
+  color: #374151;
+}
+
+.text-icon {
+  font-size: 20px;
+  font-weight: bold;
+  min-width: 24px;
+  text-align: center;
+}
+
+.text-label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* テキストエディターセクション */
+.text-editor-section {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 24px;
+}
+
+.text-editor-section h4 {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.text-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  margin-bottom: 20px;
+}
+
+.text-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* スタイルコントロール */
+.style-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.style-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.font-size-slider {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #d1d5db;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.font-size-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #111827;
+  cursor: pointer;
+}
+
+.font-size-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #111827;
+  cursor: pointer;
+  border: none;
+}
+
+.font-family-select {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  background: white;
+}
+
+.font-family-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.color-picker {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* アクションボタン */
+.design-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e5e5;
+}
+
+.design-actions .btn {
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary {
+  background: #111827;
+  color: white;
+  border-color: #111827;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #374151;
+  border-color: #374151;
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+  border-color: #6c757d;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #545b62;
+  border-color: #545b62;
+}
+
+/* ローディングとエラー状態 */
+.loading,
+.error {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 18px;
+  color: #666;
+}
+
+.error {
+  color: #dc3545;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  .business-card-design {
+    padding: 16px 0;
+  }
+
+  .business-card-design .container {
+    padding: 0 12px;
+  }
+
+  .design-header h1 {
+    font-size: 24px;
+  }
+
+  .design-header {
+    margin-bottom: 32px;
+  }
+
+  .side-tabs {
+    margin-bottom: 24px;
+  }
+
+  .side-tab {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+
+  .bottom-toolbar {
+    padding: 6px 0;
+  }
+
+  .toolbar-scroll {
+    gap: 20px;
+    padding: 0 12px;
+  }
+
+  .toolbar-item {
+    min-width: 70px;
+  }
+
+  .toolbar-icon {
+    font-size: 20px;
+  }
+
+  .toolbar-label {
+    font-size: 11px;
+  }
+
+  .modal-content {
+    margin: 20px;
+    max-height: 90vh;
+  }
+
+  .modal-header,
+  .modal-body {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .design-header h1 {
+    font-size: 22px;
+  }
+
+  .design-header p {
+    font-size: 14px;
+  }
+
+  .side-tabs {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .side-tab {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .bottom-toolbar {
+    padding: 6px 0;
+  }
+
+  .toolbar-scroll {
+    gap: 16px;
+    padding: 0 12px;
+  }
+
+  .toolbar-item {
+    flex-direction: column;
+    gap: 8px;
+    min-width: 60px;
+    width: auto;
+    justify-content: center;
+  }
+
+  .design-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .design-actions .btn {
+    width: 100%;
+  }
+
+  .modal-content {
+    margin: 10px;
+    border-radius: 8px;
+  }
+
+  .modal-header,
+  .modal-body {
+    padding: 16px;
+  }
+
+  .text-option-btn {
+    padding: 12px;
+  }
+
+  .text-icon {
+    font-size: 18px;
+  }
+
+  .text-label {
+    font-size: 13px;
+  }
+}

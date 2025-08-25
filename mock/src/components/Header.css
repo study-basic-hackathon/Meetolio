@@ -1,0 +1,218 @@
+.header {
+  background: white;
+  border-bottom: 1px solid #f0f0f0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.logo {
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.logo h1 {
+  color: #333;
+  font-size: 24px;
+  font-weight: 700;
+  text-decoration: none;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.logo:hover {
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+.logo:hover h1 {
+  color: #555;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav-link {
+  color: #666;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  padding: 0;
+  font-size: 16px;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: #333;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #333;
+  transition: width 0.2s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ハンバーガーメニューボタン */
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+}
+
+.mobile-menu-toggle span {
+  width: 100%;
+  height: 2px;
+  background-color: #333;
+  border-radius: 1px;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+  .header-content {
+    padding: 16px 0;
+  }
+
+  .logo h1 {
+    font-size: 20px;
+  }
+
+  .mobile-menu-toggle {
+    display: flex;
+  }
+
+  .nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    background: white;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 60px 20px 20px;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease;
+    overflow-y: auto;
+    border-left: 1px solid #f0f0f0;
+    z-index: 1000;
+  }
+
+  .nav.active {
+    right: 0;
+  }
+
+  .nav-link {
+    padding: 8px !important;
+    border-bottom: 1px solid #f8f8f8;
+    font-size: 18px;
+    color: #333;
+  }
+
+  .nav-link::after {
+    display: none;
+  }
+
+  .nav-link:hover {
+    color: #333;
+  }
+
+  /* ログアウトボタンの上部マージン */
+  .btn.btn-secondary.btn-full {
+    margin-top: 16px;
+  }
+
+  /* ボタン間の余白 */
+  .nav .btn + .btn {
+    margin-top: 20px;
+  }
+
+  /* モバイルメニュー内のボタン間の余白を確実にする */
+  .nav.active .btn + .btn {
+    margin-top: 20px;
+  }
+
+  /* モバイルメニューのオーバーレイ */
+  .nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 999;
+  }
+
+  .nav-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* タブレット対応 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .header-content {
+    padding: 18px 0;
+  }
+
+  .nav {
+    gap: 24px;
+  }
+}
+
+/* デスクトップ対応 */
+@media (min-width: 1025px) {
+  .header-content {
+    padding: 24px 0;
+  }
+
+  .nav {
+    gap: 40px;
+  }
+
+  /* デスクトップ版のボタン間の余白 */
+  .nav .btn + .btn {
+    margin-left: 16px;
+  }
+}
