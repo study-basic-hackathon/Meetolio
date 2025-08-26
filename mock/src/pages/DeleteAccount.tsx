@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 import { DeleteAccountForm } from "../types";
 import "./DeleteAccount.css";
 
 const DeleteAccount: React.FC = () => {
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const [formData, setFormData] = useState<DeleteAccountForm>({
     reason: "",
     password: "",
@@ -56,7 +58,12 @@ const DeleteAccount: React.FC = () => {
 
       // 成功時の処理
       console.log("アカウントを削除しました");
-      navigate("/login");
+
+      // ログアウト処理を実行
+      logout();
+
+      // 新規登録画面に遷移
+      navigate("/register");
     } catch (error) {
       console.error("アカウントの削除に失敗しました:", error);
     } finally {
