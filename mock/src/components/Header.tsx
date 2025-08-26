@@ -88,10 +88,7 @@ const Header: React.FC = () => {
                   </Link>
                 </div>
                 <div className="nav-actions">
-                  <button
-                    onClick={handleLogout}
-                    className="nav-link logout-btn"
-                  >
+                  <button onClick={handleLogout} className="btn btn-secondary">
                     ログアウト
                   </button>
                 </div>
