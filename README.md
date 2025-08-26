@@ -60,6 +60,7 @@ docker compose up -d
 ```bash
 localhost:5173
 localhost:8080
+# (仮)/api/hello
 ```
 
 **4. コンテナの停止**
