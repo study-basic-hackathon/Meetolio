@@ -33,3 +33,39 @@ localhost:3000
 ```bash
 docker-compose down
 ```
+
+## ファイル全体の起動手順
+
+**1. リポジトリの取得**
+
+リポジトリをクローン、または最新を取得する。
+
+**2. プロジェクトフォルダに移動**
+
+```bash
+cd Meetolio
+```
+
+**3. コンテナの起動**
+
+コンテナをバックグラウンドで起動する。
+
+```bash
+docker compose up -d
+```
+
+ブラウザで localhost:5173 を開く（フロントエンド）
+ブラウザで localhost:8080 を開く（バックエンド API）
+
+```bash
+localhost:5173
+localhost:8080
+```
+
+**4. コンテナの停止**
+
+作業が終わったら、コンテナを停止する。
+
+```bash
+docker compose down
+```

@@ -1,0 +1,46 @@
+# docker-compose.yml
+services:
+  backend:
+    platform: linux/amd64
+    build:
+      context: ./backend/meetolio-api
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - appnet
+    volumes:
+      - ./backend:/app
+    working_dir: /app/meetolio-api
+    command: ["gradle", "bootRun"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+  frontend:
+    platform: linux/amd64
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    networks:
+      - appnet
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules # node_modules をコンテナ側に保持
+    command: >
+      sh -c "
+        npm install --force &&
+        npm run dev -- --host
+      "
+    depends_on:
+      backend:
+        condition: service_healthy
+
+networks:
+  appnet:
+    driver: bridge
