@@ -1,0 +1,317 @@
+.delete-account {
+  background: white;
+  min-height: 100vh;
+  padding: 32px 0;
+}
+
+.delete-account .container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.edit-form {
+  background: white;
+  padding: 0;
+  margin: 0;
+}
+
+/* フォームヘッダー */
+.form-header {
+  padding: 0 20px 32px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 32px;
+}
+
+.form-title {
+  font-size: 24px;
+  color: #333;
+  margin: 0 0 16px 0;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.form-description {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* フォームグループ */
+.form-group {
+  margin-bottom: 32px;
+  padding: 0 20px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+/* 退会理由のテキストエリア */
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+  font-family: inherit;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  background: white;
+  transition: border-color 0.15s ease-in-out;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #9ca3af;
+  font-size: 14px;
+  text-align: left;
+}
+
+.form-group input.error,
+.form-group select.error,
+.form-group textarea.error {
+  border-color: #dc2626;
+  background-color: #fef2f2;
+  text-align: left;
+}
+
+/* セレクトボックス（現在は使用していないが、将来の拡張用に残す） */
+.form-group select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 12px center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  padding-right: 40px;
+  appearance: none;
+}
+
+/* 警告セクション */
+.warning-section {
+  background: #fcf8e3;
+  border: 1px solid #d4c08e;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 0;
+}
+
+/* 警告セクションタイトル（現在は使用していない） */
+.warning-section-title {
+  font-size: 16px;
+  color: #000;
+  margin: 0 10px 16px;
+}
+
+/* 警告アイコン（現在は使用していない） */
+.warning-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 0;
+  color: #f59e0b;
+  font-weight: bold;
+}
+
+/* 警告コンテンツ（現在は使用していない） */
+.warning-content {
+  flex: 1;
+}
+
+/* 警告タイトル（現在は使用していない） */
+.warning-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 8px 0;
+}
+
+.warning-list {
+  margin: 0 0 16px 0;
+  padding-left: 0;
+  color: #000;
+  font-size: 14px;
+  line-height: 1.6;
+  list-style: none;
+}
+
+.warning-list li {
+  margin-bottom: 8px;
+}
+
+.warning-list li:last-child {
+  margin-bottom: 0;
+}
+
+/* 結論テキスト */
+.warning-conclusion {
+  margin: 0;
+  color: #000;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* エラーメッセージ */
+.error-message {
+  color: #dc2626;
+  font-size: 14px;
+  margin-top: 6px;
+  display: block;
+  font-weight: 500;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+}
+
+/* フォームアクション */
+.form-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  padding: 0 20px;
+  margin-top: 40px;
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 100px;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #000;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #333;
+}
+
+.btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #e5e7eb;
+}
+
+.btn-danger {
+  background: #dc2626;
+  color: white;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: #b91c1c;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .delete-account {
+    padding: 24px 0;
+  }
+
+  .delete-account .container {
+    padding: 0 12px;
+  }
+
+  .form-header {
+    padding: 0 20px 24px;
+    margin-bottom: 24px;
+  }
+
+  .form-title {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .form-group {
+    padding: 0 20px;
+  }
+
+  .warning-section {
+    margin: 0 0 32px;
+    padding: 16px;
+  }
+
+  .form-actions {
+    padding: 0 20px;
+    margin-top: 32px;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    min-width: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .delete-account .container {
+    padding: 0 8px;
+  }
+
+  .form-header {
+    padding: 0 16px 20px;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    padding: 0 16px;
+  }
+
+  .warning-section {
+    margin: 0 0 40px;
+    padding: 12px;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .form-actions {
+    padding: 0 16px;
+    margin-top: 24px;
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 12px 20px;
+  }
+}

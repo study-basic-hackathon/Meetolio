@@ -1,0 +1,1026 @@
+.mypage {
+  min-height: 100vh;
+  background: white;
+  padding: 40px 0;
+}
+
+@media (max-width: 768px) {
+  .mypage {
+    padding: 20px 0;
+  }
+}
+
+.profile-section {
+  background: white;
+}
+
+/* 名刺画像セクション */
+.business-card-section {
+  background: white;
+  padding: 24px 16px;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .business-card-section {
+    padding: 32px 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .business-card-section {
+    padding: 20px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .business-card-section {
+    padding: 16px 0;
+  }
+}
+
+.card-container {
+  position: relative;
+  max-width: 90vw;
+  margin: 0 auto;
+}
+
+@media (max-width: 480px) {
+  .card-container {
+    max-width: 100%;
+    margin: 0;
+  }
+}
+
+.business-card {
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 1.654 / 1;
+  position: relative;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .business-card {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .business-card {
+    max-width: 100%;
+    margin: 0;
+  }
+}
+
+.business-card.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #dee2e6;
+  border-radius: 8px;
+}
+
+.card-placeholder.hidden {
+  display: none;
+}
+
+.placeholder-content {
+  text-align: center;
+  color: #6c757d;
+}
+
+.placeholder-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.placeholder-text {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.placeholder-subtext {
+  font-size: 14px;
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* フリップヒントオーバーレイ */
+.flip-hint-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  padding: 20px 16px 16px;
+  text-align: center;
+}
+
+.flip-hint {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+@media (max-width: 768px) {
+  .flip-hint-overlay {
+    padding: 16px 12px 12px;
+  }
+
+  .flip-hint {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .flip-hint-overlay {
+    padding: 12px 8px 8px;
+  }
+
+  .flip-hint {
+    font-size: 12px;
+  }
+}
+
+/* 名刺の表面 */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 20px 12px;
+  border-bottom: 2px solid #333;
+  background: white;
+}
+
+@media (max-width: 768px) {
+  .card-header {
+    padding: 16px 16px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-header {
+    padding: 14px 14px 8px;
+  }
+}
+
+.company-info {
+  text-align: left;
+}
+
+.company-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 4px 0;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 768px) {
+  .company-name {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .company-name {
+    font-size: 14px;
+  }
+}
+
+.company-details {
+  font-size: 11px;
+  color: #666;
+  margin: 0;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .company-details {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .company-details {
+    font-size: 9px;
+  }
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .status-badge {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+}
+
+.status-badge.public {
+  background: rgba(34, 197, 94, 0.1);
+  color: #16a34a;
+  border: 1px solid #16a34a;
+}
+
+.status-badge.private {
+  background: rgba(107, 114, 128, 0.1);
+  color: #6b7280;
+  border: 1px solid #6b7280;
+}
+
+.card-body {
+  display: flex;
+  flex: 1;
+  padding: 0;
+}
+
+.contact-info-left {
+  width: 60%;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 2px solid #333;
+}
+
+@media (max-width: 768px) {
+  .contact-info-left {
+    padding: 12px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-info-left {
+    padding: 10px 14px;
+  }
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+@media (max-width: 768px) {
+  .contact-item {
+    margin-bottom: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-item {
+    margin-bottom: 4px;
+  }
+}
+
+.contact-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #333;
+  min-width: 45px;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .contact-label {
+    font-size: 10px;
+    min-width: 38px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-label {
+    font-size: 9px;
+    min-width: 35px;
+  }
+}
+
+.contact-value {
+  font-size: 11px;
+  color: #333;
+  font-weight: 500;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .contact-value {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-value {
+    font-size: 9px;
+  }
+}
+
+.personal-info-right {
+  width: 40%;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .personal-info-right {
+    padding: 12px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .personal-info-right {
+    padding: 10px 14px;
+  }
+}
+
+.job-title {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+  .job-title {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .job-title {
+    font-size: 10px;
+    margin-bottom: 5px;
+  }
+}
+
+.person-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 768px) {
+  .person-name {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .person-name {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+}
+
+.person-name-romaji {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+  .person-name-romaji {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .person-name-romaji {
+    font-size: 10px;
+  }
+}
+
+.card-footer {
+  padding: 12px 20px;
+  background: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .card-footer {
+    padding: 10px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-footer {
+    padding: 8px 14px;
+  }
+}
+
+.flip-hint {
+  font-size: 11px;
+  color: #666;
+  margin: 0;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .flip-hint {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .flip-hint {
+    font-size: 9px;
+  }
+}
+
+/* 名刺の裏面 */
+.card-back-header {
+  padding: 24px 24px 16px;
+  border-bottom: 2px solid #333;
+  background: #f0f0f0;
+}
+
+@media (max-width: 768px) {
+  .card-back-header {
+    padding: 20px 20px 12px;
+  }
+}
+
+.card-back-header h3 {
+  font-size: 18px;
+  color: #333;
+  margin: 0;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 768px) {
+  .card-back-header h3 {
+    font-size: 16px;
+  }
+}
+
+.card-back-content {
+  flex: 1;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .card-back-content {
+    padding: 16px 20px;
+    gap: 16px;
+  }
+}
+
+.bio-text {
+  font-size: 13px;
+  color: #333;
+  line-height: 1.6;
+  text-align: left;
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .bio-text {
+    font-size: 12px;
+  }
+}
+
+.skills-section h4,
+.interests-section h4 {
+  font-size: 14px;
+  color: #333;
+  margin: 0 0 8px 0;
+  font-weight: 600;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .skills-section h4,
+  .interests-section h4 {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+}
+
+.skills-tags,
+.interests-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+@media (max-width: 768px) {
+  .skills-tags,
+  .interests-tags {
+    gap: 4px;
+  }
+}
+
+.skill-tag-small,
+.interest-tag-small {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.skill-tag-small {
+  background: rgba(51, 51, 51, 0.1);
+  color: #333;
+  border: 1px solid rgba(51, 51, 51, 0.2);
+}
+
+.interest-tag-small {
+  background: rgba(107, 114, 128, 0.1);
+  color: #6b7280;
+  border: 1px solid rgba(107, 114, 128, 0.2);
+}
+
+.image-upload-btn {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.image-upload-btn:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+@media (max-width: 768px) {
+  .image-upload-btn {
+    top: -35px;
+    right: 0;
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+}
+
+/* 自己紹介セクション */
+.bio-section {
+  padding: 48px 32px;
+  background: white;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .bio-section {
+    padding: 32px 20px;
+  }
+}
+
+.bio-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+@media (max-width: 768px) {
+  .bio-header {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+  }
+}
+
+.bio-header-left {
+  flex: 1;
+}
+
+.bio-company-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 768px) {
+  .bio-company-name {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+}
+
+.bio-job-title {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+
+@media (max-width: 768px) {
+  .bio-job-title {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+}
+
+.bio-person-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 6px;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 768px) {
+  .bio-person-name {
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+}
+
+.bio-person-furigana {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .bio-person-furigana {
+    font-size: 11px;
+  }
+}
+
+.bio-header-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  background: #f8f9fa;
+  border-radius: 50%;
+  border: 2px solid #e0e0e0;
+}
+
+@media (max-width: 768px) {
+  .bio-header-right {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+.bio-icon {
+  font-size: 40px;
+}
+
+@media (max-width: 768px) {
+  .bio-icon {
+    font-size: 32px;
+  }
+}
+
+.bio-content p {
+  color: #666;
+  line-height: 1.8;
+  margin: 0;
+  font-size: 16px;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .bio-content p {
+    font-size: 15px;
+    line-height: 1.7;
+    text-align: left;
+  }
+}
+
+/* SNSリンクセクション */
+.sns-section {
+  padding: 48px 32px;
+  background: white;
+}
+
+@media (max-width: 768px) {
+  .sns-section {
+    padding: 32px 20px;
+  }
+}
+
+.sns-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .sns-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sns-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+}
+
+.sns-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 1px solid #f0f0f0;
+}
+
+@media (max-width: 768px) {
+  .sns-card {
+    padding: 16px;
+    gap: 12px;
+  }
+}
+
+.sns-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: #e0e0e0;
+}
+
+.sns-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .sns-icon {
+    font-size: 28px;
+  }
+}
+
+.sns-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.sns-label {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .sns-label {
+    font-size: 13px;
+  }
+}
+
+.sns-value {
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+  word-break: break-all;
+}
+
+@media (max-width: 768px) {
+  .sns-value {
+    font-size: 14px;
+  }
+}
+
+/* SNSカードの個別スタイル */
+.email-card:hover {
+  border-color: #ea4335;
+}
+
+.phone-card:hover {
+  border-color: #34a853;
+}
+
+.website-card:hover {
+  border-color: #4285f4;
+}
+
+.twitter-card:hover {
+  border-color: #1da1f2;
+}
+
+.linkedin-card:hover {
+  border-color: #0077b5;
+}
+
+.facebook-card:hover {
+  border-color: #1877f2;
+}
+
+.instagram-card:hover {
+  border-color: #e4405f;
+}
+
+.github-card:hover {
+  border-color: #333;
+}
+
+/* スキル・興味セクション */
+.skills-interests-section {
+  padding: 48px 32px;
+  background: white;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+}
+
+@media (min-width: 768px) {
+  .skills-interests-section {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 64px;
+  }
+}
+
+@media (max-width: 768px) {
+  .skills-interests-section {
+    padding: 32px 20px;
+    gap: 32px;
+  }
+}
+
+.skills-section,
+.interests-section {
+  text-align: center;
+}
+
+.section-title {
+  font-size: 20px;
+  color: #333;
+  margin: 0 0 20px 0;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .tags {
+    gap: 8px;
+  }
+}
+
+.tag {
+  padding: 10px 18px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .tag {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+}
+
+.skill-tag {
+  background: rgba(51, 51, 51, 0.1);
+  color: #333;
+  border: 1px solid rgba(51, 51, 51, 0.2);
+}
+
+.skill-tag:hover {
+  background: rgba(51, 51, 51, 0.15);
+  transform: translateY(-1px);
+}
+
+.interest-tag {
+  background: rgba(107, 114, 128, 0.1);
+  color: #6b7280;
+  border: 1px solid rgba(107, 114, 128, 0.2);
+}
+
+.interest-tag:hover {
+  background: rgba(107, 114, 128, 0.15);
+  transform: translateY(-1px);
+}
+
+.loading {
+  text-align: center;
+  padding: 60px;
+  font-size: 18px;
+  color: #666;
+}
+
+/* タッチデバイスでのホバー効果を無効化 */
+@media (hover: none) {
+  .sns-card:hover,
+  .skill-tag:hover,
+  .interest-tag:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: #f0f0f0;
+  }
+
+  .sns-card:hover {
+    box-shadow: none;
+  }
+}
+
+/* アクセシビリティの改善 */
+@media (prefers-reduced-motion: reduce) {
+  .business-card {
+    transition: none;
+  }
+
+  .sns-card,
+  .skill-tag,
+  .interest-tag {
+    transition: none;
+  }
+
+  .sns-card:hover,
+  .skill-tag:hover,
+  .interest-tag:hover {
+    transform: none;
+  }
+}

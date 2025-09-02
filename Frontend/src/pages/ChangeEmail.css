@@ -1,0 +1,218 @@
+.change-email {
+  background: white;
+  min-height: 100vh;
+  padding: 32px 0;
+}
+
+.change-email .container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.edit-form {
+  background: white;
+  padding: 0;
+  margin: 0;
+}
+
+/* フォームヘッダー */
+.form-header {
+  padding: 0 20px 32px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 32px;
+}
+
+.form-title {
+  font-size: 24px;
+  color: #333;
+  margin: 0 0 16px 0;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.form-description {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* フォームグループ */
+.form-group {
+  margin-bottom: 32px;
+  padding: 0 20px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  background: white;
+  transition: border-color 0.15s ease-in-out;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #9ca3af;
+  font-size: 14px;
+  text-align: left;
+}
+
+.form-group input.error {
+  border-color: #dc2626;
+  background-color: #fef2f2;
+  text-align: left;
+}
+
+/* 読み取り専用フィールド */
+.readonly-field {
+  background: #f9fafb !important;
+  color: #6b7280 !important;
+  cursor: not-allowed;
+}
+
+/* エラーメッセージ */
+.error-message {
+  color: #dc2626;
+  font-size: 14px;
+  margin-top: 6px;
+  display: block;
+  font-weight: 500;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+}
+
+/* フォームアクション */
+.form-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  padding: 0 20px;
+  margin-top: 40px;
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 100px;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #000;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #333;
+}
+
+.btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #e5e7eb;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .change-email {
+    padding: 24px 0;
+  }
+
+  .change-email .container {
+    padding: 0 12px;
+  }
+
+  .form-header {
+    padding: 0 20px 24px;
+    margin-bottom: 24px;
+  }
+
+  .form-title {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .form-group {
+    padding: 0 20px;
+  }
+
+  .form-actions {
+    padding: 0 20px;
+    margin-top: 32px;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    min-width: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .change-email .container {
+    padding: 0 8px;
+  }
+
+  .form-header {
+    padding: 0 16px 20px;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    padding: 0 16px;
+  }
+
+  .form-actions {
+    padding: 0 16px;
+    margin-top: 24px;
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 12px 20px;
+  }
+}

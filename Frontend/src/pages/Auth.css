@@ -1,0 +1,368 @@
+.auth-page {
+  min-height: 100vh;
+  background: white;
+  display: flex;
+  align-items: center;
+  padding: 40px 0;
+}
+
+@media (max-width: 768px) {
+  .auth-page {
+    padding: 20px 0;
+    align-items: flex-start;
+    padding-top: 40px;
+  }
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  background: white;
+}
+
+.auth-header {
+  background: white;
+  padding: 40px 32px 32px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .auth-header {
+    padding: 32px 24px 24px;
+  }
+}
+
+.auth-header h1 {
+  color: #333;
+  font-size: 32px;
+  margin-bottom: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 768px) {
+  .auth-header h1 {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+}
+
+.auth-header p {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .auth-header p {
+    font-size: 15px;
+  }
+}
+
+.auth-form {
+  padding: 32px;
+}
+
+@media (max-width: 768px) {
+  .auth-form {
+    padding: 24px;
+  }
+}
+
+.error-message {
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  text-align: center;
+  font-size: 14px;
+  border: 1px solid #fecaca;
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+/* パスワード入力フィールドの下部マージンを増やしてログインボタンとの間隔を広げる */
+.form-group:last-of-type {
+  margin-bottom: 32px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 16px;
+}
+
+.required {
+  color: #dc2626;
+  margin-left: 4px;
+}
+
+.form-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 14px 16px;
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.5;
+  transition: all 0.2s ease;
+  background-color: white;
+  color: #333;
+  text-align: left;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #333;
+  box-shadow: 0 0 0 3px rgba(51, 51, 51, 0.1);
+}
+
+/* プレースホルダーのテキスト配置を左寄せに */
+.form-input::placeholder {
+  text-align: left;
+}
+
+.form-input.error {
+  border-color: #dc2626;
+  background-color: #fef2f2;
+  text-align: left;
+}
+
+.form-input:disabled {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.error-text {
+  color: #dc2626;
+  font-size: 14px;
+  margin-top: 6px;
+  display: block;
+  font-weight: 500;
+}
+
+.checkbox-group {
+  margin-bottom: 28px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+  user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  margin-top: 2px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.auth-submit {
+  width: 100%;
+  min-height: 52px;
+  padding: 16px 24px;
+  font-size: 18px;
+  font-weight: 600;
+  background: #333;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.auth-submit:hover {
+  background: #555;
+}
+
+.auth-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-footer {
+  background: white;
+  padding: 24px 32px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .auth-footer {
+    padding: 20px 24px;
+  }
+}
+
+.auth-footer p {
+  color: #666;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .auth-footer p {
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
+}
+
+.auth-link {
+  color: #333;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.auth-link:hover {
+  color: #555;
+  text-decoration: underline;
+}
+
+/* モバイル対応 */
+@media (max-width: 767px) {
+  .auth-page {
+    padding: 16px;
+  }
+
+  .auth-container {
+    margin: 0;
+    border-radius: 8px;
+  }
+
+  .auth-header,
+  .auth-form,
+  .auth-footer {
+    padding: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-input {
+    min-height: 44px;
+    padding: 12px 14px;
+  }
+
+  .auth-submit {
+    min-height: 48px;
+    padding: 14px 20px;
+    font-size: 16px;
+  }
+
+  .checkbox-label {
+    font-size: 13px;
+  }
+}
+
+/* タブレット対応 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .auth-container {
+    max-width: 450px;
+  }
+}
+
+/* デスクトップ対応 */
+@media (min-width: 1024px) {
+  .auth-container {
+    max-width: 480px;
+  }
+
+  .auth-header {
+    padding: 48px 40px 40px;
+  }
+
+  .auth-form {
+    padding: 40px;
+  }
+
+  .auth-footer {
+    padding: 32px 40px;
+  }
+}
+
+/* タッチデバイスでのホバー効果を無効化 */
+@media (hover: none) {
+  .auth-submit:hover {
+    background: #333;
+  }
+}
+
+/* アクセシビリティの改善 */
+@media (prefers-reduced-motion: reduce) {
+  .auth-submit,
+  .form-input {
+    transition: none;
+  }
+}
+
+/* ダークモード対応 */
+@media (prefers-color-scheme: dark) {
+  .auth-page {
+    background: #1a1a1a;
+  }
+
+  .auth-container {
+    background: #2d2d2d;
+    color: #ffffff;
+    border-color: #404040;
+  }
+
+  .auth-header {
+    background: #2d2d2d;
+    border-bottom-color: #404040;
+  }
+
+  .auth-header h1 {
+    color: #ffffff;
+  }
+
+  .auth-header p {
+    color: #cccccc;
+  }
+
+  .form-label {
+    color: #ffffff;
+  }
+
+  .form-input {
+    background-color: #1a1a1a;
+    border-color: #404040;
+    color: #ffffff;
+  }
+
+  .form-input:focus {
+    border-color: #ffffff;
+  }
+
+  .checkbox-label {
+    color: #cccccc;
+  }
+
+  .auth-footer {
+    background: #1a1a1a;
+    border-top-color: #404040;
+  }
+
+  .auth-footer p {
+    color: #cccccc;
+  }
+
+  .auth-link {
+    color: #ffffff;
+  }
+}
