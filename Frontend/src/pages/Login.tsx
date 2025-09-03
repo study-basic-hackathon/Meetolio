@@ -67,6 +67,7 @@ const Login: React.FC = () => {
       await login(formData);
     } catch (error) {
       // エラーハンドリングはAuthContextで行われる
+      console.log(error);
     }
   };
 

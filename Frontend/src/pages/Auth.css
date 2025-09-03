@@ -23,7 +23,7 @@
 
 .auth-header {
   background: white;
-  padding: 40px 32px 32px;
+  padding: 0px 32px;
   text-align: center;
 }
 
@@ -173,7 +173,10 @@
 }
 
 .auth-submit {
-  width: 100%;
+  display: block;
+  margin: 0 auto;
+  width: 90%;
+  text-align: center;
   min-height: 52px;
   padding: 16px 24px;
   font-size: 18px;
