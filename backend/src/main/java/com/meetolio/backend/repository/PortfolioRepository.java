@@ -1,26 +1,13 @@
 package com.meetolio.backend.repository;
 
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 import com.meetolio.backend.entity.PortfolioEntity;
 
-import lombok.RequiredArgsConstructor;
-
 /** ポートフォリオテーブル用Repository */
-@Repository
-@RequiredArgsConstructor
-public class PortfolioRepository {
+@Mapper
+public interface PortfolioRepository {
 
     /** ポートフォリオのID検索 */
-    public PortfolioEntity findById(String userId) {
-
-        // テスト用データ
-        PortfolioEntity portfolioEntity = new PortfolioEntity();
-        portfolioEntity.setUserId("test_id");
-        portfolioEntity.setName("test_name");
-        portfolioEntity.setNameKana("test_kana");
-        portfolioEntity.setCompany("test_company");
-
-        return portfolioEntity;
-    }
+    public PortfolioEntity findById(Integer userId);
 }

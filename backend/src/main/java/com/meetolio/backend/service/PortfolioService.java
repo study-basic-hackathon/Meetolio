@@ -24,6 +24,10 @@ public class PortfolioService {
 
         PortfolioEntity portfolioEntity = portfolioRepository.findById(userId);
 
+        if (portfolioEntity == null) {
+            return null;
+        }
+
         // マッパーでentityをdtoに変換
         ModelMapper mapper = new ModelMapper();
         PortfolioResponseDto portfolioResponseDto = mapper.map(portfolioEntity, PortfolioResponseDto.class);

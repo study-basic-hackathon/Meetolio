@@ -26,7 +26,11 @@ public class PortfolioController {
 
         PortfolioResponseDto portfolioResponseDto = portfolioService.getPortfolio(userId);
 
-        // ステータス200
+        // nullの場合は404
+        if (portfolioResponseDto == null) {
+            return ResponseEntity.notFound().build();
+        }
+
         return ResponseEntity.ok(portfolioResponseDto);
     }
 
