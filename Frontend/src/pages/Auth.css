@@ -1,9 +1,8 @@
 .auth-page {
-  min-height: 100vh;
   background: #fafafa;
   display: flex;
   align-items: center;
-  padding: 40px 0;
+  padding: 110px 0 88px;
 }
 
 @media (max-width: 768px) {
@@ -189,7 +188,7 @@
 
 .auth-submit {
   display: block;
-  margin: 0 auto;
+  margin: 35px auto 0px;
   width: 100%;
   text-align: center;
   min-height: 48px;
@@ -337,11 +336,11 @@
   }
 
   .auth-header {
-    padding: 48px 40px 40px;
+    padding: 48px 40px 0px;
   }
 
   .auth-form {
-    padding: 40px;
+    padding: 20px 40px;
   }
 
   .auth-footer {

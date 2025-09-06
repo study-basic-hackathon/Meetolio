@@ -48,7 +48,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
   margin-right: 16px;
   min-width: 300px;
 }
@@ -307,7 +306,7 @@
   }
 
   .nav {
-    gap: 40px;
+    gap: 20px;
   }
 
   /* デスクトップ版のボタン間の余白 */
