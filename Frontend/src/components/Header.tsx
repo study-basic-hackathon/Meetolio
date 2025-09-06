@@ -100,7 +100,7 @@ const Header: React.FC = () => {
                   </Link>
                 </div>
                 <div className="nav-actions">
-                  <button onClick={handleLogout} className="btn btn-secondary">
+                  <button onClick={handleLogout} className="btn btn-logout">
                     ログアウト
                   </button>
                 </div>

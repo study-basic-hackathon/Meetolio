@@ -236,6 +236,77 @@ code {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
+/* ページレイアウト */
+.page {
+  min-height: 100vh;
+  padding: 40px 0;
+  background: #fafafa;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 20px 0;
+  }
+}
+
+.page-white {
+  background: white;
+}
+
+.page-header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.page-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+}
+
+.page-subtitle {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* セクション */
+.section {
+  background: white;
+  border-radius: 8px;
+  padding: 32px;
+  margin-bottom: 24px;
+  border: 1px solid #f0f0f0;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 24px 16px;
+    margin-bottom: 16px;
+  }
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.section-content {
+  color: #666;
+  line-height: 1.6;
+}
+
 /* ユーティリティクラス */
 .text-center {
   text-align: center;

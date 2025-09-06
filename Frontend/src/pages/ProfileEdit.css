@@ -1,7 +1,13 @@
 .profile-edit {
-  background: white;
+  background: #fafafa;
   min-height: 100vh;
-  padding: 32px 0;
+  padding: 40px 0;
+}
+
+@media (max-width: 768px) {
+  .profile-edit {
+    padding: 20px 0;
+  }
 }
 
 .profile-edit .container {
@@ -12,37 +18,39 @@
 
 .edit-form {
   background: white;
-  padding: 0;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 32px;
   margin: 0;
+}
+
+@media (max-width: 768px) {
+  .edit-form {
+    padding: 24px 16px;
+  }
 }
 
 /* 名刺以外の部分に左右の余白を追加 */
 .edit-form .form-group {
-  padding: 0 10px;
+  padding: 0;
+  margin-bottom: 32px;
 }
 
-/* 名刺セクションはマイページと同じ余白 */
+/* 名刺セクション */
 .edit-form .business-card-section {
-  background: white;
-  padding: 24px 16px;
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 32px 20px;
   text-align: center;
-}
-
-@media (min-width: 768px) {
-  .edit-form .business-card-section {
-    padding: 32px 20px;
-  }
+  margin: -32px -32px 32px -32px;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 @media (max-width: 768px) {
   .edit-form .business-card-section {
-    padding: 0 12px 32px;
-  }
-}
-
-@media (max-width: 480px) {
-  .edit-form .business-card-section {
-    padding: 16px 0 32px;
+    padding: 24px 16px;
+    margin: -24px -16px 24px -16px;
   }
 }
 
