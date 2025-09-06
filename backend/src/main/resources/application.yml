@@ -19,3 +19,9 @@ spring:
   sql:
     init:
       mode: always
+
+  # 開発環境ホットリロード適用
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
