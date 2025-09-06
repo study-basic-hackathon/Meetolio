@@ -2,8 +2,20 @@ spring:
   application:
     name: backend
 
+  # DB接続設定（DBはdockerを使用）
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://db:5432/meetolio
     username: postgres
     password: postgres
+
+  # セキュリティユーザー指定（暫定）
+  security:
+    user:
+      name: admin
+      password: admin
+
+  # DBにテーブル作成（アプリ起動時に実行）
+  sql:
+    init:
+      mode: always
