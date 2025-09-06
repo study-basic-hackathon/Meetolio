@@ -22,7 +22,7 @@ public class PortfolioController {
 
     /** ポートフォリオ詳細の取得 */
     @GetMapping("/{userId}")
-    public ResponseEntity<PortfolioResponseDto> getPortfolio(@PathVariable String userId) {
+    public ResponseEntity<PortfolioResponseDto> getPortfolio(@PathVariable Integer userId) {
 
         PortfolioResponseDto portfolioResponseDto = portfolioService.getPortfolio(userId);
 

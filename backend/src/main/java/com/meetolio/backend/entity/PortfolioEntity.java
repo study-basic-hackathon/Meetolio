@@ -5,7 +5,7 @@ import lombok.Data;
 /** ポートフォリオテーブルEntity */
 @Data
 public class PortfolioEntity {
-    private String userId; // ユーザーID
+    private Integer userId; // ユーザーID
     private String name; // 氏名
     private String nameKana; // 氏名カナ
     private String company; // 会社名

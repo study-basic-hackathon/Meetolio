@@ -20,7 +20,7 @@ public class PortfolioService {
     private final PortfolioRepository portfolioRepository;
 
     /** ポートフォリオの取得 */
-    public PortfolioResponseDto getPortfolio(String userId) {
+    public PortfolioResponseDto getPortfolio(Integer userId) {
 
         PortfolioEntity portfolioEntity = portfolioRepository.findById(userId);
 
