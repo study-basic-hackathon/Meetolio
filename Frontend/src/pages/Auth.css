@@ -2,7 +2,7 @@
   background: #fafafa;
   display: flex;
   align-items: center;
-  padding: 110px 0 88px;
+  padding: 50px 0;
 }
 
 @media (max-width: 768px) {
