@@ -12,4 +12,6 @@ public class PortfolioEntity {
     private String occupation; // 職種
     private String introduction; // 自己紹介
     private String nameCardImgUrl; // 名刺画像URL
+    private String createdAt; // 作成日時
+    private String updatedAt; // 更新日時
 }
