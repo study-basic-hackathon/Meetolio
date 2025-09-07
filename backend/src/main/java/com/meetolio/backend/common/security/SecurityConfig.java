@@ -23,6 +23,8 @@ public class SecurityConfig {
         // リクエスト認可制御
         http.authorizeHttpRequests(auth -> auth
                 .anyRequest().permitAll());
+        // CSRF無効化
+        http.csrf(csrf -> csrf.disable());
 
         return http.build();
     }
