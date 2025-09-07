@@ -95,6 +95,7 @@ const Register: React.FC = () => {
     try {
       await register(formData);
     } catch (error) {
+      console.log(error);
       // エラーハンドリングはAuthContextで行われる
     }
   };

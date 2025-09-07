@@ -1,7 +1,9 @@
-import React, { createContext, useContext, useReducer, ReactNode } from "react";
+import React, { createContext, useContext, useReducer, useEffect } from "react";
+import type { ReactNode } from "react";
 import type { AuthState, User, LoginForm, RegisterForm } from "../types";
 
 type AuthAction =
+  | { type: "INITIALIZE"; payload: User | null }
   | { type: "LOGIN_START" }
   | { type: "LOGIN_SUCCESS"; payload: User }
   | { type: "LOGIN_FAILURE"; payload: string }
@@ -9,17 +11,27 @@ type AuthAction =
   | { type: "REGISTER_START" }
   | { type: "REGISTER_SUCCESS"; payload: User }
   | { type: "REGISTER_FAILURE"; payload: string }
-  | { type: "CLEAR_ERROR" };
+  | { type: "CLEAR_ERROR" }
+  | { type: "CLEAR_JUST_LOGGED_IN" };
 
 const initialState: AuthState = {
   user: null,
   isAuthenticated: false,
   isLoading: false,
   error: null,
+  justLoggedIn: false,
 };
 
 const authReducer = (state: AuthState, action: AuthAction): AuthState => {
   switch (action.type) {
+    case "INITIALIZE":
+      return {
+        ...state,
+        user: action.payload,
+        isAuthenticated: !!action.payload,
+        isLoading: false,
+        justLoggedIn: false,
+      };
     case "LOGIN_START":
       return {
         ...state,
@@ -27,12 +39,14 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         error: null,
       };
     case "LOGIN_SUCCESS":
+      localStorage.setItem("meetolio_user", JSON.stringify(action.payload));
       return {
         ...state,
         user: action.payload,
         isAuthenticated: true,
         isLoading: false,
         error: null,
+        justLoggedIn: true,
       };
     case "LOGIN_FAILURE":
       return {
@@ -41,14 +55,17 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         isAuthenticated: false,
         isLoading: false,
         error: action.payload,
+        justLoggedIn: false,
       };
     case "LOGOUT":
+      localStorage.removeItem("meetolio_user");
       return {
         ...state,
         user: null,
         isAuthenticated: false,
         isLoading: false,
         error: null,
+        justLoggedIn: false,
       };
     case "REGISTER_START":
       return {
@@ -57,12 +74,14 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         error: null,
       };
     case "REGISTER_SUCCESS":
+      localStorage.setItem("meetolio_user", JSON.stringify(action.payload));
       return {
         ...state,
         user: action.payload,
         isAuthenticated: true,
         isLoading: false,
         error: null,
+        justLoggedIn: true,
       };
     case "REGISTER_FAILURE":
       return {
@@ -71,11 +90,17 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         isAuthenticated: false,
         isLoading: false,
         error: action.payload,
+        justLoggedIn: false,
       };
     case "CLEAR_ERROR":
       return {
         ...state,
         error: null,
+      };
+    case "CLEAR_JUST_LOGGED_IN":
+      return {
+        ...state,
+        justLoggedIn: false,
       };
     default:
       return state;
@@ -87,6 +112,7 @@ interface AuthContextType extends AuthState {
   register: (formData: RegisterForm) => Promise<void>;
   logout: () => void;
   clearError: () => void;
+  clearJustLoggedIn: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -106,6 +132,23 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
+  // 初期化時にローカルストレージから状態を復元
+  useEffect(() => {
+    const savedUser = localStorage.getItem("meetolio_user");
+    if (savedUser) {
+      try {
+        const user = JSON.parse(savedUser);
+        dispatch({ type: "INITIALIZE", payload: user });
+      } catch {
+        // JSONパースに失敗した場合はローカルストレージをクリア
+        localStorage.removeItem("meetolio_user");
+        dispatch({ type: "INITIALIZE", payload: null });
+      }
+    } else {
+      dispatch({ type: "INITIALIZE", payload: null });
+    }
+  }, []);
+
   const login = async (formData: LoginForm) => {
     dispatch({ type: "LOGIN_START" });
 
@@ -117,7 +160,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const mockUser: User = {
         id: "1",
         email: formData.email,
-        name: "名刺　太郎",
+        name: "名刺 太郎",
         company: "株式会社サンプルデザイン",
         jobTitle: "人事",
         createdAt: new Date(),
@@ -127,6 +170,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       dispatch({ type: "LOGIN_SUCCESS", payload: mockUser });
     } catch (error) {
+      console.log(error);
       dispatch({ type: "LOGIN_FAILURE", payload: "ログインに失敗しました" });
     }
   };
@@ -152,6 +196,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       dispatch({ type: "REGISTER_SUCCESS", payload: mockUser });
     } catch (error) {
+      console.log(error);
       dispatch({ type: "REGISTER_FAILURE", payload: "登録に失敗しました" });
     }
   };
@@ -164,12 +209,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     dispatch({ type: "CLEAR_ERROR" });
   };
 
+  const clearJustLoggedIn = () => {
+    dispatch({ type: "CLEAR_JUST_LOGGED_IN" });
+  };
+
   const value: AuthContextType = {
     ...state,
     login,
     register,
     logout,
     clearError,
+    clearJustLoggedIn,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

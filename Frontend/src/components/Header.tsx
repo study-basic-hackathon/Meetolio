@@ -4,7 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import "./Header.css";
 
 const Header: React.FC = () => {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -41,7 +41,8 @@ const Header: React.FC = () => {
           <div
             className="logo"
             onClick={() => {
-              if (isAuthenticated) {
+              // 認証済みの場合はマイページへ、未認証の場合はログインページへ
+              if (isAuthenticated && user) {
                 navigate("/mypage");
               } else {
                 navigate("/login");

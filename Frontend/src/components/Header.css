@@ -317,16 +317,16 @@
 
 /* ログアウトボタン専用スタイル */
 .btn-logout {
-  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%) !important;
+  background: linear-gradient(135deg, #f87171 0%, #ef5c5c 100%) !important;
   color: white !important;
-  border: 2px solid #dc2626 !important;
+  border: 2px solid #f87171 !important;
   position: relative;
   overflow: hidden;
   font-weight: 600 !important;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   transition: all 0.3s ease !important;
-  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.2);
+  box-shadow: 0 4px 15px rgba(248, 113, 113, 0.3);
 }
 
 .btn-logout::before {

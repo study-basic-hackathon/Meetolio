@@ -5,7 +5,7 @@ import type { Profile } from "../types";
 import "./MyPage.css";
 
 const MyPage: React.FC = () => {
-  const { user } = useAuth();
+  const { user, justLoggedIn, clearJustLoggedIn } = useAuth();
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -21,7 +21,7 @@ const MyPage: React.FC = () => {
     const mockProfile: Profile = {
       id: "1",
       userId: targetUserId,
-      name: user?.name || "名刺　太郎",
+      name: user?.name || "名刺 太郎",
       profileImageUrl:
         "https://via.placeholder.com/300x180/667eea/ffffff?text=Meetolio+名刺",
       jobTitle: "人事",
@@ -48,16 +48,18 @@ const MyPage: React.FC = () => {
 
     setProfile(mockProfile);
 
-    // サンプルデータの場合は毎回ポップアップを表示（開発段階のため）
+    // ログイン直後かつサンプルデータの場合のみポップアップを表示
     const isOwnProfile = !userId || userId === user?.id;
     const isSampleData =
       mockProfile.company === "株式会社サンプルデザイン" &&
       mockProfile.contactInfo.email === "test@example.com";
 
-    if (isOwnProfile && isSampleData) {
+    if (justLoggedIn && isOwnProfile && isSampleData) {
       setShowWelcomePopup(true);
+      // フラグをクリアして次回は表示しないようにする
+      clearJustLoggedIn();
     }
-  }, [userId, user]);
+  }, [userId, user, justLoggedIn, clearJustLoggedIn]);
 
   if (!profile) {
     return (
@@ -168,7 +170,8 @@ const MyPage: React.FC = () => {
                   <div className="bio-company-name">{profile.company}</div>
                   <div className="bio-job-title">{profile.jobTitle}</div>
                   <div className="bio-person-name">{displayName}</div>
-                  <div className="bio-person-furigana">メイシ　タロウ</div>
+                  // eslint-disable-next-line no-irregular-whitespace
+                  <div className="bio-person-furigana">メイシ タロウ</div>
                 </div>
                 <div className="bio-header-right">
                   <div className="bio-icon">👤</div>
@@ -367,9 +370,10 @@ const MyPage: React.FC = () => {
               </button>
             </div>
             <div className="welcome-popup-content">
-              <p>現在表示されているのはサンプルデータです。</p>
               <p>
-                あなた自身の情報に編集して、素敵なデジタル名刺を作成してみましょう！
+                現在表示されているのはサンプルデータです。
+                <br />
+                プロフィールや名刺デザインを自由に編集して、あなただけの素敵なデジタル名刺を作成してみましょう！
               </p>
 
               <div className="welcome-popup-actions">
