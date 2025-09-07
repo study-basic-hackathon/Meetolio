@@ -23,9 +23,9 @@ const ProfileEdit: React.FC = () => {
       id: "1",
       userId: user?.id || "1",
       name: user?.name || "田中太郎",
-      company: "テック株式会社",
-      jobTitle: "フロントエンドエンジニア",
-      bio: "Web開発に携わって5年目です。React、TypeScript、Node.jsを中心に開発を行っています。ユーザビリティを重視した設計を心がけています。",
+      company: "株式会社サンプルデザイン",
+      jobTitle: "人事",
+      bio: "（例）Web開発に携わって5年目です。React、TypeScript、Node.jsを中心に開発を行っています。ユーザビリティを重視した設計を心がけています。",
       skills: [
         "React",
         "TypeScript",

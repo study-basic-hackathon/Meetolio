@@ -117,9 +117,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const mockUser: User = {
         id: "1",
         email: formData.email,
-        name: "テストユーザー",
-        company: "テスト株式会社",
-        jobTitle: "エンジニア",
+        name: "名刺　太郎",
+        company: "株式会社サンプルデザイン",
+        jobTitle: "人事",
         createdAt: new Date(),
         updatedAt: new Date(),
         isDeleted: false,
