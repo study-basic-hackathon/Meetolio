@@ -1,5 +1,6 @@
 package com.meetolio.backend.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,12 +27,7 @@ public class PortfolioController {
 
         PortfolioResponseDto portfolioResponseDto = portfolioService.getPortfolio(userId);
 
-        // nullの場合は404
-        if (portfolioResponseDto == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(portfolioResponseDto);
+        return ResponseEntity.status(HttpStatus.OK).body(portfolioResponseDto);
     }
 
 }

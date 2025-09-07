@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.meetolio.backend.common.error.NotFoundException;
 import com.meetolio.backend.dto.PortfolioResponseDto;
 import com.meetolio.backend.entity.PortfolioEntity;
 import com.meetolio.backend.repository.PortfolioRepository;
@@ -24,8 +25,9 @@ public class PortfolioService {
 
         PortfolioEntity portfolioEntity = portfolioRepository.findById(userId);
 
+        // TODO: メッセージ共通化
         if (portfolioEntity == null) {
-            return null;
+            throw new NotFoundException("ポートフォリオが見つかりません");
         }
 
         // マッパーでentityをdtoに変換
