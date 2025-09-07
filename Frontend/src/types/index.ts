@@ -56,9 +56,6 @@ export interface RegisterForm {
   email: string;
   password: string;
   confirmPassword: string;
-  name: string;
-  company?: string;
-  jobTitle?: string;
 }
 
 export interface ProfileForm {
