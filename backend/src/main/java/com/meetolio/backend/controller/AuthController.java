@@ -1,5 +1,6 @@
 package com.meetolio.backend.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +33,6 @@ public class AuthController {
         SignupResponseDto signupResponseDto = new SignupResponseDto();
         signupResponseDto.setAccessToken(accessToken);
 
-        return ResponseEntity.status(201).body(signupResponseDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(signupResponseDto);
     }
 }
