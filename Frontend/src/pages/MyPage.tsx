@@ -170,7 +170,6 @@ const MyPage: React.FC = () => {
                   <div className="bio-company-name">{profile.company}</div>
                   <div className="bio-job-title">{profile.jobTitle}</div>
                   <div className="bio-person-name">{displayName}</div>
-                  // eslint-disable-next-line no-irregular-whitespace
                   <div className="bio-person-furigana">メイシ タロウ</div>
                 </div>
                 <div className="bio-header-right">
