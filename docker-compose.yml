@@ -1,17 +1,35 @@
 # docker-compose.yml
 services:
+  db:
+    image: postgres:16
+    container_name: meetolio_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: meetolio
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - appnet
+
   backend:
     platform: linux/amd64
     build:
-      context: ./backend/meetolio-api
+      context: ./backend
       dockerfile: Dockerfile
+    container_name: meetolio_backend
+    depends_on:
+      - db
     ports:
       - "8080:8080"
     networks:
       - appnet
     volumes:
       - ./backend:/app
-    working_dir: /app/meetolio-api
+      - gradle-cache:/home/gradle/.gradle # 依存キャッシュを永続化
+    working_dir: /app
     command: ["gradle", "bootRun"]
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
@@ -25,6 +43,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    container_name: meetolio_frontend
     ports:
       - "5173:5173"
     networks:
@@ -38,9 +57,13 @@ services:
         npm run dev -- --host
       "
     depends_on:
-      backend:
-        condition: service_healthy
+      - backend
 
 networks:
   appnet:
     driver: bridge
+
+# データ永続化
+volumes:
+  db_data:
+  gradle-cache:
