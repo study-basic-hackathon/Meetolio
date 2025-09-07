@@ -1,0 +1,774 @@
+.settings {
+  min-height: 100vh;
+  background: #fafafa;
+  padding: 40px 0;
+}
+
+/* アカウント設定画面専用のcontainer設定 */
+.settings .container {
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .settings {
+    padding: 20px 0;
+  }
+}
+
+.settings-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+@media (max-width: 768px) {
+  .settings-header {
+    margin-bottom: 32px;
+  }
+}
+
+.settings-header h1 {
+  font-size: 36px;
+  color: #333;
+  margin: 0 0 16px 0;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 768px) {
+  .settings-header h1 {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+}
+
+.settings-header p {
+  color: #666;
+  font-size: 18px;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .settings-header p {
+    font-size: 16px;
+  }
+}
+
+.settings-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .settings-container {
+    grid-template-columns: 280px 1fr;
+    gap: 48px;
+  }
+}
+
+/* サイドバーナビゲーション */
+.settings-nav {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f0f0f0;
+  overflow: hidden;
+}
+
+@media (max-width: 767px) {
+  .settings-nav {
+    order: 2;
+  }
+}
+
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.nav-item:last-child {
+  border-bottom: none;
+}
+
+.nav-link {
+  display: block;
+  padding: 20px 24px;
+  color: #666;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+}
+
+@media (max-width: 768px) {
+  .nav-link {
+    padding: 16px 20px;
+    font-size: 16px;
+  }
+}
+
+.nav-link:hover {
+  background: #fafafa;
+  color: #333;
+  border-left-color: #e0e0e0;
+}
+
+.nav-link.active {
+  background: #f8f9fa;
+  color: #333;
+  border-left-color: #333;
+  font-weight: 600;
+}
+
+/* メインコンテンツエリア */
+.settings-content {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+@media (max-width: 767px) {
+  .settings-content {
+    order: 1;
+  }
+}
+
+.content-header {
+  padding: 32px;
+  border-bottom: 1px solid #f0f0f0;
+  background: white;
+  border-radius: 8px 8px 0 0;
+}
+
+@media (max-width: 768px) {
+  .content-header {
+    padding: 24px 20px;
+  }
+}
+
+.content-header h2 {
+  font-size: 24px;
+  color: #333;
+  margin: 0 0 8px 0;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 768px) {
+  .content-header h2 {
+    font-size: 20px;
+  }
+}
+
+.content-header p {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .content-header p {
+    font-size: 14px;
+  }
+}
+
+.content-body {
+  padding: 32px;
+}
+
+@media (max-width: 768px) {
+  .content-body {
+    padding: 24px 20px;
+  }
+}
+
+/* 設定セクション */
+.setting-section {
+  margin-bottom: 40px;
+}
+
+.setting-section:last-child {
+  margin-bottom: 0;
+}
+
+.setting-section h3 {
+  font-size: 20px;
+  color: #333;
+  margin: 0 0 16px 0;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 768px) {
+  .setting-section h3 {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+}
+
+.setting-section p {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0 0 24px 0;
+}
+
+@media (max-width: 768px) {
+  .setting-section p {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+}
+
+/* フォーム要素 */
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 16px;
+}
+
+.required {
+  color: #dc2626;
+  margin-left: 4px;
+}
+
+.form-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 14px 16px;
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.5;
+  transition: all 0.2s ease;
+  background-color: white;
+  color: #333;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #333;
+  box-shadow: 0 0 0 3px rgba(51, 51, 51, 0.1);
+}
+
+.form-input.error {
+  border-color: #dc2626;
+  background-color: #fef2f2;
+}
+
+.form-input:disabled {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.form-select {
+  width: 100%;
+  min-height: 48px;
+  padding: 14px 16px;
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: white;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 12px center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  appearance: none;
+  cursor: pointer;
+}
+
+.form-select:focus {
+  outline: none;
+  border-color: #333;
+  box-shadow: 0 0 0 3px rgba(51, 51, 51, 0.1);
+}
+
+.form-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.5;
+  user-select: none;
+}
+
+.form-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  margin-top: 2px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ボタン */
+.btn-group {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+  .btn-group {
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+  }
+}
+
+.btn {
+  min-height: 48px;
+  padding: 14px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid;
+}
+
+.btn-primary {
+  background: #333;
+  color: white;
+  border-color: #333;
+}
+
+.btn-primary:hover {
+  background: #555;
+  border-color: #555;
+}
+
+.btn-secondary {
+  background: #f8f9fa;
+  color: #333;
+  border-color: #e1e5e9;
+}
+
+.btn-secondary:hover {
+  background: #e9ecef;
+  border-color: #d1d5d9;
+}
+
+.btn-danger {
+  background: #dc2626;
+  color: white;
+  border-color: #dc2626;
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+  border-color: #b91c1c;
+}
+
+/* ログアウトボタン専用スタイル */
+.btn-logout {
+  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+  color: white;
+  border: 2px solid #dc2626;
+  position: relative;
+  overflow: hidden;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.2);
+}
+
+.btn-logout::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  transition: left 0.3s ease;
+}
+
+.btn-logout:hover {
+  background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.3);
+  border-color: #b91c1c;
+}
+
+.btn-logout:hover::before {
+  left: 0;
+}
+
+.btn-logout:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(220, 38, 38, 0.2);
+}
+
+/* ログアウトアイコン（オプション） */
+.btn-logout .logout-icon {
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+/* タッチデバイス対応 */
+@media (hover: none) {
+  .btn-logout:hover {
+    transform: none;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.2);
+  }
+
+  .btn-logout:hover::before {
+    left: -100%;
+  }
+}
+
+/* アクセシビリティ改善 */
+@media (prefers-reduced-motion: reduce) {
+  .btn-logout,
+  .btn-logout::before {
+    transition: none;
+  }
+
+  .btn-logout:hover,
+  .btn-logout:active {
+    transform: none;
+  }
+}
+
+/* 警告メッセージ */
+.warning-message {
+  background: #fef3c7;
+  color: #92400e;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  border: 1px solid #fbbf24;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .warning-message {
+    padding: 12px;
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+}
+
+/* モバイル対応 */
+@media (max-width: 767px) {
+  .settings-container {
+    gap: 24px;
+  }
+
+  .settings-nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .nav-list {
+    display: flex;
+    overflow-x: auto;
+    border-bottom: none;
+  }
+
+  .nav-item {
+    border-bottom: none;
+    border-right: 1px solid #f0f0f0;
+    flex-shrink: 0;
+  }
+
+  .nav-item:last-child {
+    border-right: none;
+  }
+
+  .nav-link {
+    padding: 16px 20px;
+    white-space: nowrap;
+    border-left: none;
+    border-bottom: 3px solid transparent;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    border-left-color: transparent;
+    border-bottom-color: #333;
+  }
+}
+
+/* タブレット対応 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .settings-container {
+    gap: 32px;
+  }
+
+  .settings-nav {
+    width: 240px;
+  }
+}
+
+/* デスクトップ対応 */
+@media (min-width: 1024px) {
+  .settings-container {
+    gap: 64px;
+  }
+
+  .settings-nav {
+    width: 320px;
+  }
+
+  .content-header {
+    padding: 40px;
+  }
+
+  .content-body {
+    padding: 40px;
+  }
+}
+
+/* タッチデバイスでのホバー効果を無効化 */
+@media (hover: none) {
+  .nav-link:hover,
+  .btn:hover {
+    transform: none;
+  }
+}
+
+/* アクセシビリティの改善 */
+@media (prefers-reduced-motion: reduce) {
+  .nav-link,
+  .btn {
+    transition: none;
+  }
+}
+
+/* アカウント設定タイトル */
+.settings-title {
+  font-size: 24px;
+  color: #333;
+  margin: 25px 0;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+  .settings-title {
+    font-size: 20px;
+    margin-bottom: 24px;
+  }
+}
+
+/* アカウント設定アイテム */
+.account-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.account-item.clickable {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.account-item.clickable:hover {
+  background-color: #f8f9fa;
+}
+
+.account-item.clickable:active {
+  background-color: #e9ecef;
+}
+
+.account-item:last-child {
+  border-bottom: none;
+}
+
+.account-item-content {
+  flex: 1;
+}
+
+.account-item-label {
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.account-item-value {
+  font-size: 14px;
+  color: #666;
+}
+
+.account-change-hint {
+  color: #333;
+  font-size: 14px;
+  padding: 8px 0;
+}
+
+/* メールアドレス変更・パスワード変更フォーム */
+.current-email {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.email-display {
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+}
+
+.btn-small {
+  padding: 8px 16px;
+  font-size: 14px;
+  min-height: auto;
+}
+
+.change-email-form,
+.change-password-form {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 24px;
+  margin-top: 20px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.form-actions .btn {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions .btn {
+    width: 100%;
+  }
+}
+
+/* 退会処理の改善 */
+.delete-confirmation {
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  border-radius: 8px;
+  padding: 24px;
+  margin-top: 20px;
+}
+
+.delete-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.delete-actions .btn {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .delete-actions {
+    flex-direction: column;
+  }
+
+  .delete-actions .btn {
+    width: 100%;
+  }
+}
+
+/* ダークモード対応 */
+@media (prefers-color-scheme: dark) {
+  .settings {
+    background: #1a1a1a;
+  }
+
+  .settings-nav,
+  .settings-content {
+    background: #2d2d2d;
+    border-color: #404040;
+  }
+
+  .content-header {
+    background: #1a1a1a;
+    border-bottom-color: #404040;
+  }
+
+  .settings-header h1,
+  .content-header h2,
+  .setting-section h3,
+  .form-label {
+    color: #ffffff;
+  }
+
+  .settings-header p,
+  .content-header p,
+  .setting-section p {
+    color: #cccccc;
+  }
+
+  .form-input,
+  .form-select {
+    background-color: #1a1a1a;
+    border-color: #404040;
+    color: #ffffff;
+  }
+
+  .form-input:focus {
+    border-color: #ffffff;
+  }
+
+  .nav-link {
+    color: #cccccc;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    background: #1a1a1a;
+    color: #ffffff;
+  }
+
+  .btn-secondary {
+    background: #1a1a1a;
+    color: #ffffff;
+    border-color: #404040;
+  }
+
+  .btn-secondary:hover {
+    background: #2d2d2d;
+    border-color: #666;
+  }
+}

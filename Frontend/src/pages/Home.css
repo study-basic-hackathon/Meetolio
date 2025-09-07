@@ -1,0 +1,291 @@
+.home {
+  min-height: 100vh;
+  background: #fafafa;
+}
+
+.hero {
+  background: white;
+  color: #333;
+  padding: 80px 0;
+  text-align: center;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 60px 0;
+  }
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+}
+
+.hero-subtitle {
+  display: block;
+  font-size: 20px;
+  font-weight: 400;
+  color: #666;
+  margin-bottom: 16px;
+  font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans CJK JP",
+    sans-serif;
+}
+
+@media (max-width: 768px) {
+  .hero-subtitle {
+    font-size: 18px;
+  }
+}
+
+.hero-description {
+  font-size: 18px;
+  line-height: 1.7;
+  margin-bottom: 48px;
+  color: #666;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 768px) {
+  .hero-description {
+    font-size: 16px;
+    margin-bottom: 40px;
+  }
+}
+
+.hero-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .hero-actions {
+    flex-direction: row;
+    gap: 20px;
+    max-width: none;
+  }
+}
+
+.btn-large {
+  min-height: 56px;
+  padding: 16px 32px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.features {
+  padding: 80px 0;
+  background: #fafafa;
+}
+
+@media (max-width: 768px) {
+  .features {
+    padding: 60px 0;
+  }
+}
+
+.section-title {
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 64px;
+  color: #333;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 28px;
+    margin-bottom: 48px;
+  }
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+  }
+}
+
+.feature-card {
+  text-align: center;
+  padding: 48px 32px;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #f0f0f0;
+  transition: all 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-color: #e0e0e0;
+}
+
+.feature-icon {
+  font-size: 48px;
+  margin-bottom: 24px;
+  display: block;
+}
+
+.feature-card h3 {
+  font-size: 24px;
+  margin-bottom: 16px;
+  color: #333;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 768px) {
+  .feature-card h3 {
+    font-size: 20px;
+  }
+}
+
+.feature-card p {
+  color: #666;
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+.target-audience {
+  padding: 80px 0;
+  background: white;
+}
+
+@media (max-width: 768px) {
+  .target-audience {
+    padding: 60px 0;
+  }
+}
+
+.audience-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .audience-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .audience-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+  }
+}
+
+.audience-item {
+  text-align: center;
+  padding: 40px 32px;
+  background: #fafafa;
+  border-radius: 12px;
+  border: 1px solid #f0f0f0;
+  transition: all 0.2s ease;
+}
+
+.audience-item:hover {
+  transform: translateY(-2px);
+  background: white;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  border-color: #e0e0e0;
+}
+
+.audience-item h4 {
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: #333;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 768px) {
+  .audience-item h4 {
+    font-size: 18px;
+  }
+}
+
+.audience-item p {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* タッチデバイスでのホバー効果を無効化 */
+@media (hover: none) {
+  .feature-card:hover,
+  .audience-item:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: #f0f0f0;
+  }
+
+  .feature-card:hover {
+    background: white;
+  }
+
+  .audience-item:hover {
+    background: #fafafa;
+  }
+}
+
+/* スムーズスクロール */
+html {
+  scroll-behavior: smooth;
+}
+
+/* アクセシビリティの改善 */
+@media (prefers-reduced-motion: reduce) {
+  .feature-card,
+  .audience-item {
+    transition: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}

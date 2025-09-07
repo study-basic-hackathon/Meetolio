@@ -1,0 +1,390 @@
+.auth-page {
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  padding: 103px 0;
+}
+
+@media (max-width: 768px) {
+  .auth-page {
+    padding: 20px 0;
+    align-items: flex-start;
+    padding-top: 40px;
+  }
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f0f0f0;
+}
+
+.auth-header {
+  background: white;
+  padding: 32px 32px 0;
+  text-align: center;
+  border-radius: 8px 8px 0 0;
+}
+
+@media (max-width: 768px) {
+  .auth-header {
+    padding: 32px 24px 24px;
+  }
+}
+
+.auth-header h1 {
+  color: #333;
+  font-size: 32px;
+  margin-bottom: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 768px) {
+  .auth-header h1 {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+}
+
+.auth-header p {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .auth-header p {
+    font-size: 15px;
+  }
+}
+
+.auth-form {
+  padding: 28px 32px 32px;
+}
+
+@media (max-width: 768px) {
+  .auth-form {
+    padding: 20px 24px 24px;
+  }
+}
+
+.error-message {
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 14px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 14px;
+  border: 1px solid #fecaca;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* パスワード入力フィールドの下部マージンを増やしてログインボタンとの間隔を広げる */
+.form-group:last-of-type {
+  margin-bottom: 28px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+  font-size: 16px;
+}
+
+.required {
+  color: #dc2626;
+  margin-left: 4px;
+}
+
+.form-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 14px 16px;
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.5;
+  transition: all 0.2s ease;
+  background-color: white;
+  color: #333;
+  text-align: left;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #333;
+  box-shadow: 0 0 0 3px rgba(51, 51, 51, 0.1);
+  transform: translateY(-1px);
+}
+
+/* プレースホルダーのテキスト配置を左寄せに */
+.form-input::placeholder {
+  text-align: left;
+}
+
+.form-input.error {
+  border-color: #dc2626;
+  background-color: #fef2f2;
+  text-align: left;
+}
+
+.form-input:disabled {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.error-text {
+  color: #dc2626;
+  font-size: 14px;
+  margin-top: 6px;
+  display: block;
+  font-weight: 500;
+}
+
+.checkbox-group {
+  margin-bottom: 28px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.checkbox-label:hover {
+  color: #333;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  margin-top: 2px;
+  cursor: pointer;
+  flex-shrink: 0;
+  accent-color: #333;
+}
+
+.auth-submit {
+  display: block;
+  margin: 35px auto 0px;
+  width: 100%;
+  text-align: center;
+  min-height: 48px;
+  padding: 14px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  background: #333;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.auth-submit:hover {
+  background: #555;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(51, 51, 51, 0.15);
+}
+
+.auth-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-footer {
+  background: #fafafa;
+  padding: 24px 32px;
+  text-align: center;
+  border-radius: 0 0 8px 8px;
+  border-top: 1px solid #f0f0f0;
+}
+
+@media (max-width: 768px) {
+  .auth-footer {
+    padding: 20px 24px;
+  }
+}
+
+.auth-footer p {
+  color: #666;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+@media (max-width: 768px) {
+  .auth-footer p {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+}
+
+.auth-link {
+  color: #333;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.auth-link:hover {
+  color: #555;
+}
+
+.auth-link::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: #333;
+  transition: width 0.2s ease;
+}
+
+.auth-link:hover::after {
+  width: 100%;
+}
+
+/* モバイル対応 */
+@media (max-width: 767px) {
+  .auth-page {
+    padding: 16px;
+    align-items: stretch;
+  }
+
+  .auth-container {
+    margin: 0;
+    border-radius: 8px;
+  }
+
+  .auth-header {
+    padding: 24px 20px 20px;
+  }
+
+  .auth-form {
+    padding: 20px;
+  }
+
+  .auth-footer {
+    padding: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+
+  .form-group:last-of-type {
+    margin-bottom: 24px;
+  }
+
+  .form-input {
+    min-height: 46px;
+    padding: 12px 14px;
+    font-size: 16px; /* iOSズーム防止 */
+  }
+
+  .auth-submit {
+    min-height: 46px;
+    padding: 12px 20px;
+    font-size: 16px;
+  }
+
+  .checkbox-label {
+    font-size: 13px;
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* タブレット対応 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .auth-container {
+    max-width: 450px;
+  }
+}
+
+/* デスクトップ対応 */
+@media (min-width: 1024px) {
+  .auth-container {
+    max-width: 480px;
+  }
+
+  .auth-header {
+    padding: 48px 40px 0px;
+  }
+
+  .auth-form {
+    padding: 20px 40px;
+  }
+
+  .auth-footer {
+    padding: 32px 40px;
+  }
+}
+
+/* タッチデバイスでのホバー効果を無効化 */
+@media (hover: none) {
+  .auth-submit:hover {
+    background: #333;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .form-input:focus {
+    transform: none;
+  }
+
+  .checkbox-label:hover {
+    color: #666;
+  }
+
+  .auth-link:hover {
+    color: #333;
+  }
+
+  .auth-link:hover::after {
+    width: 0;
+  }
+}
+
+/* アクセシビリティの改善 */
+@media (prefers-reduced-motion: reduce) {
+  .auth-submit,
+  .form-input,
+  .checkbox-label,
+  .auth-link,
+  .auth-link::after {
+    transition: none;
+  }
+
+  .auth-submit:hover,
+  .form-input:focus {
+    transform: none;
+  }
+}

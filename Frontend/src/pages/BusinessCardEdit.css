@@ -1,0 +1,305 @@
+.business-card-edit {
+  background: #fafafa;
+  min-height: 100vh;
+  padding: 40px 0;
+}
+
+@media (max-width: 768px) {
+  .business-card-edit {
+    padding: 20px 0;
+  }
+}
+
+.business-card-edit .container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.edit-form {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+  .edit-form {
+    padding: 24px 16px;
+  }
+}
+
+.form-group {
+  margin-bottom: 32px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+/* 名刺プレビュー（表面・裏面） */
+.card-preview-container {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.preview-section {
+  text-align: center;
+  flex: 1;
+  min-width: 300px;
+  max-width: 400px;
+}
+
+.preview-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 12px 0;
+  text-align: center;
+}
+
+.card-preview-item {
+  display: inline-block;
+}
+
+.card-preview-image {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1.654 / 1;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.preview-actions {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-btn {
+  padding: 0;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: none;
+  background: #111827;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  line-height: 1;
+  box-sizing: border-box;
+}
+
+.action-btn svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  margin: auto;
+}
+
+.action-label {
+  font-size: 12px;
+  color: #374151;
+  text-align: center;
+  line-height: 1.2;
+  max-width: 80px;
+}
+
+.file-input {
+  display: none;
+}
+
+.action-btn:hover {
+  background: #374151;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.upload-btn {
+  background: #111827;
+  color: white;
+  font-size: 20px;
+}
+
+.upload-btn:hover {
+  background: #374151;
+}
+
+.design-btn {
+  background: #111827;
+  color: white;
+}
+
+.design-btn:hover {
+  background: #374151;
+}
+
+.upload-hint {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+  text-align: center;
+}
+
+/* アクションボタン */
+.form-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 40px;
+  padding-top: 24px;
+}
+
+.form-actions .btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary {
+  background: #111827;
+  color: white;
+  border-color: #111827;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #374151;
+  border-color: #374151;
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+  border-color: #6c757d;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #545b62;
+  border-color: #545b62;
+}
+
+/* ローディングとエラー状態 */
+.loading,
+.error {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 18px;
+  color: #666;
+}
+
+.error {
+  color: #dc3545;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  .business-card-edit {
+    padding: 16px 0;
+  }
+
+  .business-card-edit .container {
+    padding: 0 12px;
+  }
+
+  .edit-header h1 {
+    font-size: 22px;
+  }
+
+  .form-group {
+    margin-bottom: 24px;
+  }
+
+  .card-preview-container {
+    gap: 16px;
+  }
+
+  .card-preview {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .edit-header h1 {
+    font-size: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .card-preview-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .preview-section {
+    min-width: auto;
+  }
+
+  .preview-actions {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .action-item {
+    flex: 1;
+  }
+
+  .action-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 20px;
+  }
+
+  .action-label {
+    max-width: none;
+    font-size: 13px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .form-actions .btn {
+    width: 100%;
+  }
+}

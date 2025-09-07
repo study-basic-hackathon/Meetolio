@@ -1,0 +1,540 @@
+.profile-edit {
+  background: #fafafa;
+  min-height: 100vh;
+  padding: 40px 0;
+}
+
+@media (max-width: 768px) {
+  .profile-edit {
+    padding: 20px 0;
+  }
+}
+
+.profile-edit .container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.edit-form {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .edit-form {
+    padding: 24px 16px;
+  }
+}
+
+/* 名刺以外の部分に左右の余白を追加 */
+.edit-form .form-group {
+  padding: 0;
+  margin-bottom: 32px;
+}
+
+/* 名刺セクション */
+.edit-form .business-card-section {
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 32px 20px;
+  text-align: center;
+  margin: -32px -32px 32px -32px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+@media (max-width: 768px) {
+  .edit-form .business-card-section {
+    padding: 24px 16px;
+    margin: -24px -16px 24px -16px;
+  }
+}
+
+.form-group {
+  margin-bottom: 32px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  background: white;
+  transition: border-color 0.15s ease-in-out;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+.readonly-field {
+  background: #f9fafb !important;
+  color: #6b7280 !important;
+  cursor: not-allowed;
+}
+
+.readonly-field:focus {
+  border-color: #d1d5db !important;
+  box-shadow: none !important;
+}
+
+/* タグ入力スタイル */
+.tags-input {
+  margin-top: 8px;
+}
+
+.tags-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+  min-height: 32px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  position: relative;
+}
+
+.skill-tag {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-color: #dbeafe;
+}
+
+.interest-tag {
+  background: #f0fdf4;
+  color: #166534;
+  border-color: #dcfce7;
+}
+
+.tag-remove {
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 4px;
+  cursor: pointer;
+  padding: 0;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: color 0.15s ease;
+}
+
+.tag-remove:hover {
+  color: #ef4444;
+}
+
+.tag-input {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+/* 名刺セクション */
+.business-card-section {
+  margin-top: 8px;
+}
+
+/* 名刺プレビュー（裏表タップ切り替え） */
+.card-preview-container {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.business-card {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1.654 / 1;
+  position: relative;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease;
+  margin: 0 auto;
+}
+
+.business-card.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* フリップヒントオーバーレイ */
+.flip-hint-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  padding: 20px 16px 16px;
+  text-align: center;
+}
+
+.flip-hint {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.card-edit-options {
+  text-align: center;
+}
+
+.change-card-btn {
+  background: #111827;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid #111827;
+  display: inline-block;
+}
+
+.change-card-btn:hover {
+  background: #374151;
+  border-color: #374151;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 名刺デザイナー */
+.card-designer {
+  margin-top: 8px;
+}
+
+.designer-preview {
+  margin-bottom: 16px;
+}
+
+.card-preview {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1.654 / 1;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 0 auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.preview-header {
+  text-align: center;
+  border-bottom: 2px solid #333;
+  padding-bottom: 12px;
+}
+
+.preview-body {
+  display: flex;
+  gap: 20px;
+  flex: 1;
+}
+
+.preview-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.preview-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.preview-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 14px;
+  background: white;
+  transition: border-color 0.15s ease;
+}
+
+.preview-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.preview-input::placeholder {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+.company-input {
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.job-input {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.name-input {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.email-input,
+.phone-input {
+  font-size: 12px;
+  color: #374151;
+}
+
+.designer-controls {
+  text-align: center;
+}
+
+.designer-hint {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* アクションボタン */
+.form-actions {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 40px;
+}
+
+.form-actions .btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+.btn-primary:disabled {
+  background: #9ca3af;
+  border-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* ローディングとエラー状態 */
+.loading,
+.error {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 18px;
+  color: #666;
+}
+
+.error {
+  color: #dc3545;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  .profile-edit {
+    padding: 16px 0;
+  }
+
+  .profile-edit .container {
+    padding: 0 12px;
+  }
+
+  .edit-form {
+    padding: 24px 16px;
+    border-radius: 6px;
+  }
+
+  .edit-header h1 {
+    font-size: 22px;
+  }
+
+  .form-group {
+    margin-bottom: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .edit-form {
+    padding: 0;
+    border-radius: 4px;
+  }
+
+  .edit-header h1 {
+    font-size: 20px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 10px 12px;
+    font-size: 16px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+}
+
+/* ダークモード対応 */
+@media (prefers-color-scheme: dark) {
+  .profile-edit {
+    background: #111827;
+  }
+
+  .edit-form {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  .edit-header {
+    border-bottom-color: #374151;
+  }
+
+  .edit-header h1 {
+    color: #f9fafb;
+  }
+
+  .edit-header p {
+    color: #d1d5db;
+  }
+
+  .form-group label {
+    color: #f9fafb;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    background: #111827;
+    border-color: #4b5563;
+    color: #f9fafb;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: #3b82f6;
+  }
+
+  .readonly-field {
+    background: #1f2937 !important;
+    color: #9ca3af !important;
+  }
+
+  .readonly-field:focus {
+    border-color: #4b5563 !important;
+  }
+
+  .tag {
+    background: #374151;
+    color: #d1d5db;
+    border-color: #4b5563;
+  }
+
+  .skill-tag {
+    background: #1e3a8a;
+    color: #93c5fd;
+    border-color: #1e40af;
+  }
+
+  .interest-tag {
+    background: #14532d;
+    color: #86efac;
+    border-color: #166534;
+  }
+
+  .form-actions {
+    border-top-color: #374151;
+  }
+}
