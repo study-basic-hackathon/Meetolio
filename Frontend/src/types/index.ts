@@ -1,3 +1,4 @@
+// 各オブジェクトの定義
 export interface User {
   id: string;
   email: string;
