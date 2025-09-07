@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import "./Header.css";
 
 const Header: React.FC = () => {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout, user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
@@ -26,14 +27,22 @@ const Header: React.FC = () => {
     closeMobileMenu();
   };
 
+  // ログイン/新規登録ページ判定（必要なら他の非表示ページも足せる）
+  const isAuthPage =
+    location.pathname === "/login" || location.pathname === "/register";
+  // 認証済み かつ 認証ページ以外のときだけナビを表示
+  const showNav = isAuthenticated && !isAuthPage;
+
   return (
     <header className="header">
       <div className="container">
         <div className="header-content">
+          {/* ロゴは常に表示（ログイン画面でもOK） */}
           <div
             className="logo"
             onClick={() => {
-              if (isAuthenticated) {
+              // 認証済みの場合はマイページへ、未認証の場合はログインページへ
+              if (isAuthenticated && user) {
                 navigate("/mypage");
               } else {
                 navigate("/login");
@@ -44,26 +53,30 @@ const Header: React.FC = () => {
             <h1>Meetolio</h1>
           </div>
 
-          {/* ハンバーガーメニューボタン */}
-          <button
-            className={`mobile-menu-toggle ${isMobileMenuOpen ? "active" : ""}`}
-            onClick={toggleMobileMenu}
-            aria-label="メニューを開く"
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
+          {/* 以下、ナビ関連は showNav のときだけ描画 */}
+          {showNav && (
+            <>
+              {/* ハンバーガーメニューボタン */}
+              <button
+                className={`mobile-menu-toggle ${
+                  isMobileMenuOpen ? "active" : ""
+                }`}
+                onClick={toggleMobileMenu}
+                aria-label="メニューを開く"
+                aria-expanded={isMobileMenuOpen}
+              >
+                <span></span>
+                <span></span>
+                <span></span>
+              </button>
 
-          {/* モバイルメニューのオーバーレイ */}
-          <div
-            className={`nav-overlay ${isMobileMenuOpen ? "active" : ""}`}
-            onClick={closeMobileMenu}
-          ></div>
+              {/* モバイルメニューのオーバーレイ */}
+              <div
+                className={`nav-overlay ${isMobileMenuOpen ? "active" : ""}`}
+                onClick={closeMobileMenu}
+              ></div>
 
-          <nav className={`nav ${isMobileMenuOpen ? "active" : ""}`}>
-            {isAuthenticated ? (
-              <>
+              <nav className={`nav ${isMobileMenuOpen ? "active" : ""}`}>
                 <div className="nav-links">
                   <Link
                     to="/mypage"
@@ -88,32 +101,13 @@ const Header: React.FC = () => {
                   </Link>
                 </div>
                 <div className="nav-actions">
-                  <button onClick={handleLogout} className="btn btn-secondary">
+                  <button onClick={handleLogout} className="btn btn-logout">
                     ログアウト
                   </button>
                 </div>
-              </>
-            ) : (
-              <>
-                <div className="nav-links">
-                  <Link
-                    to="/login"
-                    className="btn btn-secondary"
-                    onClick={handleNavLinkClick}
-                  >
-                    ログイン
-                  </Link>
-                  <Link
-                    to="/register"
-                    className="btn btn-primary"
-                    onClick={handleNavLinkClick}
-                  >
-                    新規登録
-                  </Link>
-                </div>
-              </>
-            )}
-          </nav>
+              </nav>
+            </>
+          )}
         </div>
       </div>
     </header>

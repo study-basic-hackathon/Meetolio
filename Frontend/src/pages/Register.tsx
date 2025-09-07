@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import type { RegisterForm } from "../types";
-import "./Auth.css";
+import "./Register.css";
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState<RegisterForm>({
@@ -95,6 +95,7 @@ const Register: React.FC = () => {
     try {
       await register(formData);
     } catch (error) {
+      console.log(error);
       // エラーハンドリングはAuthContextで行われる
     }
   };

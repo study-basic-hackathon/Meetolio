@@ -1,9 +1,8 @@
 .auth-page {
-  min-height: 100vh;
-  background: white;
+  background: #fafafa;
   display: flex;
   align-items: center;
-  padding: 40px 0;
+  padding: 103px 0;
 }
 
 @media (max-width: 768px) {
@@ -19,12 +18,16 @@
   max-width: 480px;
   margin: 0 auto;
   background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f0f0f0;
 }
 
 .auth-header {
   background: white;
-  padding: 40px 32px 32px;
+  padding: 32px 32px 0;
   text-align: center;
+  border-radius: 8px 8px 0 0;
 }
 
 @media (max-width: 768px) {
@@ -61,38 +64,42 @@
 }
 
 .auth-form {
-  padding: 32px;
+  padding: 28px 32px 32px;
 }
 
 @media (max-width: 768px) {
   .auth-form {
-    padding: 24px;
+    padding: 20px 24px 24px;
   }
 }
 
 .error-message {
   background: #fef2f2;
   color: #dc2626;
-  padding: 16px;
+  padding: 14px 16px;
   border-radius: 8px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   text-align: center;
   font-size: 14px;
   border: 1px solid #fecaca;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .form-group {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 /* パスワード入力フィールドの下部マージンを増やしてログインボタンとの間隔を広げる */
 .form-group:last-of-type {
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 
 .form-label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   font-weight: 600;
   color: #333;
   font-size: 16px;
@@ -121,6 +128,7 @@
   outline: none;
   border-color: #333;
   box-shadow: 0 0 0 3px rgba(51, 51, 51, 0.1);
+  transform: translateY(-1px);
 }
 
 /* プレースホルダーのテキスト配置を左寄せに */
@@ -155,28 +163,37 @@
 .checkbox-label {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 10px;
   cursor: pointer;
   font-size: 14px;
   color: #666;
   line-height: 1.5;
   user-select: none;
+  transition: color 0.2s ease;
+}
+
+.checkbox-label:hover {
+  color: #333;
 }
 
 .checkbox-label input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   margin: 0;
   margin-top: 2px;
   cursor: pointer;
   flex-shrink: 0;
+  accent-color: #333;
 }
 
 .auth-submit {
+  display: block;
+  margin: 35px auto 0px;
   width: 100%;
-  min-height: 52px;
-  padding: 16px 24px;
-  font-size: 18px;
+  text-align: center;
+  min-height: 48px;
+  padding: 14px 24px;
+  font-size: 16px;
   font-weight: 600;
   background: #333;
   border: none;
@@ -188,6 +205,8 @@
 
 .auth-submit:hover {
   background: #555;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(51, 51, 51, 0.15);
 }
 
 .auth-submit:disabled {
@@ -196,9 +215,11 @@
 }
 
 .auth-footer {
-  background: white;
+  background: #fafafa;
   padding: 24px 32px;
   text-align: center;
+  border-radius: 0 0 8px 8px;
+  border-top: 1px solid #f0f0f0;
 }
 
 @media (max-width: 768px) {
@@ -209,14 +230,14 @@
 
 .auth-footer p {
   color: #666;
-  margin-bottom: 12px;
-  font-size: 16px;
+  margin-bottom: 8px;
+  font-size: 15px;
 }
 
 @media (max-width: 768px) {
   .auth-footer p {
-    font-size: 15px;
-    margin-bottom: 16px;
+    font-size: 14px;
+    margin-bottom: 12px;
   }
 }
 
@@ -224,18 +245,34 @@
   color: #333;
   text-decoration: none;
   font-weight: 600;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
+  position: relative;
 }
 
 .auth-link:hover {
   color: #555;
-  text-decoration: underline;
+}
+
+.auth-link::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: #333;
+  transition: width 0.2s ease;
+}
+
+.auth-link:hover::after {
+  width: 100%;
 }
 
 /* モバイル対応 */
 @media (max-width: 767px) {
   .auth-page {
     padding: 16px;
+    align-items: stretch;
   }
 
   .auth-container {
@@ -243,29 +280,45 @@
     border-radius: 8px;
   }
 
-  .auth-header,
-  .auth-form,
+  .auth-header {
+    padding: 24px 20px 20px;
+  }
+
+  .auth-form {
+    padding: 20px;
+  }
+
   .auth-footer {
     padding: 20px;
   }
 
   .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
+  }
+
+  .form-group:last-of-type {
+    margin-bottom: 24px;
   }
 
   .form-input {
-    min-height: 44px;
+    min-height: 46px;
     padding: 12px 14px;
+    font-size: 16px; /* iOSズーム防止 */
   }
 
   .auth-submit {
-    min-height: 48px;
-    padding: 14px 20px;
+    min-height: 46px;
+    padding: 12px 20px;
     font-size: 16px;
   }
 
   .checkbox-label {
     font-size: 13px;
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
   }
 }
 
@@ -283,11 +336,11 @@
   }
 
   .auth-header {
-    padding: 48px 40px 40px;
+    padding: 48px 40px 0px;
   }
 
   .auth-form {
-    padding: 40px;
+    padding: 20px 40px;
   }
 
   .auth-footer {
@@ -299,70 +352,39 @@
 @media (hover: none) {
   .auth-submit:hover {
     background: #333;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .form-input:focus {
+    transform: none;
+  }
+
+  .checkbox-label:hover {
+    color: #666;
+  }
+
+  .auth-link:hover {
+    color: #333;
+  }
+
+  .auth-link:hover::after {
+    width: 0;
   }
 }
 
 /* アクセシビリティの改善 */
 @media (prefers-reduced-motion: reduce) {
   .auth-submit,
-  .form-input {
+  .form-input,
+  .checkbox-label,
+  .auth-link,
+  .auth-link::after {
     transition: none;
   }
-}
 
-/* ダークモード対応 */
-@media (prefers-color-scheme: dark) {
-  .auth-page {
-    background: #1a1a1a;
-  }
-
-  .auth-container {
-    background: #2d2d2d;
-    color: #ffffff;
-    border-color: #404040;
-  }
-
-  .auth-header {
-    background: #2d2d2d;
-    border-bottom-color: #404040;
-  }
-
-  .auth-header h1 {
-    color: #ffffff;
-  }
-
-  .auth-header p {
-    color: #cccccc;
-  }
-
-  .form-label {
-    color: #ffffff;
-  }
-
-  .form-input {
-    background-color: #1a1a1a;
-    border-color: #404040;
-    color: #ffffff;
-  }
-
+  .auth-submit:hover,
   .form-input:focus {
-    border-color: #ffffff;
-  }
-
-  .checkbox-label {
-    color: #cccccc;
-  }
-
-  .auth-footer {
-    background: #1a1a1a;
-    border-top-color: #404040;
-  }
-
-  .auth-footer p {
-    color: #cccccc;
-  }
-
-  .auth-link {
-    color: #ffffff;
+    transform: none;
   }
 }

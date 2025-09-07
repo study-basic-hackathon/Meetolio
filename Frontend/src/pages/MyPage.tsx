@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import type { Profile } from "../types";
 import "./MyPage.css";
 
 const MyPage: React.FC = () => {
-  const { user } = useAuth();
+  const { user, justLoggedIn, clearJustLoggedIn } = useAuth();
   const { userId } = useParams<{ userId: string }>();
+  const navigate = useNavigate();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isCardFlipped, setIsCardFlipped] = useState(false);
+  const [showWelcomePopup, setShowWelcomePopup] = useState(false);
 
   useEffect(() => {
     // ユーザーIDが指定されている場合はそのユーザーのプロフィールを表示
@@ -19,12 +21,12 @@ const MyPage: React.FC = () => {
     const mockProfile: Profile = {
       id: "1",
       userId: targetUserId,
-      name: user?.name || "テック 太郎",
+      name: user?.name || "名刺 太郎",
       profileImageUrl:
         "https://via.placeholder.com/300x180/667eea/ffffff?text=Meetolio+名刺",
-      jobTitle: "フロントエンドエンジニア",
-      company: "株式会社テック",
-      bio: "React、TypeScript、Node.jsを使用したWebアプリケーション開発に従事しています。ユーザー体験を重視したUI/UXデザインが得意です。新しい技術の習得と実践的なアプリケーション開発に情熱を持って取り組んでいます。",
+      jobTitle: "人事",
+      company: "株式会社サンプルデザイン",
+      bio: "（例）React、TypeScript、Node.jsを使用したWebアプリケーション開発に従事しています。ユーザー体験を重視したUI/UXデザインが得意です。新しい技術の習得と実践的なアプリケーション開発に情熱を持って取り組んでいます。",
       contactInfo: {
         email: "test@example.com",
         phone: "090-1234-5678",
@@ -45,7 +47,19 @@ const MyPage: React.FC = () => {
     };
 
     setProfile(mockProfile);
-  }, [userId, user]);
+
+    // ログイン直後かつサンプルデータの場合のみポップアップを表示
+    const isOwnProfile = !userId || userId === user?.id;
+    const isSampleData =
+      mockProfile.company === "株式会社サンプルデザイン" &&
+      mockProfile.contactInfo.email === "test@example.com";
+
+    if (justLoggedIn && isOwnProfile && isSampleData) {
+      setShowWelcomePopup(true);
+      // フラグをクリアして次回は表示しないようにする
+      clearJustLoggedIn();
+    }
+  }, [userId, user, justLoggedIn, clearJustLoggedIn]);
 
   if (!profile) {
     return (
@@ -61,8 +75,22 @@ const MyPage: React.FC = () => {
     setIsCardFlipped(!isCardFlipped);
   };
 
+  const handleCloseWelcomePopup = () => {
+    setShowWelcomePopup(false);
+  };
+
+  const handleGoToProfileEdit = () => {
+    setShowWelcomePopup(false);
+    navigate("/profile/edit");
+  };
+
+  const handleGoToBusinessCardEdit = () => {
+    setShowWelcomePopup(false);
+    navigate("/business-card/edit");
+  };
+
   // 表示するユーザー名を決定
-  const displayName = user?.name || "テック 太郎";
+  const displayName = user?.name || "名刺　太郎";
 
   return (
     <div className="mypage">
@@ -142,7 +170,7 @@ const MyPage: React.FC = () => {
                   <div className="bio-company-name">{profile.company}</div>
                   <div className="bio-job-title">{profile.jobTitle}</div>
                   <div className="bio-person-name">{displayName}</div>
-                  <div className="bio-person-furigana">テック タロウ</div>
+                  <div className="bio-person-furigana">メイシ タロウ</div>
                 </div>
                 <div className="bio-header-right">
                   <div className="bio-icon">👤</div>
@@ -325,6 +353,52 @@ const MyPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* ウェルカムポップアップ */}
+      {showWelcomePopup && (
+        <div className="welcome-popup-overlay">
+          <div className="welcome-popup">
+            <div className="welcome-popup-header">
+              <h2>🎉 Meetolioへようこそ！</h2>
+              <button
+                className="close-button"
+                onClick={handleCloseWelcomePopup}
+                aria-label="閉じる"
+              >
+                ×
+              </button>
+            </div>
+            <div className="welcome-popup-content">
+              <p>
+                現在表示されているのはサンプルデータです。
+                <br />
+                プロフィールや名刺デザインを自由に編集して、あなただけの素敵なデジタル名刺を作成してみましょう！
+              </p>
+
+              <div className="welcome-popup-actions">
+                <button
+                  className="edit-profile-button"
+                  onClick={handleGoToProfileEdit}
+                >
+                  プロフィールを編集する
+                </button>
+                <button
+                  className="edit-card-button"
+                  onClick={handleGoToBusinessCardEdit}
+                >
+                  名刺デザインを編集する
+                </button>
+                <button
+                  className="later-button"
+                  onClick={handleCloseWelcomePopup}
+                >
+                  後で編集する
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

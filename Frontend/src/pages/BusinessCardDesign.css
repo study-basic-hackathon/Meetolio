@@ -1,8 +1,14 @@
 .business-card-design {
-  background: white;
+  background: #fafafa;
   min-height: 100vh;
-  padding: 32px 0;
+  padding: 40px 0;
   overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .business-card-design {
+    padding: 20px 0;
+  }
 }
 
 .business-card-design .container {
@@ -14,27 +20,46 @@
 .design-header {
   text-align: center;
   margin-bottom: 40px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid #e5e5e5;
+  padding: 32px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .design-header {
+    padding: 24px 16px;
+    margin-bottom: 24px;
+  }
 }
 
 .design-header h1 {
   font-size: 28px;
   font-weight: 700;
-  color: #111827;
+  color: #333;
   margin: 0 0 8px 0;
 }
 
 .design-header p {
   font-size: 16px;
-  color: #6b7280;
+  color: #666;
   margin: 0;
   line-height: 1.5;
 }
 
 .design-container {
   background: white;
-  padding: 0;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+}
+
+@media (max-width: 768px) {
+  .design-container {
+    padding: 24px 16px;
+  }
 }
 
 /* サイド選択タブ */
@@ -391,6 +416,7 @@
   background: #d1d5db;
   outline: none;
   -webkit-appearance: none;
+  appearance: none;
 }
 
 .font-size-slider::-webkit-slider-thumb {

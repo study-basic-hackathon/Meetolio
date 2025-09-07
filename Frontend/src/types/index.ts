@@ -1,3 +1,4 @@
+// 各オブジェクトの定義
 export interface User {
   id: string;
   email: string;
@@ -43,6 +44,7 @@ export interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
+  justLoggedIn: boolean;
 }
 
 export interface LoginForm {
