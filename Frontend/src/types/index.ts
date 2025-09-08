@@ -2,12 +2,8 @@
 export interface User {
   id: string;
   email: string;
-  name: string;
-  company?: string;
-  jobTitle?: string;
   createdAt: Date;
   updatedAt: Date;
-  isDeleted: boolean;
 }
 
 export interface Profile {
