@@ -9,9 +9,6 @@ const Register: React.FC = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    name: "",
-    company: "",
-    jobTitle: "",
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -64,20 +61,6 @@ const Register: React.FC = () => {
       newErrors.confirmPassword = "パスワード確認を入力してください";
     } else if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "パスワードが一致しません";
-    }
-
-    if (!formData.name) {
-      newErrors.name = "氏名を入力してください";
-    } else if (formData.name.length > 50) {
-      newErrors.name = "氏名は50文字以内で入力してください";
-    }
-
-    if (formData.company && formData.company.length > 100) {
-      newErrors.company = "会社名は100文字以内で入力してください";
-    }
-
-    if (formData.jobTitle && formData.jobTitle.length > 100) {
-      newErrors.jobTitle = "職種・役職は100文字以内で入力してください";
     }
 
     setErrors(newErrors);
@@ -167,58 +150,6 @@ const Register: React.FC = () => {
               />
               {errors.confirmPassword && (
                 <span className="error-text">{errors.confirmPassword}</span>
-              )}
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="name" className="form-label">
-                氏名 <span className="required">*</span>
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                className={`form-input ${errors.name ? "error" : ""}`}
-                placeholder="山田太郎"
-              />
-              {errors.name && <span className="error-text">{errors.name}</span>}
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="company" className="form-label">
-                会社名・組織名
-              </label>
-              <input
-                type="text"
-                id="company"
-                name="company"
-                value={formData.company}
-                onChange={handleInputChange}
-                className={`form-input ${errors.company ? "error" : ""}`}
-                placeholder="株式会社サンプル"
-              />
-              {errors.company && (
-                <span className="error-text">{errors.company}</span>
-              )}
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="jobTitle" className="form-label">
-                職種・役職
-              </label>
-              <input
-                type="text"
-                id="jobTitle"
-                name="jobTitle"
-                value={formData.jobTitle}
-                onChange={handleInputChange}
-                className={`form-input ${errors.jobTitle ? "error" : ""}`}
-                placeholder="エンジニア"
-              />
-              {errors.jobTitle && (
-                <span className="error-text">{errors.jobTitle}</span>
               )}
             </div>
 

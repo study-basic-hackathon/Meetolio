@@ -2,12 +2,8 @@
 export interface User {
   id: string;
   email: string;
-  name: string;
-  company?: string;
-  jobTitle?: string;
   createdAt: Date;
   updatedAt: Date;
-  isDeleted: boolean;
 }
 
 export interface Profile {
@@ -56,9 +52,6 @@ export interface RegisterForm {
   email: string;
   password: string;
   confirmPassword: string;
-  name: string;
-  company?: string;
-  jobTitle?: string;
 }
 
 export interface ProfileForm {
