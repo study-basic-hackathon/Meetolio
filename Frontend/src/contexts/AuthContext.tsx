@@ -153,8 +153,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     dispatch({ type: "LOGIN_START" });
 
     try {
-      // モック実装：実際のAPI呼び出しに置き換える
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const res = await fetch("/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("ログインに失敗しました");
+      }
+
+      // バックエンドから返るレスポンスを取得
+      const data: { accessToken: string } = await res.json();
+
+      // アクセストークンを保存（localStorageやcookieなど）
+      localStorage.setItem("meetolio_token", data.accessToken);
 
       // ダミーユーザーデータ
       const mockUser: User = {
@@ -189,7 +205,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       // バックエンドから返るレスポンスを取得
-      // 例: { "accessToken": "xxxxx.yyyyy.zzzzz" }
       const data: { accessToken: string } = await res.json();
 
       // アクセストークンを保存（localStorageやcookieなど）
