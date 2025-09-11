@@ -8,6 +8,9 @@ import com.meetolio.backend.entity.UserEntity;
 @Mapper
 public interface UserRepository {
 
+    /** ID検索 */
+    public UserEntity findById(Integer id);
+
     /** メールアドレス検索 */
     public UserEntity findByEmail(String email);
 
