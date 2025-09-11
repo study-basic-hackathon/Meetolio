@@ -12,7 +12,7 @@ public class PortfolioEntity {
     private String nameKana; // 氏名カナ
     private String company; // 会社名
     private String occupation; // 職種
-    private String introduction; // 自己紹介
+    private String description; // 自己紹介
     private String nameCardImgUrl; // 名刺画像URL
     private LocalDateTime createdAt; // 作成日時
     private LocalDateTime updatedAt; // 更新日時

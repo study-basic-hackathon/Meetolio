@@ -56,7 +56,7 @@ public class PortfolioService {
         entity.setNameKana(request.getNameKana());
         entity.setCompany(request.getCompany());
         entity.setOccupation(request.getOccupation());
-        entity.setIntroduction(request.getIntroduction());
+        entity.setDescription(request.getDescription());
         entity.setNameCardImgUrl(request.getNameCardImgUrl());
 
         portfolioRepository.save(entity);

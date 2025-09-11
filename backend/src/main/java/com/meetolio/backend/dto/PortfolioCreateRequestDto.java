@@ -10,6 +10,6 @@ public class PortfolioCreateRequestDto {
     private String nameKana; // 氏名カナ（任意）
     private String company; // 会社名（任意）
     private String occupation; // 職種（任意）
-    private String introduction; // 自己紹介（任意）
+    private String description; // 自己紹介（任意）
     private String nameCardImgUrl; // 名刺画像URL（任意）
 }
