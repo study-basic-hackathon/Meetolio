@@ -11,6 +11,6 @@ public interface PortfolioRepository {
     /** ポートフォリオのID検索 */
     public PortfolioEntity findById(Integer userId);
 
-    /** ポートフォリオの新規作成 */
-    public void insert(PortfolioEntity entity);
+    /** ポートフォリオの保存 */
+    public void save(PortfolioEntity entity);
 }

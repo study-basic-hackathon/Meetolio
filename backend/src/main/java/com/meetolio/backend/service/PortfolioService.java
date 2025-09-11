@@ -12,6 +12,7 @@ import com.meetolio.backend.dto.PortfolioCreateRequestDto;
 import com.meetolio.backend.dto.PortfolioResponseDto;
 import com.meetolio.backend.entity.PortfolioEntity;
 import com.meetolio.backend.repository.PortfolioRepository;
+import org.springframework.security.access.AccessDeniedException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -42,7 +43,12 @@ public class PortfolioService {
     }
 
     /** ポートフォリオ作成 */
-    public void createPortfolio(PortfolioCreateRequestDto request) {
+    public void createPortfolio(Integer userId, PortfolioCreateRequestDto request) {
+        // userIdとrequestのuserIdが異なる場合は権限エラー(403)
+        if (!userId.equals(request.getUserId())) {
+            throw new AccessDeniedException("不正なユーザーIDです");
+        }
+
         PortfolioEntity entity = new PortfolioEntity();
         
         // userIdは必須項目
@@ -56,11 +62,6 @@ public class PortfolioService {
         entity.setIntroduction(request.getIntroduction());
         entity.setNameCardImgUrl(request.getNameCardImgUrl());
         
-        // 作成日時・更新日時を設定
-        LocalDateTime now = LocalDateTime.now();
-        entity.setCreatedAt(now);
-        entity.setUpdatedAt(now);
-        
-        portfolioRepository.insert(entity);
+        portfolioRepository.save(entity);
     }
 }
