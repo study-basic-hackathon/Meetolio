@@ -1,9 +1,7 @@
 package com.meetolio.backend.service;
 
-import java.time.LocalDateTime;
-
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +10,6 @@ import com.meetolio.backend.dto.PortfolioCreateRequestDto;
 import com.meetolio.backend.dto.PortfolioResponseDto;
 import com.meetolio.backend.entity.PortfolioEntity;
 import com.meetolio.backend.repository.PortfolioRepository;
-import org.springframework.security.access.AccessDeniedException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -50,10 +47,10 @@ public class PortfolioService {
         }
 
         PortfolioEntity entity = new PortfolioEntity();
-        
+
         // userIdは必須項目
         entity.setUserId(request.getUserId());
-        
+
         // その他の項目は任意（nullでも可）
         entity.setName(request.getName());
         entity.setNameKana(request.getNameKana());
@@ -61,7 +58,7 @@ public class PortfolioService {
         entity.setOccupation(request.getOccupation());
         entity.setIntroduction(request.getIntroduction());
         entity.setNameCardImgUrl(request.getNameCardImgUrl());
-        
+
         portfolioRepository.save(entity);
     }
 }

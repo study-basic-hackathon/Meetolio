@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.meetolio.backend.dto.LoginResponseDto;
 import com.meetolio.backend.dto.PortfolioCreateRequestDto;
 import com.meetolio.backend.dto.PortfolioResponseDto;
 import com.meetolio.backend.service.PortfolioService;
