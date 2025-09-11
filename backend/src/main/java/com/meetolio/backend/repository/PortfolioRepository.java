@@ -10,4 +10,7 @@ public interface PortfolioRepository {
 
     /** ポートフォリオのID検索 */
     public PortfolioEntity findById(Integer userId);
+
+    /** ポートフォリオの新規作成 */
+    public void insert(PortfolioEntity entity);
 }
