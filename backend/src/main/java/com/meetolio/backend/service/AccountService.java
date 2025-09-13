@@ -1,12 +1,18 @@
 package com.meetolio.backend.service;
 
+import java.time.LocalDateTime;
+
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.meetolio.backend.common.error.NotFoundException;
 import com.meetolio.backend.dto.AccountResponseDto;
 import com.meetolio.backend.entity.UserEntity;
+import com.meetolio.backend.form.EmailUpdateForm;
+import com.meetolio.backend.form.PasswordUpdateForm;
 import com.meetolio.backend.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -19,6 +25,9 @@ public class AccountService {
 
     /** ユーザーRepository */
     private final UserRepository userRepository;
+
+    /** パスワードエンコーダー */
+    private final PasswordEncoder passwordEncoder;
 
     /** ユーザーアカウント取得 */
     public AccountResponseDto getAccount(Integer userId) {
@@ -33,5 +42,44 @@ public class AccountService {
         AccountResponseDto accountResponseDto = mapper.map(userEntity, AccountResponseDto.class);
 
         return accountResponseDto;
+    }
+
+    /** メールアドレス変更 */
+    public AccountResponseDto updateEmail(Integer userId, EmailUpdateForm form) {
+        // パスワード一致確認
+        UserEntity userEntity = userRepository.findById(userId);
+        if (!passwordEncoder.matches(form.getPassword(), userEntity.getPasswordHash())) {
+            // 403ステータスコードをthrowする。
+            throw new AccessDeniedException("パスワードが一致しません");
+        }
+
+        // メールアドレス変更
+        userEntity.setEmail(form.getEmail());
+        userEntity.setUpdatedAt(LocalDateTime.now());
+        userRepository.update(userEntity);
+
+        // 変更後の情報をセット
+        AccountResponseDto accountResponseDto = new AccountResponseDto();
+        accountResponseDto.setId(userEntity.getId());
+        accountResponseDto.setEmail(userEntity.getEmail());
+        accountResponseDto.setCreatedAt(userEntity.getCreatedAt());
+        accountResponseDto.setUpdatedAt(userEntity.getUpdatedAt());
+
+        return accountResponseDto;
+    }
+
+    /** パスワード変更 */
+    public void updatePassword(Integer userId, PasswordUpdateForm form) {
+        // パスワード一致確認
+        UserEntity userEntity = userRepository.findById(userId);
+        if (!passwordEncoder.matches(form.getCurrentPassword(), userEntity.getPasswordHash())) {
+            // 403ステータスコードをthrowする。
+            throw new AccessDeniedException("パスワードが一致しません");
+        }
+
+        // パスワード変更
+        userEntity.setPasswordHash(passwordEncoder.encode(form.getNewPassword()));
+        userEntity.setUpdatedAt(LocalDateTime.now());
+        userRepository.update(userEntity);
     }
 }
