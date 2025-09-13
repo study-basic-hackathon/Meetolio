@@ -12,6 +12,7 @@ import com.meetolio.backend.common.error.NotFoundException;
 import com.meetolio.backend.dto.AccountResponseDto;
 import com.meetolio.backend.entity.UserEntity;
 import com.meetolio.backend.form.EmailUpdateForm;
+import com.meetolio.backend.form.PasswordUpdateForm;
 import com.meetolio.backend.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -65,5 +66,20 @@ public class AccountService {
         accountResponseDto.setUpdatedAt(userEntity.getUpdatedAt());
 
         return accountResponseDto;
+    }
+
+    /** パスワード変更 */
+    public void updatePassword(Integer userId, PasswordUpdateForm form) {
+        // パスワード一致確認
+        UserEntity userEntity = userRepository.findById(userId);
+        if (!passwordEncoder.matches(form.getCurrentPassword(), userEntity.getPasswordHash())) {
+            // 403ステータスコードをthrowする。
+            throw new AccessDeniedException("パスワードが一致しません");
+        }
+
+        // パスワード変更
+        userEntity.setPasswordHash(passwordEncoder.encode(form.getNewPassword()));
+        userEntity.setUpdatedAt(LocalDateTime.now());
+        userRepository.update(userEntity);
     }
 }
