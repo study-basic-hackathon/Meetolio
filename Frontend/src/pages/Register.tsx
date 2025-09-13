@@ -12,14 +12,8 @@ const Register: React.FC = () => {
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const { register, isLoading, error, clearError, isAuthenticated } = useAuth();
+  const { register, isLoading, error, clearError } = useAuth();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/login");
-    }
-  }, [isAuthenticated, navigate]);
 
   useEffect(() => {
     if (error) {
@@ -71,15 +65,12 @@ const Register: React.FC = () => {
     e.preventDefault();
     clearError();
 
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
-    try {
-      await register(formData);
-    } catch (error) {
-      console.log(error);
-      // エラーハンドリングはAuthContextで行われる
+    const ok = await register(formData);
+    if (ok) {
+      alert("登録が完了しました！ログインしてください。");
+      navigate("/login");
     }
   };
 
