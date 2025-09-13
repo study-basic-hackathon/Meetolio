@@ -2,8 +2,9 @@ import React, { createContext, useContext, useReducer, useEffect } from "react";
 import type { ReactNode } from "react";
 import type { AuthState, User, LoginForm, RegisterForm } from "../types";
 
+// 型定義
 type AuthAction =
-  | { type: "INITIALIZE"; payload: User | null }
+  | { type: "LOGIN_PAGE"; payload: User | null }
   | { type: "LOGIN_START" }
   | { type: "LOGIN_SUCCESS"; payload: User }
   | { type: "LOGIN_FAILURE"; payload: string }
@@ -24,7 +25,7 @@ const initialState: AuthState = {
 
 const authReducer = (state: AuthState, action: AuthAction): AuthState => {
   switch (action.type) {
-    case "INITIALIZE":
+    case "LOGIN_PAGE":
       return {
         ...state,
         user: action.payload,
@@ -39,7 +40,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         error: null,
       };
     case "LOGIN_SUCCESS":
-      localStorage.setItem("meetolio_user", JSON.stringify(action.payload));
+      localStorage.setItem("user_info", JSON.stringify(action.payload));
       return {
         ...state,
         user: action.payload,
@@ -58,7 +59,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         justLoggedIn: false,
       };
     case "LOGOUT":
-      localStorage.removeItem("meetolio_user");
+      localStorage.removeItem("user_info");
       return {
         ...state,
         user: null,
@@ -74,7 +75,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         error: null,
       };
     case "REGISTER_SUCCESS":
-      localStorage.setItem("meetolio_user", JSON.stringify(action.payload));
+      localStorage.setItem("user_info", JSON.stringify(action.payload));
       return {
         ...state,
         user: action.payload,
@@ -107,6 +108,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
   }
 };
 
+//  「認証に必要なすべての機能＋状態」の型
 interface AuthContextType extends AuthState {
   login: (formData: LoginForm) => Promise<void>;
   register: (formData: RegisterForm) => Promise<void>;
@@ -115,6 +117,7 @@ interface AuthContextType extends AuthState {
   clearJustLoggedIn: () => void;
 }
 
+// グローバルに使える認証箱
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {

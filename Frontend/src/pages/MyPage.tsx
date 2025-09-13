@@ -359,7 +359,7 @@ const MyPage: React.FC = () => {
         <div className="welcome-popup-overlay">
           <div className="welcome-popup">
             <div className="welcome-popup-header">
-              <h2>🎉 Meetolioへようこそ！</h2>
+              <h2>Meetolioへようこそ 🎉</h2>
               <button
                 className="close-button"
                 onClick={handleCloseWelcomePopup}
@@ -370,7 +370,7 @@ const MyPage: React.FC = () => {
             </div>
             <div className="welcome-popup-content">
               <p>
-                現在表示されているのはサンプルデータです。
+                表示されているのはサンプルデータです。
                 <br />
                 プロフィールや名刺デザインを自由に編集して、あなただけの素敵なデジタル名刺を作成してみましょう！
               </p>
