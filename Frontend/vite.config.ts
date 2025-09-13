@@ -10,6 +10,7 @@ export default defineConfig({
       "/api": { target: "http://backend:8080", changeOrigin: true },
       "/login": { target: "http://backend:8080", changeOrigin: true },
       "/signup": { target: "http://backend:8080", changeOrigin: true },
+      "/account/me": { target: "http://backend:8080", changeOrigin: true },
     },
     host: true, // 必須: コンテナ外(ホスト)からアクセス可能に
     strictPort: true,

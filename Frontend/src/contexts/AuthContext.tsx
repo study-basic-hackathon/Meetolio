@@ -1,6 +1,19 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
-import type { ReactNode } from "react";
 import type { AuthState, User, LoginForm, RegisterForm } from "../types";
+
+const STORAGE_KEYS = {
+  token: "access_token",
+  user: "user_info",
+} as const;
+
+const getToken = () => localStorage.getItem(STORAGE_KEYS.token);
+const setToken = (t: string) => localStorage.setItem(STORAGE_KEYS.token, t);
+const setUser = (u: User) =>
+  localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(u));
+const clearToken = () => {
+  localStorage.removeItem(STORAGE_KEYS.token);
+  localStorage.removeItem(STORAGE_KEYS.user);
+};
 
 // 型定義
 type AuthAction =
@@ -23,6 +36,7 @@ const initialState: AuthState = {
   justLoggedIn: false,
 };
 
+// ReducerでlocalStorageの保存はやらない
 const authReducer = (state: AuthState, action: AuthAction): AuthState => {
   switch (action.type) {
     case "LOGIN_PAGE":
@@ -40,7 +54,6 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         error: null,
       };
     case "LOGIN_SUCCESS":
-      localStorage.setItem("user_info", JSON.stringify(action.payload));
       return {
         ...state,
         user: action.payload,
@@ -59,7 +72,6 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         justLoggedIn: false,
       };
     case "LOGOUT":
-      localStorage.removeItem("user_info");
       return {
         ...state,
         user: null,
@@ -75,7 +87,6 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         error: null,
       };
     case "REGISTER_SUCCESS":
-      localStorage.setItem("user_info", JSON.stringify(action.payload));
       return {
         ...state,
         user: action.payload,
@@ -137,16 +148,45 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  // 初期化時にローカルストレージから状態を復元
+  // localStorageのトークンをサーバーで検証する
   useEffect(() => {
     const checkAuth = async () => {
-      const saveUser = localStorage.getItem("user_info");
-      if (!saveUser) {
+      const token = getToken();
+
+      if (!token) {
+        clearToken();
         dispatch({ type: "LOGIN_PAGE", payload: null });
         return;
       }
+
+      try {
+        const res = await fetch("/account/me", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          checkAuth();
+          dispatch({ type: "LOGIN_PAGE", payload: null });
+          return;
+        }
+
+        const user: User = await res.json();
+
+        setUser(user);
+        dispatch({ type: "LOGIN_PAGE", payload: user });
+      } catch {
+        clearToken();
+        dispatch({ type: "LOGIN_PAGE", payload: null });
+      }
     };
-  });
+
+    checkAuth();
+  }, []); // アプリを起動したとき初めだけ作動するために[]をつけている
+
+  type LoginResponse = { accessToken: string; user: User };
 
   const login = async (formData: LoginForm) => {
     dispatch({ type: "LOGIN_START" });
@@ -166,13 +206,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
 
       // バックエンドから返るレスポンスを取得
-      const data: { accessToken: string } = await res.json();
+      const data: LoginResponse = await res.json();
 
-      // アクセストークンを保存（localStorageやcookieなど）
-      localStorage.setItem("user_token", data.accessToken);
-      dispatch({ type: "LOGIN_SUCCESS", payload: User });
+      // tokenとユーザーを保存
+      setToken(data.accessToken);
+      setUser(data.user);
+
+      dispatch({ type: "LOGIN_SUCCESS", payload: data.user });
     } catch (error) {
       console.log(error);
+      clearToken();
       dispatch({ type: "LOGIN_FAILURE", payload: "ログインに失敗しました" });
     }
   };
