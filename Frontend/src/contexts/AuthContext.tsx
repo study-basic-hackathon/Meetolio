@@ -122,7 +122,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
 //  「認証に必要なすべての機能＋状態」の型
 interface AuthContextType extends AuthState {
   login: (formData: LoginForm) => Promise<void>;
-  register: (formData: RegisterForm) => Promise<void>;
+  register: (formData: RegisterForm) => Promise<boolean>;
   logout: () => void;
   clearError: () => void;
   clearJustLoggedIn: () => void;
@@ -187,7 +187,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []); // アプリを起動したとき初めだけ作動するために[]をつけている
 
   type LoginResponse = { accessToken: string };
-  type RegisterResponse = { accessToken: string };
 
   const login = async (formData: LoginForm) => {
     dispatch({ type: "LOGIN_START" });
@@ -247,24 +246,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         throw new Error("登録に失敗しました");
       }
 
-      const data: RegisterResponse = await res.json();
+      clearToken();
 
-      setToken(data.accessToken);
-
-      const meCheck = await fetch("/api/account/me", {
-        method: "GET",
-        headers: { Authorization: `Bearer ${data.accessToken}` },
-      });
-      if (!meCheck.ok) throw new Error("ユーザー情報の取得に失敗しました");
-
-      const user: User = await meCheck.json();
-      setUser(user);
-
-      dispatch({ type: "REGISTER_SUCCESS", payload: user });
+      dispatch({ type: "LOGIN_PAGE", payload: null });
+      return true;
     } catch (error) {
       console.log(error);
       clearToken();
       dispatch({ type: "REGISTER_FAILURE", payload: "登録に失敗しました" });
+      return false;
     }
   };
 

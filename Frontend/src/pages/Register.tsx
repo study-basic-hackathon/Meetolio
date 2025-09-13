@@ -17,7 +17,7 @@ const Register: React.FC = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/mypage");
+      navigate("/login");
     }
   }, [isAuthenticated, navigate]);
 
