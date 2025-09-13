@@ -7,7 +7,7 @@
 
     <!-- ID検索 -->
     <select id="findById">
-        SELECT id, email, created_at, updated_at
+        SELECT id, email, password_hash, created_at, updated_at
         FROM users
         WHERE id = #{id}
     </select>
