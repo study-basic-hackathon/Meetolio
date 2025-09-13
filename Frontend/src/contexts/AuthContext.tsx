@@ -120,6 +120,7 @@ interface AuthContextType extends AuthState {
 // グローバルに使える認証箱
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// 自作のHooks
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
@@ -129,28 +130,23 @@ export const useAuth = () => {
 };
 
 interface AuthProviderProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+// propsはchildren
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   // 初期化時にローカルストレージから状態を復元
   useEffect(() => {
-    const savedUser = localStorage.getItem("meetolio_user");
-    if (savedUser) {
-      try {
-        const user = JSON.parse(savedUser);
-        dispatch({ type: "INITIALIZE", payload: user });
-      } catch {
-        // JSONパースに失敗した場合はローカルストレージをクリア
-        localStorage.removeItem("meetolio_user");
-        dispatch({ type: "INITIALIZE", payload: null });
+    const checkAuth = async () => {
+      const saveUser = localStorage.getItem("user_info");
+      if (!saveUser) {
+        dispatch({ type: "LOGIN_PAGE", payload: null });
+        return;
       }
-    } else {
-      dispatch({ type: "INITIALIZE", payload: null });
-    }
-  }, []);
+    };
+  });
 
   const login = async (formData: LoginForm) => {
     dispatch({ type: "LOGIN_START" });
@@ -173,17 +169,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const data: { accessToken: string } = await res.json();
 
       // アクセストークンを保存（localStorageやcookieなど）
-      localStorage.setItem("meetolio_token", data.accessToken);
-
-      // ダミーユーザーデータ
-      const mockUser: User = {
-        id: "1",
-        email: formData.email,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-
-      dispatch({ type: "LOGIN_SUCCESS", payload: mockUser });
+      localStorage.setItem("user_token", data.accessToken);
+      dispatch({ type: "LOGIN_SUCCESS", payload: User });
     } catch (error) {
       console.log(error);
       dispatch({ type: "LOGIN_FAILURE", payload: "ログインに失敗しました" });
