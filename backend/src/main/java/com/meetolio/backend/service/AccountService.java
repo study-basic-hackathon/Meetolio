@@ -3,6 +3,7 @@ package com.meetolio.backend.service;
 import java.time.LocalDateTime;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +49,7 @@ public class AccountService {
         UserEntity userEntity = userRepository.findById(userId);
         if (!passwordEncoder.matches(form.getPassword(), userEntity.getPasswordHash())) {
             // 403ステータスコードをthrowする。
+            throw new AccessDeniedException("パスワードが一致しません");
         }
 
         // メールアドレス変更
