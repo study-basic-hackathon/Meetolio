@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping; 
 
 import com.meetolio.backend.common.security.JwtService;
 import com.meetolio.backend.dto.LoginResponseDto;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 /** 認証関連Controller */
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/auth")  
 public class AuthController {
 
     /** 認証Service */

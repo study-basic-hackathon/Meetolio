@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 /** アカウント関連Controller */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/account")
+@RequestMapping("/api/account")
 public class AccountController {
 
     /** アカウントService */

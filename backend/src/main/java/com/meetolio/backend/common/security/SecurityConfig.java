@@ -31,7 +31,7 @@ public class SecurityConfig {
 
         // リクエスト認可制御
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/signup", "/login").permitAll()
+                .requestMatchers("/api/auth/signup", "/api/auth/login").permitAll()
                 .requestMatchers(HttpMethod.GET, "/portfolio/*").permitAll()
                 .anyRequest().authenticated());
 
