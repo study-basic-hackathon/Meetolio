@@ -2,9 +2,9 @@ package com.meetolio.backend.form;
 
 import lombok.Data;
 
-/** アカウント情報更新用Form */
+/** メールアドレス変更用Form */
 @Data
-public class AccountUpdateForm {
+public class EmailUpdateForm {
     private String email; // メールアドレス
     private String password; // パスワード
 }

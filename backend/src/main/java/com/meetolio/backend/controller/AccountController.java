@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meetolio.backend.dto.AccountResponseDto;
-import com.meetolio.backend.form.AccountUpdateForm;
+import com.meetolio.backend.form.EmailUpdateForm;
 import com.meetolio.backend.service.AccountService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,9 +34,9 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK).body(accountResponseDto);
     }
 
-    /** ログインユーザーメールアドレスの情報更新 */
+    /** ログインユーザーメールアドレスの変更 */
     @PutMapping("/me/email")
-    public ResponseEntity<AccountResponseDto> updateMyEmail(Principal principal, @RequestBody AccountUpdateForm form) {
+    public ResponseEntity<AccountResponseDto> updateMyEmail(Principal principal, @RequestBody EmailUpdateForm form) {
         Integer userId = Integer.parseInt(principal.getName());
         AccountResponseDto accountResponseDto = accountService.updateEmail(userId, form);
 

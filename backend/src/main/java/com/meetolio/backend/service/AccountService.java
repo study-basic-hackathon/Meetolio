@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.meetolio.backend.common.error.NotFoundException;
 import com.meetolio.backend.dto.AccountResponseDto;
 import com.meetolio.backend.entity.UserEntity;
-import com.meetolio.backend.form.AccountUpdateForm;
+import com.meetolio.backend.form.EmailUpdateForm;
 import com.meetolio.backend.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -44,7 +44,7 @@ public class AccountService {
     }
 
     /** メールアドレス変更 */
-    public AccountResponseDto updateEmail(Integer userId, AccountUpdateForm form) {
+    public AccountResponseDto updateEmail(Integer userId, EmailUpdateForm form) {
         // パスワード一致確認
         UserEntity userEntity = userRepository.findById(userId);
         if (!passwordEncoder.matches(form.getPassword(), userEntity.getPasswordHash())) {
