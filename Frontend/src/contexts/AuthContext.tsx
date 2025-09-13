@@ -160,7 +160,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
 
       try {
-        const res = await fetch("/account/me", {
+        const res = await fetch("/api/account/me", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -168,7 +168,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         });
 
         if (!res.ok) {
-          checkAuth();
+          clearToken();
           dispatch({ type: "LOGIN_PAGE", payload: null });
           return;
         }
@@ -186,13 +186,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     checkAuth();
   }, []); // アプリを起動したとき初めだけ作動するために[]をつけている
 
-  type LoginResponse = { accessToken: string; user: User };
+  type LoginResponse = { accessToken: string };
+  type RegisterResponse = { accessToken: string };
 
   const login = async (formData: LoginForm) => {
     dispatch({ type: "LOGIN_START" });
 
     try {
-      const res = await fetch("/login", {
+      const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -208,11 +209,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       // バックエンドから返るレスポンスを取得
       const data: LoginResponse = await res.json();
 
-      // tokenとユーザーを保存
+      // トークンを｀保存
       setToken(data.accessToken);
-      setUser(data.user);
 
-      dispatch({ type: "LOGIN_SUCCESS", payload: data.user });
+      // トークンで本人情報を取得
+      const meCheck = await fetch("/api/account/me", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${data.accessToken}` },
+      });
+      if (!meCheck.ok) throw new Error("ユーザー情報の取得に失敗しました");
+
+      const user: User = await meCheck.json();
+      setUser(user);
+
+      dispatch({ type: "LOGIN_SUCCESS", payload: user });
     } catch (error) {
       console.log(error);
       clearToken();
@@ -224,7 +234,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     dispatch({ type: "REGISTER_START" });
 
     try {
-      const res = await fetch("/signup", {
+      const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -237,28 +247,29 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         throw new Error("登録に失敗しました");
       }
 
-      // バックエンドから返るレスポンスを取得
-      const data: { accessToken: string } = await res.json();
+      const data: RegisterResponse = await res.json();
 
-      // アクセストークンを保存（localStorageやcookieなど）
-      localStorage.setItem("meetolio_token", data.accessToken);
+      setToken(data.accessToken);
 
-      // ダミーユーザーデータ
-      const mockUser: User = {
-        id: "1",
-        email: formData.email,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
+      const meCheck = await fetch("/api/account/me", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${data.accessToken}` },
+      });
+      if (!meCheck.ok) throw new Error("ユーザー情報の取得に失敗しました");
 
-      dispatch({ type: "REGISTER_SUCCESS", payload: mockUser });
+      const user: User = await meCheck.json();
+      setUser(user);
+
+      dispatch({ type: "REGISTER_SUCCESS", payload: user });
     } catch (error) {
       console.log(error);
+      clearToken();
       dispatch({ type: "REGISTER_FAILURE", payload: "登録に失敗しました" });
     }
   };
 
   const logout = () => {
+    clearToken();
     dispatch({ type: "LOGOUT" });
   };
 
