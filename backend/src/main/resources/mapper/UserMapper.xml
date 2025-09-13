@@ -24,4 +24,11 @@
         INSERT INTO users(email, password_hash)
         VALUES(#{email}, #{passwordHash})
     </insert>
+
+    <!-- 更新 -->
+    <update id="update">
+        UPDATE users
+        SET email = #{email}, password_hash = #{passwordHash}, updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
 </mapper>

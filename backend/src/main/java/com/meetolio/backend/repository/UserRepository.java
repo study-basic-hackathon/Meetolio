@@ -16,4 +16,7 @@ public interface UserRepository {
 
     /** ユーザー作成 */
     public void save(UserEntity userEntity);
+
+    /** 更新 */
+    public void update(UserEntity userEntity);
 }
