@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.security.access.AccessDeniedException;
 
 /** 共通エラーハンドリングクラス */
 @RestControllerAdvice
@@ -29,6 +30,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DuplicateException.class)
     public ResponseEntity<ErrorResponseDto> handleDuplicate(DuplicateException ex) {
         final HttpStatus STATUS = HttpStatus.CONFLICT;
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(STATUS.value(), ex.getMessage());
+        return ResponseEntity.status(STATUS).body(errorResponseDto);
+    }
+
+    /** 認可エラー */
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponseDto> handleIllegalArgument(AccessDeniedException ex) {
+        final HttpStatus STATUS = HttpStatus.FORBIDDEN;
         ErrorResponseDto errorResponseDto = new ErrorResponseDto(STATUS.value(), ex.getMessage());
         return ResponseEntity.status(STATUS).body(errorResponseDto);
     }
