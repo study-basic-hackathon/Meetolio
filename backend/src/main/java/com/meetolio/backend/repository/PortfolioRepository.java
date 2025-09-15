@@ -13,4 +13,7 @@ public interface PortfolioRepository {
 
     /** ポートフォリオの保存 */
     public void save(PortfolioEntity entity);
+
+    /** ユーザーIDによるポートフォリオの削除 */
+    void deleteByUserId(Integer userId);
 }

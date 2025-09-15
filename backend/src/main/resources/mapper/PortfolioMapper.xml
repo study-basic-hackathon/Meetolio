@@ -25,4 +25,10 @@
             description = EXCLUDED.description,
             updated_at = NOW()
     </insert>
+
+    <!-- ユーザーIDでポートフォリオ削除 -->
+    <delete id="deleteByUserId">
+        DELETE FROM portfolios
+        WHERE user_id = #{userId}
+    </delete>
 </mapper>

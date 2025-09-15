@@ -14,6 +14,7 @@ import com.meetolio.backend.entity.UserEntity;
 import com.meetolio.backend.form.EmailUpdateForm;
 import com.meetolio.backend.form.PasswordUpdateForm;
 import com.meetolio.backend.repository.UserRepository;
+import com.meetolio.backend.repository.PortfolioRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +26,9 @@ public class AccountService {
 
     /** ユーザーRepository */
     private final UserRepository userRepository;
+
+    /** ポートフォリオRepository */
+    private final PortfolioRepository portfolioRepository;
 
     /** パスワードエンコーダー */
     private final PasswordEncoder passwordEncoder;
@@ -81,5 +85,20 @@ public class AccountService {
         userEntity.setPasswordHash(passwordEncoder.encode(form.getNewPassword()));
         userEntity.setUpdatedAt(LocalDateTime.now());
         userRepository.update(userEntity);
+    }
+
+    /** アカウント削除 */
+    public void deleteAccount(Integer userId) {
+        // ユーザーの存在確認
+        UserEntity user = userRepository.findById(userId);
+        if (user == null) {
+            throw new NotFoundException("ユーザーが見つかりません");
+        }
+
+        // 関連するポートフォリオを先に削除
+        portfolioRepository.deleteByUserId(userId);
+
+        // ユーザー削除
+        userRepository.deleteById(userId);
     }
 }
