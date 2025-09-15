@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import com.meetolio.backend.dto.PortfolioCreateRequestDto;
 import com.meetolio.backend.dto.PortfolioResponseDto;
+import com.meetolio.backend.dto.PortfolioUpdateRequestDto;
 import com.meetolio.backend.service.PortfolioService;
 
 import lombok.RequiredArgsConstructor;
@@ -42,5 +44,22 @@ public class PortfolioController {
 
         portfolioService.createPortfolio(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    /** ポートフォリオ更新 */
+    @PutMapping("/{userId}")
+    public ResponseEntity<Void> updatePortfolio(
+            Principal principal,
+            @PathVariable Integer userId,
+            @RequestBody PortfolioUpdateRequestDto request) {
+        Integer loginUserId = Integer.parseInt(principal.getName());
+
+        // ログインユーザーと更新対象の一致チェック
+        if (!loginUserId.equals(userId)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        portfolioService.updatePortfolio(userId, request);
+        return ResponseEntity.ok().build();
     }
 }

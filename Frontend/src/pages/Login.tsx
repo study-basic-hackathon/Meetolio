@@ -15,7 +15,7 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/Portfolio");
+      navigate("/portfolio");
     }
   }, [isAuthenticated, navigate]);
 

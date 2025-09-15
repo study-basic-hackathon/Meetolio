@@ -33,7 +33,7 @@ const IntroducePage: React.FC = () => {
               </div>
             ) : (
               <div className="hero-actions">
-                <Link to="/mypage" className="btn btn-primary btn-large">
+                <Link to="/portfolio" className="btn btn-primary btn-large">
                   マイページへ
                 </Link>
               </div>

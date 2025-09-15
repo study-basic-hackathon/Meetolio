@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import type { Profile } from "../types";
@@ -12,7 +12,7 @@ const PortfolioEdit: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [isCardFlipped, setIsCardFlipped] = useState(false);
-  const token = useMemo(() => localStorage.getItem("access_token") ?? "", []);
+  const token = localStorage.getItem("access_token") ?? "";
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -123,14 +123,46 @@ const PortfolioEdit: React.FC = () => {
 
     setIsSaving(true);
 
+    // API呼び出し
     try {
-      // API呼び出し
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // バックエンドDTOに合わせて組み替え
+      const dto = {
+        name: profile.name,
+        nameKana: profile.nameKana,
+        company: profile.company,
+        occupation: profile.occupation,
+        introduction: profile.introduction,
+        nameCardImgUrl: null,
+      };
+
+      const method = profile.id ? "PUT" : "POST";
+      const url = profile.id
+        ? `/api/portfolio/${profile.userId}`
+        : "/api/portfolio";
+
+      const res = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(dto),
+      });
+
+      if (!res.ok) {
+        if (res.status === 401) {
+          alert("認証が切れました。ログインし直してください。");
+          return;
+        }
+        const text = await res.text().catch(() => "");
+        throw new Error(`保存に失敗しました: ${res.status} ${text}`);
+      }
+
       alert("プロフィールを保存しました！");
-      console.log("プロフィールを保存しました:", profile);
-      navigate("/portfolio");
-    } catch (error) {
-      console.error("プロフィールの保存に失敗しました:", error);
+      navigate(`/portfolio/${user?.id ?? ""}`);
+    } catch (e) {
+      console.error(e);
+      alert("保存に失敗しました。もう一度お試しください。");
     } finally {
       setIsSaving(false);
     }
@@ -271,12 +303,12 @@ const PortfolioEdit: React.FC = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="jobTitle">
+            <label htmlFor="occupation">
               役職<span className="required">*</span>
             </label>
             <input
               type="text"
-              id="jobTitle"
+              id="occupation"
               value={profile.occupation || ""}
               onChange={(e) => handleInputChange("occupation", e.target.value)}
               placeholder="役職を入力"

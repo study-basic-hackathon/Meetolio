@@ -1,66 +1,66 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import type { Profile } from "../types";
 import "./Portfolio.css";
 
 const Portfolio: React.FC = () => {
-  const { user, justLoggedIn, clearJustLoggedIn } = useAuth();
+  const { user } = useAuth();
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isCardFlipped, setIsCardFlipped] = useState(false);
-  const [showWelcomePopup, setShowWelcomePopup] = useState(false);
+  const [isLoading] = useState(true);
 
   useEffect(() => {
-    //
-    const targetUserId = userId || user?.id || "1";
+    const load = async () => {
+      const targetUserId = userId || user?.id || "";
+      if (!targetUserId) return;
 
-    // モックプロフィールデータ
-    const mockProfile: Profile = {
-      id: "1",
-      userId: targetUserId,
-      name: user?.name || "名刺 太郎",
-      profileImageUrl:
-        "https://via.placeholder.com/300x180/667eea/ffffff?text=Meetolio+名刺",
-      jobTitle: "人事",
-      company: "株式会社サンプルデザイン",
-      bio: "（例）React、TypeScript、Node.jsを使用したWebアプリケーション開発に従事しています。ユーザー体験を重視したUI/UXデザインが得意です。新しい技術の習得と実践的なアプリケーション開発に情熱を持って取り組んでいます。",
-      contactInfo: {
-        email: "test@example.com",
-        phone: "090-1234-5678",
-        sns: {
-          twitter: "@techdev",
-          linkedin: "linkedin.com/in/techdev",
-          facebook: "facebook.com/techdev",
-          instagram: "@techdev",
-          github: "github.com/techdev",
-        },
-        website: "https://techdev.example.com",
-      },
-      skills: ["React", "TypeScript", "Node.js", "CSS", "Git"],
-      interests: ["Web開発", "UI/UX", "技術書", "カンファレンス"],
-      isPublic: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      try {
+        const res = await fetch(`/api/portfolio/${targetUserId}`);
+        if (res.ok) {
+          const dto = await res.json();
+          setProfile({
+            id: String(dto.userId ?? targetUserId),
+            userId: String(dto.userId ?? targetUserId),
+            name: dto.name ?? "",
+            nameKana: dto.nameKana ?? "",
+            company: dto.company ?? "",
+            occupation: dto.occupation ?? "",
+            introduction: dto.introduction ?? "",
+            nameCardImgUrl: dto.nameCardImgUrl ?? "",
+            skills: [],
+            interests: [],
+            contactInfo: {
+              email: "",
+              phone: "",
+              sns: {
+                twitter: "",
+                linkedin: "",
+                facebook: "",
+                instagram: "",
+                github: "",
+              },
+              website: "",
+            },
+            isPublic: true,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          });
+        } else if (res.status === 404) {
+          setProfile(null);
+        } else {
+          throw new Error("API error");
+        }
+      } catch {
+        setProfile(null);
+      }
     };
+    load();
+  }, [userId, user]);
 
-    setProfile(mockProfile);
-
-    // ログイン直後かつサンプルデータの場合のみポップアップを表示
-    const isOwnProfile = !userId || userId === user?.id;
-    const isSampleData =
-      mockProfile.company === "株式会社サンプルデザイン" &&
-      mockProfile.contactInfo.email === "test@example.com";
-
-    if (justLoggedIn && isOwnProfile && isSampleData) {
-      setShowWelcomePopup(true);
-      // フラグをクリアして次回は表示しないようにする
-      clearJustLoggedIn();
-    }
-  }, [userId, user, justLoggedIn, clearJustLoggedIn]);
-
-  if (!profile) {
+  if (!isLoading) {
     return (
       <div className="mypage">
         <div className="container">
@@ -70,26 +70,81 @@ const Portfolio: React.FC = () => {
     );
   }
 
+  if (!profile) {
+    return (
+      <div className="mypage">
+        <div className="container">
+          <div className="empty-profile-section">
+            <div className="empty-profile-icon">
+              <svg
+                width="80"
+                height="80"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+                <path
+                  d="M8 14s1.5 2 4 2 4-2 4-2"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M9 9h.01M15 9h.01"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </div>
+            <div className="empty-profile-content">
+              <h2>プロフィールを作成しましょう</h2>
+              <p>
+                あなたの魅力的なプロフィールと名刺を作成して、
+                <br />
+                新しいつながりを築きませんか？
+              </p>
+              <div className="empty-profile-features">
+                <div className="feature-item">
+                  <span className="feature-icon">👤</span>
+                  <span>プロフィール情報</span>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-icon">💼</span>
+                  <span>デジタル名刺</span>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-icon">🌐</span>
+                  <span>オンライン共有</span>
+                </div>
+              </div>
+              <button
+                className="btn btn-primary btn-large create-profile-button"
+                onClick={() => navigate("/portfolio/edit")}
+              >
+                <span className="button-icon"></span>
+                プロフィールを作成する
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const handleCardFlip = () => {
     setIsCardFlipped(!isCardFlipped);
   };
 
-  const handleCloseWelcomePopup = () => {
-    setShowWelcomePopup(false);
-  };
-
-  const handleGoToProfileEdit = () => {
-    setShowWelcomePopup(false);
-    navigate("/portfolio/edit");
-  };
-
-  const handleGoToBusinessCardEdit = () => {
-    setShowWelcomePopup(false);
-    navigate("/business-card/edit");
-  };
-
   // 表示するユーザー名を決定
-  const displayName = user?.name || "名刺　太郎";
+  const displayName = profile?.name;
 
   return (
     <div className="mypage">
@@ -162,12 +217,12 @@ const Portfolio: React.FC = () => {
           </div>
 
           {/* 自己紹介セクション */}
-          {profile.bio && (
+          {profile.introduction && (
             <div className="bio-section">
               <div className="bio-header">
                 <div className="bio-header-left">
                   <div className="bio-company-name">{profile.company}</div>
-                  <div className="bio-job-title">{profile.jobTitle}</div>
+                  <div className="bio-job-title">{profile.occupation}</div>
                   <div className="bio-person-name">{displayName}</div>
                   <div className="bio-person-furigana">メイシ タロウ</div>
                 </div>
@@ -176,7 +231,7 @@ const Portfolio: React.FC = () => {
                 </div>
               </div>
               <div className="bio-content">
-                <p>{profile.bio}</p>
+                <p>{profile.introduction}</p>
               </div>
             </div>
           )}
@@ -352,52 +407,6 @@ const Portfolio: React.FC = () => {
           </div> */}
         </div>
       </div>
-
-      {/* ウェルカムポップアップ */}
-      {showWelcomePopup && (
-        <div className="welcome-popup-overlay">
-          <div className="welcome-popup">
-            <div className="welcome-popup-header">
-              <h2>Meetolioへようこそ 🎉</h2>
-              <button
-                className="close-button"
-                onClick={handleCloseWelcomePopup}
-                aria-label="閉じる"
-              >
-                ×
-              </button>
-            </div>
-            <div className="welcome-popup-content">
-              <p>
-                表示されているのはサンプルデータです。
-                <br />
-                プロフィールや名刺デザインを自由に編集して、あなただけの素敵なデジタル名刺を作成してみましょう！
-              </p>
-
-              <div className="welcome-popup-actions">
-                <button
-                  className="edit-profile-button"
-                  onClick={handleGoToProfileEdit}
-                >
-                  プロフィールを編集する
-                </button>
-                <button
-                  className="edit-card-button"
-                  onClick={handleGoToBusinessCardEdit}
-                >
-                  名刺デザインを編集する
-                </button>
-                <button
-                  className="later-button"
-                  onClick={handleCloseWelcomePopup}
-                >
-                  後で編集する
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

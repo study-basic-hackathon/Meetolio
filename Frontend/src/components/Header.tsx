@@ -42,7 +42,7 @@ const Header: React.FC = () => {
             onClick={() => {
               // 認証済みの場合はマイページへ、未認証の場合はログインページへ
               if (isAuthenticated && user) {
-                navigate("/Portfolio");
+                navigate("/portfolio");
               } else {
                 navigate("/login");
               }
