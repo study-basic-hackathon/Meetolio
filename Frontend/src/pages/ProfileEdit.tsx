@@ -319,7 +319,7 @@ const ProfileEdit: React.FC = () => {
           </div>
 
           {/* スキル */}
-          <div className="form-group">
+          {/* <div className="form-group">
             <label>スキル・専門分野</label>
             <div className="tags-input">
               <div className="tags-display">
@@ -358,10 +358,10 @@ const ProfileEdit: React.FC = () => {
                 }}
               />
             </div>
-          </div>
+          </div> */}
 
           {/* 趣味・興味 */}
-          <div className="form-group">
+          {/* <div className="form-group">
             <label>趣味・興味</label>
             <div className="tags-input">
               <div className="tags-display">
@@ -400,7 +400,7 @@ const ProfileEdit: React.FC = () => {
                 }}
               />
             </div>
-          </div>
+          </div> */}
 
           {/* 保存ボタン */}
           <div className="form-actions">

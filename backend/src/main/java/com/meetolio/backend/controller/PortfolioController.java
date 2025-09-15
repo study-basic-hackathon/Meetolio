@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 /** ポートフォリオ関連Controller */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/portfolio")
+@RequestMapping("/api/portfolio")
 public class PortfolioController {
 
     /** ポートフォリオService */

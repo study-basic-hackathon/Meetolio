@@ -13,8 +13,7 @@ const MyPage: React.FC = () => {
   const [showWelcomePopup, setShowWelcomePopup] = useState(false);
 
   useEffect(() => {
-    // ユーザーIDが指定されている場合はそのユーザーのプロフィールを表示
-    // 指定されていない場合はログインユーザーのプロフィールを表示
+    //
     const targetUserId = userId || user?.id || "1";
 
     // モックプロフィールデータ
