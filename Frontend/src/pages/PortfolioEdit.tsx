@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import type { Profile } from "../types";
@@ -7,10 +7,12 @@ import "./PortfolioEdit.css";
 const PortfolioEdit: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [isCardFlipped, setIsCardFlipped] = useState(false);
+  const token = useMemo(() => localStorage.getItem("access_token") ?? "", []);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -18,52 +20,44 @@ const PortfolioEdit: React.FC = () => {
       return;
     }
 
-    // モックプロフィールデータを取得
-    const mockProfile: Profile = {
-      id: "1",
-      userId: user?.id || "1",
-      name: user?.name || "田中太郎",
-      company: "株式会社サンプルデザイン",
-      jobTitle: "人事",
-      bio: "（例）Web開発に携わって5年目です。React、TypeScript、Node.jsを中心に開発を行っています。ユーザビリティを重視した設計を心がけています。",
-      skills: [
-        "React",
-        "TypeScript",
-        "Node.js",
-        "CSS",
-        "HTML",
-        "JavaScript",
-        "Git",
-        "AWS",
-      ],
-      interests: ["プログラミング", "読書", "旅行", "料理", "音楽"],
+    // 空の初期プロフィールをセット（新規作成用）
+    const emptyProfile: Profile = {
+      id: "",
+      userId: user?.id || "",
+      name: "",
+      nameKana: "",
+      company: "",
+      occupation: "",
+      introduction: "",
+      skills: [],
+      interests: [],
       contactInfo: {
-        email: "taro.tech@example.com",
-        phone: "090-1234-5678",
+        email: "",
+        phone: "",
         sns: {
-          twitter: "taro_tech",
-          linkedin: "taro-tech",
-          github: "taro-tech",
-          instagram: "taro_tech_dev",
+          twitter: "",
+          linkedin: "",
+          github: "",
+          instagram: "",
         },
-        website: "https://taro-tech.dev",
+        website: "",
       },
       isPublic: true,
-      createdAt: new Date("2024-01-01"),
+      createdAt: new Date(),
       updatedAt: new Date(),
     };
 
-    setProfile(mockProfile);
+    setProfile(emptyProfile);
     setIsLoading(false);
   }, [isAuthenticated, user, navigate]);
 
+  // Cardを表にしたり裏返したり
   const handleCardFlip = () => {
     setIsCardFlipped(!isCardFlipped);
   };
 
   const handleInputChange = (field: keyof Profile, value: any) => {
     if (!profile) return;
-
     setProfile({
       ...profile,
       [field]: value,
@@ -75,7 +69,6 @@ const PortfolioEdit: React.FC = () => {
     value: any
   ) => {
     if (!profile) return;
-
     setProfile({
       ...profile,
       contactInfo: {
@@ -106,15 +99,35 @@ const PortfolioEdit: React.FC = () => {
   const handleSave = async () => {
     if (!profile) return;
 
+    // 必須チェック
+    if (!profile.name?.trim()) {
+      alert("氏名は必須です");
+      return;
+    }
+    if (!profile.nameKana?.trim()) {
+      alert("氏名（ふりがな）は必須です");
+      return;
+    }
+    if (!profile.company?.trim()) {
+      alert("会社名は必須です");
+      return;
+    }
+    if (!profile.occupation?.trim()) {
+      alert("役職は必須です");
+      return;
+    }
+    if (!profile.introduction?.trim()) {
+      alert("自己紹介は必須です");
+      return;
+    }
+
     setIsSaving(true);
 
     try {
-      // モックAPI呼び出し
+      // API呼び出し
       await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // 成功時の処理
       console.log("プロフィールを保存しました:", profile);
-      navigate("/mypage");
+      navigate("/portfolio");
     } catch (error) {
       console.error("プロフィールの保存に失敗しました:", error);
     } finally {
@@ -196,48 +209,77 @@ const PortfolioEdit: React.FC = () => {
 
           {/* 氏名 */}
           <div className="form-group">
-            <label htmlFor="name">氏名</label>
+            <label htmlFor="name">
+              氏名<span className="required">*</span>
+            </label>
             <input
               type="text"
               id="name"
               value={profile.name || ""}
               onChange={(e) => handleInputChange("name", e.target.value)}
               placeholder="氏名を入力"
+              required
+            />
+          </div>
+
+          {/* 氏名カナ（必須） */}
+          <div className="form-group">
+            <label htmlFor="nameKana">
+              氏名（ふりがな） <span className="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="nameKana"
+              value={profile.nameKana || ""}
+              onChange={(e) => handleInputChange("nameKana", e.target.value)}
+              placeholder="ヤマダ タロウ"
+              required
             />
           </div>
 
           {/* 自己紹介 */}
           <div className="form-group">
-            <label htmlFor="bio">自己紹介</label>
+            <label htmlFor="bio">
+              自己紹介<span className="required">*</span>
+            </label>
             <textarea
               id="bio"
-              value={profile.bio || ""}
-              onChange={(e) => handleInputChange("bio", e.target.value)}
+              value={profile.introduction || ""}
+              onChange={(e) =>
+                handleInputChange("introduction", e.target.value)
+              }
               placeholder="あなたについて教えてください"
               rows={5}
+              required
             />
           </div>
 
           {/* 会社情報 */}
           <div className="form-group">
-            <label htmlFor="company">会社名</label>
+            <label htmlFor="company">
+              会社名<span className="required">*</span>
+            </label>
             <input
               type="text"
               id="company"
               value={profile.company || ""}
               onChange={(e) => handleInputChange("company", e.target.value)}
               placeholder="会社名を入力"
+              required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="jobTitle">役職</label>
+            <label htmlFor="jobTitle">
+              役職<span className="required">*</span>
+            </label>
             <input
               type="text"
               id="jobTitle"
-              value={profile.jobTitle || ""}
-              onChange={(e) => handleInputChange("jobTitle", e.target.value)}
+              value={profile.occupation || ""}
+              onChange={(e) => handleInputChange("occupation", e.target.value)}
               placeholder="役職を入力"
+              required
             />
           </div>
 

@@ -10,10 +10,11 @@ export interface Profile {
   id: string;
   userId: string;
   name: string;
-  profileImageUrl?: string;
-  jobTitle?: string;
+  nameKana: string;
+  nameCardImgUrl?: string;
+  occupation?: string;
   company?: string;
-  bio?: string;
+  introduction?: string;
   contactInfo: ContactInfo;
   skills: string[];
   interests: string[];
