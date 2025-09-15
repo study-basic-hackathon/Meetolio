@@ -57,9 +57,9 @@ export interface RegisterForm {
 
 export interface ProfileForm {
   name: string;
-  jobTitle?: string;
+  occupation?: string;
   company?: string;
-  bio?: string;
+  introduction?: string;
   phone?: string;
   website?: string;
   twitter?: string;

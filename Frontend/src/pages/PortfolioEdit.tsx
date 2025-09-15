@@ -126,6 +126,7 @@ const PortfolioEdit: React.FC = () => {
     try {
       // API呼び出し
       await new Promise((resolve) => setTimeout(resolve, 1000));
+      alert("プロフィールを保存しました！");
       console.log("プロフィールを保存しました:", profile);
       navigate("/portfolio");
     } catch (error) {
