@@ -83,14 +83,14 @@ const BusinessCardEdit: React.FC = () => {
       // 成功時の処理
       console.log("名刺を保存しました:", profile);
       console.log("アップロードされた画像:", uploadedImages);
-      navigate("/profile/edit");
+      navigate("/portfolio/edit");
     } catch (error) {
       console.error("名刺の保存に失敗しました:", error);
     }
   };
 
   const handleCancel = () => {
-    navigate("/profile/edit");
+    navigate("/portfolio/edit");
   };
 
   if (isLoading) {

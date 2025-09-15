@@ -2,9 +2,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
-import "./Settings.css";
+import "./AccountSettings.css";
 
-const Settings: React.FC = () => {
+const AccountSettings: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -62,4 +62,4 @@ const Settings: React.FC = () => {
   );
 };
 
-export default Settings;
+export default AccountSettings;

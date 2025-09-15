@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import type { Profile } from "../types";
-import "./ProfileEdit.css";
+import "./PortfolioEdit.css";
 
-const ProfileEdit: React.FC = () => {
+const PortfolioEdit: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -100,24 +100,6 @@ const ProfileEdit: React.FC = () => {
           [platform]: value,
         },
       },
-    });
-  };
-
-  const handleSkillsChange = (skills: string[]) => {
-    if (!profile) return;
-
-    setProfile({
-      ...profile,
-      skills,
-    });
-  };
-
-  const handleInterestsChange = (interests: string[]) => {
-    if (!profile) return;
-
-    setProfile({
-      ...profile,
-      interests,
     });
   };
 
@@ -419,4 +401,4 @@ const ProfileEdit: React.FC = () => {
   );
 };
 
-export default ProfileEdit;
+export default PortfolioEdit;

@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import "./Home.css";
+import "./IntroducePage.css";
 
-const Home: React.FC = () => {
+// Meetolioの紹介ページ（今は使用しない）
+const IntroducePage: React.FC = () => {
   const { isAuthenticated } = useAuth();
 
   return (
@@ -89,4 +90,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default IntroducePage;

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import type { Profile } from "../types";
-import "./MyPage.css";
+import "./Portfolio.css";
 
-const MyPage: React.FC = () => {
+const Portfolio: React.FC = () => {
   const { user, justLoggedIn, clearJustLoggedIn } = useAuth();
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
@@ -80,7 +80,7 @@ const MyPage: React.FC = () => {
 
   const handleGoToProfileEdit = () => {
     setShowWelcomePopup(false);
-    navigate("/profile/edit");
+    navigate("/portfolio/edit");
   };
 
   const handleGoToBusinessCardEdit = () => {
@@ -327,7 +327,7 @@ const MyPage: React.FC = () => {
           </div>
 
           {/* スキル・興味セクション */}
-          <div className="skills-interests-section">
+          {/* <div className="skills-interests-section">
             <div className="skills-section">
               <h3 className="section-title">スキル・専門分野</h3>
               <div className="tags">
@@ -337,9 +337,9 @@ const MyPage: React.FC = () => {
                   </span>
                 ))}
               </div>
-            </div>
+            </div> */}
 
-            <div className="interests-section">
+          {/* <div className="interests-section">
               <h3 className="section-title">趣味・興味</h3>
               <div className="tags">
                 {profile.interests.map((interest, index) => (
@@ -349,7 +349,7 @@ const MyPage: React.FC = () => {
                 ))}
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -402,4 +402,4 @@ const MyPage: React.FC = () => {
   );
 };
 
-export default MyPage;
+export default Portfolio;
