@@ -173,7 +173,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           return;
         }
 
-        const user: User = await res.json();
+        const userResponse: any = await res.json();
+
+        // バックエンドのAccountResponseDtoをフロントエンドのUser型にマッピング
+        const user: User = {
+          id: String(userResponse.id), // IntegerをStringに変換
+          email: userResponse.email,
+          createdAt: new Date(userResponse.createdAt),
+          updatedAt: new Date(userResponse.updatedAt),
+        };
 
         setUser(user);
         dispatch({ type: "LOGIN_PAGE", payload: user });
@@ -202,7 +210,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       });
 
       if (!res.ok) {
-        throw new Error("ログインに失敗しました");
+        // バックエンドからのエラーメッセージを取得
+        let errorMessage = "ログインに失敗しました";
+        try {
+          const errorData = await res.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch {
+          // JSONパースに失敗した場合はデフォルトメッセージを使用
+        }
+        throw new Error(errorMessage);
       }
 
       // バックエンドから返るレスポンスを取得
@@ -218,14 +234,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       });
       if (!meCheck.ok) throw new Error("ユーザー情報の取得に失敗しました");
 
-      const user: User = await meCheck.json();
+      const userResponse: any = await meCheck.json();
+
+      // バックエンドのAccountResponseDtoをフロントエンドのUser型にマッピング
+      const user: User = {
+        id: String(userResponse.id), // IntegerをStringに変換
+        email: userResponse.email,
+        createdAt: new Date(userResponse.createdAt),
+        updatedAt: new Date(userResponse.updatedAt),
+      };
+
       setUser(user);
 
       dispatch({ type: "LOGIN_SUCCESS", payload: user });
     } catch (error) {
       console.log(error);
       clearToken();
-      dispatch({ type: "LOGIN_FAILURE", payload: "ログインに失敗しました" });
+      const errorMessage =
+        error instanceof Error ? error.message : "ログインに失敗しました";
+      dispatch({ type: "LOGIN_FAILURE", payload: errorMessage });
     }
   };
 

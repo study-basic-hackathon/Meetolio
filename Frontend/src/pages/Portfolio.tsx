@@ -10,7 +10,7 @@ const Portfolio: React.FC = () => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isCardFlipped, setIsCardFlipped] = useState(false);
-  const [isLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const load = async () => {
@@ -19,8 +19,11 @@ const Portfolio: React.FC = () => {
 
       try {
         const res = await fetch(`/api/portfolio/${targetUserId}`);
+        console.log("Portfolio API response status:", res.status);
+
         if (res.ok) {
           const dto = await res.json();
+          console.log("Portfolio API response data:", dto);
           setProfile({
             id: String(dto.userId ?? targetUserId),
             userId: String(dto.userId ?? targetUserId),
@@ -28,7 +31,7 @@ const Portfolio: React.FC = () => {
             nameKana: dto.nameKana ?? "",
             company: dto.company ?? "",
             occupation: dto.occupation ?? "",
-            introduction: dto.introduction ?? "",
+            description: dto.description ?? "", // descriptionで統一
             nameCardImgUrl: dto.nameCardImgUrl ?? "",
             skills: [],
             interests: [],
@@ -55,12 +58,14 @@ const Portfolio: React.FC = () => {
         }
       } catch {
         setProfile(null);
+      } finally {
+        setIsLoading(false);
       }
     };
     load();
   }, [userId, user]);
 
-  if (!isLoading) {
+  if (isLoading) {
     return (
       <div className="mypage">
         <div className="container">
@@ -127,7 +132,7 @@ const Portfolio: React.FC = () => {
               </div>
               <button
                 className="btn btn-primary btn-large create-profile-button"
-                onClick={() => navigate("/portfolio/edit")}
+                onClick={() => navigate(`/portfolio/${user?.id}/edit`)}
               >
                 <span className="button-icon"></span>
                 プロフィールを作成する
@@ -217,21 +222,21 @@ const Portfolio: React.FC = () => {
           </div>
 
           {/* 自己紹介セクション */}
-          {profile.introduction && (
+          {profile.description && (
             <div className="bio-section">
               <div className="bio-header">
                 <div className="bio-header-left">
                   <div className="bio-company-name">{profile.company}</div>
                   <div className="bio-job-title">{profile.occupation}</div>
                   <div className="bio-person-name">{displayName}</div>
-                  <div className="bio-person-furigana">メイシ タロウ</div>
+                  <div className="bio-person-furigana">{profile.nameKana}</div>
                 </div>
                 <div className="bio-header-right">
                   <div className="bio-icon">👤</div>
                 </div>
               </div>
               <div className="bio-content">
-                <p>{profile.introduction}</p>
+                <p>{profile.description}</p>
               </div>
             </div>
           )}
@@ -240,18 +245,22 @@ const Portfolio: React.FC = () => {
           <div className="sns-section">
             <div className="sns-grid">
               {/* メール */}
-              <a
-                href={`mailto:${profile.contactInfo.email}`}
-                className="sns-card email-card"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="sns-icon">📧</div>
-                <div className="sns-info">
-                  <span className="sns-label">メール</span>
-                  <span className="sns-value">{profile.contactInfo.email}</span>
-                </div>
-              </a>
+              {profile.contactInfo.email && (
+                <a
+                  href={`mailto:${profile.contactInfo.email}`}
+                  className="sns-card email-card"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="sns-icon">📧</div>
+                  <div className="sns-info">
+                    <span className="sns-label">メール</span>
+                    <span className="sns-value">
+                      {profile.contactInfo.email}
+                    </span>
+                  </div>
+                </a>
+              )}
 
               {/* 電話番号 */}
               {profile.contactInfo.phone && (

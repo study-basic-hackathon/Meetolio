@@ -31,7 +31,10 @@ function App() {
               <Route path="/register" element={<AccountRegister />} />
               <Route path="/portfolio" element={<Portfolio />} />
               <Route path="/portfolio/:userId" element={<Portfolio />} />
-              <Route path="/portfolio/edit" element={<PortfolioEdit />} />
+              <Route
+                path="/portfolio/:userId/edit"
+                element={<PortfolioEdit />}
+              />
               <Route
                 path="/business-card/edit"
                 element={<BusinessCardEdit />}

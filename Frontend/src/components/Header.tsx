@@ -83,7 +83,7 @@ const Header: React.FC = () => {
                     ホーム
                   </Link>
                   <Link
-                    to="/portfolio/edit"
+                    to={`/portfolio/${user?.id}/edit`}
                     className="nav-link"
                     onClick={handleNavLinkClick}
                   >

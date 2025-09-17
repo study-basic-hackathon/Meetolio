@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import type { Profile } from "../types";
 import "./PortfolioEdit.css";
@@ -7,6 +7,7 @@ import "./PortfolioEdit.css";
 const PortfolioEdit: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const { userId } = useParams<{ userId: string }>();
 
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -20,36 +21,121 @@ const PortfolioEdit: React.FC = () => {
       return;
     }
 
-    // 空の初期プロフィールをセット（新規作成用）
-    const emptyProfile: Profile = {
-      id: "",
-      userId: user?.id || "",
-      name: "",
-      nameKana: "",
-      company: "",
-      occupation: "",
-      introduction: "",
-      skills: [],
-      interests: [],
-      contactInfo: {
-        email: "",
-        phone: "",
-        sns: {
-          twitter: "",
-          linkedin: "",
-          github: "",
-          instagram: "",
-        },
-        website: "",
-      },
-      isPublic: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+    // URLのuserIdとログインユーザーのIDが一致するかチェック
+    if (userId !== user?.id) {
+      // 権限がない場合は自分のプロフィール編集ページにリダイレクト
+      navigate(`/portfolio/${user?.id}/edit`);
+      return;
+    }
+
+    // 既存のプロフィールを取得する
+    const loadProfile = async () => {
+      try {
+        const res = await fetch(`/api/portfolio/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (res.ok) {
+          // 既存のプロフィールが見つかった場合
+          const dto = await res.json();
+          console.log("Loaded existing profile:", dto);
+
+          setProfile({
+            id: String(dto.userId || userId),
+            userId: String(dto.userId || userId),
+            name: dto.name || "",
+            nameKana: dto.nameKana || "",
+            company: dto.company || "",
+            occupation: dto.occupation || "",
+            description: dto.description || "",
+            nameCardImgUrl: dto.nameCardImgUrl || "",
+            skills: [],
+            interests: [],
+            contactInfo: {
+              email: "",
+              phone: "",
+              sns: {
+                twitter: "",
+                linkedin: "",
+                github: "",
+                instagram: "",
+              },
+              website: "",
+            },
+            isPublic: true,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          });
+        } else if (res.status === 404) {
+          // プロフィールが存在しない場合は新規作成用の空のプロフィール
+          console.log("No existing profile found, creating new one");
+          const emptyProfile: Profile = {
+            id: "",
+            userId: user?.id || "",
+            name: "",
+            nameKana: "",
+            company: "",
+            occupation: "",
+            description: "",
+            skills: [],
+            interests: [],
+            contactInfo: {
+              email: "",
+              phone: "",
+              sns: {
+                twitter: "",
+                linkedin: "",
+                github: "",
+                instagram: "",
+              },
+              website: "",
+            },
+            isPublic: true,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          };
+          setProfile(emptyProfile);
+        } else {
+          throw new Error(`Failed to load profile: ${res.status}`);
+        }
+      } catch (error) {
+        console.error("Error loading profile:", error);
+        // エラーの場合も空のプロフィールで初期化
+        const emptyProfile: Profile = {
+          id: "",
+          userId: user?.id || "",
+          name: "",
+          nameKana: "",
+          company: "",
+          occupation: "",
+          description: "",
+          skills: [],
+          interests: [],
+          contactInfo: {
+            email: "",
+            phone: "",
+            sns: {
+              twitter: "",
+              linkedin: "",
+              github: "",
+              instagram: "",
+            },
+            website: "",
+          },
+          isPublic: true,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        };
+        setProfile(emptyProfile);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    setProfile(emptyProfile);
-    setIsLoading(false);
-  }, [isAuthenticated, user, navigate]);
+    loadProfile();
+  }, [isAuthenticated, user, navigate, userId, token]);
 
   // Cardを表にしたり裏返したり
   const handleCardFlip = () => {
@@ -116,7 +202,7 @@ const PortfolioEdit: React.FC = () => {
       alert("役職は必須です");
       return;
     }
-    if (!profile.introduction?.trim()) {
+    if (!profile.description?.trim()) {
       alert("自己紹介は必須です");
       return;
     }
@@ -125,19 +211,24 @@ const PortfolioEdit: React.FC = () => {
 
     // API呼び出し
     try {
+      console.log("Debug - user:", user);
+      console.log("Debug - profile.userId:", profile.userId);
+      console.log("Debug - profile.id:", profile.id);
+
       // バックエンドDTOに合わせて組み替え
       const dto = {
+        userId: parseInt(profile.userId), // バックエンドはInteger型を期待
         name: profile.name,
         nameKana: profile.nameKana,
         company: profile.company,
         occupation: profile.occupation,
-        introduction: profile.introduction,
+        description: profile.description,
         nameCardImgUrl: null,
       };
 
       const method = profile.id ? "PUT" : "POST";
       const url = profile.id
-        ? `/api/portfolio/${profile.userId}`
+        ? `/api/portfolio/${parseInt(profile.userId)}`
         : "/api/portfolio";
 
       const res = await fetch(url, {
@@ -277,10 +368,8 @@ const PortfolioEdit: React.FC = () => {
             </label>
             <textarea
               id="bio"
-              value={profile.introduction || ""}
-              onChange={(e) =>
-                handleInputChange("introduction", e.target.value)
-              }
+              value={profile.description || ""}
+              onChange={(e) => handleInputChange("description", e.target.value)}
               placeholder="あなたについて教えてください"
               rows={5}
               required

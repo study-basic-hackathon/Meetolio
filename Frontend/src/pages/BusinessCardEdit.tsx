@@ -26,9 +26,11 @@ const BusinessCardEdit: React.FC = () => {
       id: "1",
       userId: user?.id || "1",
       name: user?.name || "田中太郎",
+      nameKana: "たなか たろう",
       company: "テック株式会社",
-      jobTitle: "フロントエンドエンジニア",
-      bio: "Web開発に携わって5年目です。React、TypeScript、Node.jsを中心に開発を行っています。ユーザビリティを重視した設計を心がけています。",
+      occupation: "フロントエンドエンジニア",
+      description:
+        "Web開発に携わって5年目です。React、TypeScript、Node.jsを中心に開発を行っています。ユーザビリティを重視した設計を心がけています。",
       skills: [
         "React",
         "TypeScript",
@@ -83,14 +85,14 @@ const BusinessCardEdit: React.FC = () => {
       // 成功時の処理
       console.log("名刺を保存しました:", profile);
       console.log("アップロードされた画像:", uploadedImages);
-      navigate("/portfolio/edit");
+      navigate(`/portfolio/${user?.id}/edit`);
     } catch (error) {
       console.error("名刺の保存に失敗しました:", error);
     }
   };
 
   const handleCancel = () => {
-    navigate("/portfolio/edit");
+    navigate(`/portfolio/${user?.id}/edit`);
   };
 
   if (isLoading) {

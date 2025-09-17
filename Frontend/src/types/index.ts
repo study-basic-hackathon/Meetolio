@@ -14,7 +14,7 @@ export interface Profile {
   nameCardImgUrl?: string;
   occupation?: string;
   company?: string;
-  introduction?: string;
+  description?: string;
   contactInfo: ContactInfo;
   skills: string[];
   interests: string[];

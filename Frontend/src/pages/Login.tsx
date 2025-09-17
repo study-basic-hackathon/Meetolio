@@ -10,14 +10,15 @@ const Login: React.FC = () => {
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const { login, isLoading, error, clearError, isAuthenticated } = useAuth();
+  const { login, isLoading, error, clearError, isAuthenticated, user } =
+    useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/portfolio");
+    if (isAuthenticated && user) {
+      navigate(`/portfolio/${user.id}`);
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, user, navigate]);
 
   useEffect(() => {
     if (error) {
