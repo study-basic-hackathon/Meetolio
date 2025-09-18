@@ -19,4 +19,7 @@ public interface UserRepository {
 
     /** 更新 */
     public void update(UserEntity userEntity);
+
+    /** 削除 */
+    public void deleteById(Integer id);
 }

@@ -31,4 +31,10 @@
         SET email = #{email}, password_hash = #{passwordHash}, updated_at = #{updatedAt}
         WHERE id = #{id}
     </update>
+
+    <!-- ユーザー削除 -->
+    <delete id="deleteById">
+        DELETE FROM users
+        WHERE id = #{id}
+    </delete>
 </mapper>
