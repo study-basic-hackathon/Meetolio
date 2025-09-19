@@ -10,10 +10,11 @@ export interface Profile {
   id: string;
   userId: string;
   name: string;
-  profileImageUrl?: string;
-  jobTitle?: string;
+  nameKana: string;
+  nameCardImgUrl?: string;
+  occupation?: string;
   company?: string;
-  bio?: string;
+  description?: string;
   contactInfo: ContactInfo;
   skills: string[];
   interests: string[];
@@ -56,9 +57,9 @@ export interface RegisterForm {
 
 export interface ProfileForm {
   name: string;
-  jobTitle?: string;
+  occupation?: string;
   company?: string;
-  bio?: string;
+  introduction?: string;
   phone?: string;
   website?: string;
   twitter?: string;

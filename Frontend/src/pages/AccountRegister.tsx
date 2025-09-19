@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import type { RegisterForm } from "../types";
-import "./Register.css";
+import "./AccountRegister.css";
 
-const Register: React.FC = () => {
+const AccountRegister: React.FC = () => {
   const [formData, setFormData] = useState<RegisterForm>({
     email: "",
     password: "",
@@ -12,14 +12,8 @@ const Register: React.FC = () => {
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const { register, isLoading, error, clearError, isAuthenticated } = useAuth();
+  const { register, isLoading, error, clearError } = useAuth();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/mypage");
-    }
-  }, [isAuthenticated, navigate]);
 
   useEffect(() => {
     if (error) {
@@ -71,15 +65,12 @@ const Register: React.FC = () => {
     e.preventDefault();
     clearError();
 
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
-    try {
-      await register(formData);
-    } catch (error) {
-      console.log(error);
-      // エラーハンドリングはAuthContextで行われる
+    const ok = await register(formData);
+    if (ok) {
+      alert("登録が完了しました！ログインしてください。");
+      navigate("/login");
     }
   };
 
@@ -176,4 +167,4 @@ const Register: React.FC = () => {
   );
 };
 
-export default Register;
+export default AccountRegister;

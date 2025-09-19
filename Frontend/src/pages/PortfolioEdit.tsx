@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import type { Profile } from "../types";
-import "./ProfileEdit.css";
+import "./PortfolioEdit.css";
 
-const ProfileEdit: React.FC = () => {
+const PortfolioEdit: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const { userId } = useParams<{ userId: string }>();
+
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [isCardFlipped, setIsCardFlipped] = useState(false);
+  const token = localStorage.getItem("access_token") ?? "";
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -18,52 +21,129 @@ const ProfileEdit: React.FC = () => {
       return;
     }
 
-    // モックプロフィールデータを取得
-    const mockProfile: Profile = {
-      id: "1",
-      userId: user?.id || "1",
-      name: user?.name || "田中太郎",
-      company: "株式会社サンプルデザイン",
-      jobTitle: "人事",
-      bio: "（例）Web開発に携わって5年目です。React、TypeScript、Node.jsを中心に開発を行っています。ユーザビリティを重視した設計を心がけています。",
-      skills: [
-        "React",
-        "TypeScript",
-        "Node.js",
-        "CSS",
-        "HTML",
-        "JavaScript",
-        "Git",
-        "AWS",
-      ],
-      interests: ["プログラミング", "読書", "旅行", "料理", "音楽"],
-      contactInfo: {
-        email: "taro.tech@example.com",
-        phone: "090-1234-5678",
-        sns: {
-          twitter: "taro_tech",
-          linkedin: "taro-tech",
-          github: "taro-tech",
-          instagram: "taro_tech_dev",
-        },
-        website: "https://taro-tech.dev",
-      },
-      isPublic: true,
-      createdAt: new Date("2024-01-01"),
-      updatedAt: new Date(),
+    // URLのuserIdとログインユーザーのIDが一致するかチェック
+    if (userId !== user?.id) {
+      // 権限がない場合は自分のプロフィール編集ページにリダイレクト
+      navigate(`/portfolio/${user?.id}/edit`);
+      return;
+    }
+
+    // 既存のプロフィールを取得する
+    const loadProfile = async () => {
+      try {
+        const res = await fetch(`/api/portfolio/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (res.ok) {
+          // 既存のプロフィールが見つかった場合
+          const dto = await res.json();
+          console.log("Loaded existing profile:", dto);
+
+          setProfile({
+            id: String(dto.userId || userId),
+            userId: String(dto.userId || userId),
+            name: dto.name || "",
+            nameKana: dto.nameKana || "",
+            company: dto.company || "",
+            occupation: dto.occupation || "",
+            description: dto.description || "",
+            nameCardImgUrl: dto.nameCardImgUrl || "",
+            skills: [],
+            interests: [],
+            contactInfo: {
+              email: "",
+              phone: "",
+              sns: {
+                twitter: "",
+                linkedin: "",
+                github: "",
+                instagram: "",
+              },
+              website: "",
+            },
+            isPublic: true,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          });
+        } else if (res.status === 404) {
+          // プロフィールが存在しない場合は新規作成用の空のプロフィール
+          console.log("No existing profile found, creating new one");
+          const emptyProfile: Profile = {
+            id: "",
+            userId: user?.id || "",
+            name: "",
+            nameKana: "",
+            company: "",
+            occupation: "",
+            description: "",
+            skills: [],
+            interests: [],
+            contactInfo: {
+              email: "",
+              phone: "",
+              sns: {
+                twitter: "",
+                linkedin: "",
+                github: "",
+                instagram: "",
+              },
+              website: "",
+            },
+            isPublic: true,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          };
+          setProfile(emptyProfile);
+        } else {
+          throw new Error(`Failed to load profile: ${res.status}`);
+        }
+      } catch (error) {
+        console.error("Error loading profile:", error);
+        // エラーの場合も空のプロフィールで初期化
+        const emptyProfile: Profile = {
+          id: "",
+          userId: user?.id || "",
+          name: "",
+          nameKana: "",
+          company: "",
+          occupation: "",
+          description: "",
+          skills: [],
+          interests: [],
+          contactInfo: {
+            email: "",
+            phone: "",
+            sns: {
+              twitter: "",
+              linkedin: "",
+              github: "",
+              instagram: "",
+            },
+            website: "",
+          },
+          isPublic: true,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        };
+        setProfile(emptyProfile);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    setProfile(mockProfile);
-    setIsLoading(false);
-  }, [isAuthenticated, user, navigate]);
+    loadProfile();
+  }, [isAuthenticated, user, navigate, userId, token]);
 
+  // Cardを表にしたり裏返したり
   const handleCardFlip = () => {
     setIsCardFlipped(!isCardFlipped);
   };
 
   const handleInputChange = (field: keyof Profile, value: any) => {
     if (!profile) return;
-
     setProfile({
       ...profile,
       [field]: value,
@@ -75,7 +155,6 @@ const ProfileEdit: React.FC = () => {
     value: any
   ) => {
     if (!profile) return;
-
     setProfile({
       ...profile,
       contactInfo: {
@@ -103,38 +182,78 @@ const ProfileEdit: React.FC = () => {
     });
   };
 
-  const handleSkillsChange = (skills: string[]) => {
-    if (!profile) return;
-
-    setProfile({
-      ...profile,
-      skills,
-    });
-  };
-
-  const handleInterestsChange = (interests: string[]) => {
-    if (!profile) return;
-
-    setProfile({
-      ...profile,
-      interests,
-    });
-  };
-
   const handleSave = async () => {
     if (!profile) return;
 
+    // 必須チェック
+    if (!profile.name?.trim()) {
+      alert("氏名は必須です");
+      return;
+    }
+    if (!profile.nameKana?.trim()) {
+      alert("氏名（ふりがな）は必須です");
+      return;
+    }
+    if (!profile.company?.trim()) {
+      alert("会社名は必須です");
+      return;
+    }
+    if (!profile.occupation?.trim()) {
+      alert("役職は必須です");
+      return;
+    }
+    if (!profile.description?.trim()) {
+      alert("自己紹介は必須です");
+      return;
+    }
+
     setIsSaving(true);
 
+    // API呼び出し
     try {
-      // モックAPI呼び出し
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      console.log("Debug - user:", user);
+      console.log("Debug - profile.userId:", profile.userId);
+      console.log("Debug - profile.id:", profile.id);
 
-      // 成功時の処理
-      console.log("プロフィールを保存しました:", profile);
-      navigate("/mypage");
-    } catch (error) {
-      console.error("プロフィールの保存に失敗しました:", error);
+      // バックエンドDTOに合わせて組み替え
+      const dto = {
+        userId: parseInt(profile.userId), // バックエンドはInteger型を期待
+        name: profile.name,
+        nameKana: profile.nameKana,
+        company: profile.company,
+        occupation: profile.occupation,
+        description: profile.description,
+        nameCardImgUrl: null,
+      };
+
+      const method = profile.id ? "PUT" : "POST";
+      const url = profile.id
+        ? `/api/portfolio/${parseInt(profile.userId)}`
+        : "/api/portfolio";
+
+      const res = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(dto),
+      });
+
+      if (!res.ok) {
+        if (res.status === 401) {
+          alert("認証が切れました。ログインし直してください。");
+          return;
+        }
+        const text = await res.text().catch(() => "");
+        throw new Error(`保存に失敗しました: ${res.status} ${text}`);
+      }
+
+      alert("プロフィールを保存しました！");
+      navigate(`/portfolio/${user?.id ?? ""}`);
+    } catch (e) {
+      console.error(e);
+      alert("保存に失敗しました。もう一度お試しください。");
     } finally {
       setIsSaving(false);
     }
@@ -214,48 +333,75 @@ const ProfileEdit: React.FC = () => {
 
           {/* 氏名 */}
           <div className="form-group">
-            <label htmlFor="name">氏名</label>
+            <label htmlFor="name">
+              氏名<span className="required">*</span>
+            </label>
             <input
               type="text"
               id="name"
               value={profile.name || ""}
               onChange={(e) => handleInputChange("name", e.target.value)}
               placeholder="氏名を入力"
+              required
+            />
+          </div>
+
+          {/* 氏名カナ（必須） */}
+          <div className="form-group">
+            <label htmlFor="nameKana">
+              氏名（ふりがな） <span className="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="nameKana"
+              value={profile.nameKana || ""}
+              onChange={(e) => handleInputChange("nameKana", e.target.value)}
+              placeholder="ヤマダ タロウ"
+              required
             />
           </div>
 
           {/* 自己紹介 */}
           <div className="form-group">
-            <label htmlFor="bio">自己紹介</label>
+            <label htmlFor="bio">
+              自己紹介<span className="required">*</span>
+            </label>
             <textarea
               id="bio"
-              value={profile.bio || ""}
-              onChange={(e) => handleInputChange("bio", e.target.value)}
+              value={profile.description || ""}
+              onChange={(e) => handleInputChange("description", e.target.value)}
               placeholder="あなたについて教えてください"
               rows={5}
+              required
             />
           </div>
 
           {/* 会社情報 */}
           <div className="form-group">
-            <label htmlFor="company">会社名</label>
+            <label htmlFor="company">
+              会社名<span className="required">*</span>
+            </label>
             <input
               type="text"
               id="company"
               value={profile.company || ""}
               onChange={(e) => handleInputChange("company", e.target.value)}
               placeholder="会社名を入力"
+              required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="jobTitle">役職</label>
+            <label htmlFor="occupation">
+              役職<span className="required">*</span>
+            </label>
             <input
               type="text"
-              id="jobTitle"
-              value={profile.jobTitle || ""}
-              onChange={(e) => handleInputChange("jobTitle", e.target.value)}
+              id="occupation"
+              value={profile.occupation || ""}
+              onChange={(e) => handleInputChange("occupation", e.target.value)}
               placeholder="役職を入力"
+              required
             />
           </div>
 
@@ -319,7 +465,7 @@ const ProfileEdit: React.FC = () => {
           </div>
 
           {/* スキル */}
-          <div className="form-group">
+          {/* <div className="form-group">
             <label>スキル・専門分野</label>
             <div className="tags-input">
               <div className="tags-display">
@@ -358,10 +504,10 @@ const ProfileEdit: React.FC = () => {
                 }}
               />
             </div>
-          </div>
+          </div> */}
 
           {/* 趣味・興味 */}
-          <div className="form-group">
+          {/* <div className="form-group">
             <label>趣味・興味</label>
             <div className="tags-input">
               <div className="tags-display">
@@ -400,7 +546,7 @@ const ProfileEdit: React.FC = () => {
                 }}
               />
             </div>
-          </div>
+          </div> */}
 
           {/* 保存ボタン */}
           <div className="form-actions">
@@ -419,4 +565,4 @@ const ProfileEdit: React.FC = () => {
   );
 };
 
-export default ProfileEdit;
+export default PortfolioEdit;

@@ -1,9 +1,23 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
-import type { ReactNode } from "react";
 import type { AuthState, User, LoginForm, RegisterForm } from "../types";
 
+const STORAGE_KEYS = {
+  token: "access_token",
+  user: "user_info",
+} as const;
+
+const getToken = () => localStorage.getItem(STORAGE_KEYS.token);
+const setToken = (t: string) => localStorage.setItem(STORAGE_KEYS.token, t);
+const setUser = (u: User) =>
+  localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(u));
+const clearToken = () => {
+  localStorage.removeItem(STORAGE_KEYS.token);
+  localStorage.removeItem(STORAGE_KEYS.user);
+};
+
+// 型定義
 type AuthAction =
-  | { type: "INITIALIZE"; payload: User | null }
+  | { type: "LOGIN_PAGE"; payload: User | null }
   | { type: "LOGIN_START" }
   | { type: "LOGIN_SUCCESS"; payload: User }
   | { type: "LOGIN_FAILURE"; payload: string }
@@ -22,9 +36,10 @@ const initialState: AuthState = {
   justLoggedIn: false,
 };
 
+// ReducerでlocalStorageの保存はやらない
 const authReducer = (state: AuthState, action: AuthAction): AuthState => {
   switch (action.type) {
-    case "INITIALIZE":
+    case "LOGIN_PAGE":
       return {
         ...state,
         user: action.payload,
@@ -39,7 +54,6 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         error: null,
       };
     case "LOGIN_SUCCESS":
-      localStorage.setItem("meetolio_user", JSON.stringify(action.payload));
       return {
         ...state,
         user: action.payload,
@@ -58,7 +72,6 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         justLoggedIn: false,
       };
     case "LOGOUT":
-      localStorage.removeItem("meetolio_user");
       return {
         ...state,
         user: null,
@@ -74,7 +87,6 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         error: null,
       };
     case "REGISTER_SUCCESS":
-      localStorage.setItem("meetolio_user", JSON.stringify(action.payload));
       return {
         ...state,
         user: action.payload,
@@ -107,16 +119,19 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
   }
 };
 
+//  「認証に必要なすべての機能＋状態」の型
 interface AuthContextType extends AuthState {
   login: (formData: LoginForm) => Promise<void>;
-  register: (formData: RegisterForm) => Promise<void>;
+  register: (formData: RegisterForm) => Promise<boolean>;
   logout: () => void;
   clearError: () => void;
   clearJustLoggedIn: () => void;
 }
 
+// グローバルに使える認証箱
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// 自作のHooks
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
@@ -126,34 +141,66 @@ export const useAuth = () => {
 };
 
 interface AuthProviderProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+// propsはchildren
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  // 初期化時にローカルストレージから状態を復元
+  // localStorageのトークンをサーバーで検証する
   useEffect(() => {
-    const savedUser = localStorage.getItem("meetolio_user");
-    if (savedUser) {
-      try {
-        const user = JSON.parse(savedUser);
-        dispatch({ type: "INITIALIZE", payload: user });
-      } catch {
-        // JSONパースに失敗した場合はローカルストレージをクリア
-        localStorage.removeItem("meetolio_user");
-        dispatch({ type: "INITIALIZE", payload: null });
+    const checkAuth = async () => {
+      const token = getToken();
+
+      if (!token) {
+        clearToken();
+        dispatch({ type: "LOGIN_PAGE", payload: null });
+        return;
       }
-    } else {
-      dispatch({ type: "INITIALIZE", payload: null });
-    }
-  }, []);
+
+      try {
+        const res = await fetch("/api/account/me", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          clearToken();
+          dispatch({ type: "LOGIN_PAGE", payload: null });
+          return;
+        }
+
+        const userResponse: any = await res.json();
+
+        // バックエンドのAccountResponseDtoをフロントエンドのUser型にマッピング
+        const user: User = {
+          id: String(userResponse.id), // IntegerをStringに変換
+          email: userResponse.email,
+          createdAt: new Date(userResponse.createdAt),
+          updatedAt: new Date(userResponse.updatedAt),
+        };
+
+        setUser(user);
+        dispatch({ type: "LOGIN_PAGE", payload: user });
+      } catch {
+        clearToken();
+        dispatch({ type: "LOGIN_PAGE", payload: null });
+      }
+    };
+
+    checkAuth();
+  }, []); // アプリを起動したとき初めだけ作動するために[]をつけている
+
+  type LoginResponse = { accessToken: string };
 
   const login = async (formData: LoginForm) => {
     dispatch({ type: "LOGIN_START" });
 
     try {
-      const res = await fetch("/login", {
+      const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -163,27 +210,49 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       });
 
       if (!res.ok) {
-        throw new Error("ログインに失敗しました");
+        // バックエンドからのエラーメッセージを取得
+        let errorMessage = "ログインに失敗しました";
+        try {
+          const errorData = await res.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch {
+          // JSONパースに失敗した場合はデフォルトメッセージを使用
+        }
+        throw new Error(errorMessage);
       }
 
       // バックエンドから返るレスポンスを取得
-      const data: { accessToken: string } = await res.json();
+      const data: LoginResponse = await res.json();
 
-      // アクセストークンを保存（localStorageやcookieなど）
-      localStorage.setItem("meetolio_token", data.accessToken);
+      // トークンを｀保存
+      setToken(data.accessToken);
 
-      // ダミーユーザーデータ
-      const mockUser: User = {
-        id: "1",
-        email: formData.email,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+      // トークンで本人情報を取得
+      const meCheck = await fetch("/api/account/me", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${data.accessToken}` },
+      });
+      if (!meCheck.ok) throw new Error("ユーザー情報の取得に失敗しました");
+
+      const userResponse: any = await meCheck.json();
+
+      // バックエンドのAccountResponseDtoをフロントエンドのUser型にマッピング
+      const user: User = {
+        id: String(userResponse.id), // IntegerをStringに変換
+        email: userResponse.email,
+        createdAt: new Date(userResponse.createdAt),
+        updatedAt: new Date(userResponse.updatedAt),
       };
 
-      dispatch({ type: "LOGIN_SUCCESS", payload: mockUser });
+      setUser(user);
+
+      dispatch({ type: "LOGIN_SUCCESS", payload: user });
     } catch (error) {
       console.log(error);
-      dispatch({ type: "LOGIN_FAILURE", payload: "ログインに失敗しました" });
+      clearToken();
+      const errorMessage =
+        error instanceof Error ? error.message : "ログインに失敗しました";
+      dispatch({ type: "LOGIN_FAILURE", payload: errorMessage });
     }
   };
 
@@ -191,7 +260,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     dispatch({ type: "REGISTER_START" });
 
     try {
-      const res = await fetch("/signup", {
+      const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -204,28 +273,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         throw new Error("登録に失敗しました");
       }
 
-      // バックエンドから返るレスポンスを取得
-      const data: { accessToken: string } = await res.json();
+      clearToken();
 
-      // アクセストークンを保存（localStorageやcookieなど）
-      localStorage.setItem("meetolio_token", data.accessToken);
-
-      // ダミーユーザーデータ
-      const mockUser: User = {
-        id: "1",
-        email: formData.email,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-
-      dispatch({ type: "REGISTER_SUCCESS", payload: mockUser });
+      dispatch({ type: "LOGIN_PAGE", payload: null });
+      return true;
     } catch (error) {
       console.log(error);
+      clearToken();
       dispatch({ type: "REGISTER_FAILURE", payload: "登録に失敗しました" });
+      return false;
     }
   };
 
   const logout = () => {
+    clearToken();
     dispatch({ type: "LOGOUT" });
   };
 
