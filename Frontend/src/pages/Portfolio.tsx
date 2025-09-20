@@ -81,33 +81,16 @@ const Portfolio: React.FC = () => {
         <div className="container">
           <div className="empty-profile-section">
             <div className="empty-profile-icon">
-              <svg
-                width="80"
-                height="80"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                />
-                <path
-                  d="M8 14s1.5 2 4 2 4-2 4-2"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M9 9h.01M15 9h.01"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
+              <img
+                src="/meetolio-removebg.png"
+                alt="リスの画像"
+                style={{
+                  maxWidth: "200px",
+                  maxHeight: "200px",
+                  width: "auto",
+                  height: "auto",
+                }}
+              />
             </div>
             <div className="empty-profile-content">
               <h2>プロフィールを作成しましょう</h2>
