@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP default CURRENT_TIMESTAMP NOT NULL,
     updated_at TIMESTAMP default CURRENT_TIMESTAMP NOT NULL
 );
-
 -- ポートフォリオテーブル
 CREATE TABLE IF NOT EXISTS portfolios (
     user_id INT PRIMARY KEY REFERENCES users(id),
@@ -15,7 +14,7 @@ CREATE TABLE IF NOT EXISTS portfolios (
     company VARCHAR(255),
     occupation VARCHAR(255),
     description TEXT,
-    name_card_img_url VARCHAR(500),
+    name_card_img_url TEXT,
     email VARCHAR(255),
     twitter VARCHAR(255),
     linkedin VARCHAR(255),
