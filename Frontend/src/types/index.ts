@@ -2,22 +2,19 @@
 export interface User {
   id: string;
   email: string;
-  name: string;
-  company?: string;
-  jobTitle?: string;
   createdAt: Date;
   updatedAt: Date;
-  isDeleted: boolean;
 }
 
 export interface Profile {
   id: string;
   userId: string;
   name: string;
-  profileImageUrl?: string;
-  jobTitle?: string;
+  nameKana: string;
+  nameCardImgUrl?: string;
+  occupation?: string;
   company?: string;
-  bio?: string;
+  description?: string;
   contactInfo: ContactInfo;
   skills: string[];
   interests: string[];
@@ -56,16 +53,13 @@ export interface RegisterForm {
   email: string;
   password: string;
   confirmPassword: string;
-  name: string;
-  company?: string;
-  jobTitle?: string;
 }
 
 export interface ProfileForm {
   name: string;
-  jobTitle?: string;
+  occupation?: string;
   company?: string;
-  bio?: string;
+  introduction?: string;
   phone?: string;
   website?: string;
   twitter?: string;
@@ -91,6 +85,5 @@ export interface ChangePasswordForm {
 }
 
 export interface DeleteAccountForm {
-  reason: string;
   password: string;
 }

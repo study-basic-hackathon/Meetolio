@@ -27,23 +27,22 @@ const Header: React.FC = () => {
     closeMobileMenu();
   };
 
-  // ログイン/新規登録ページ判定（必要なら他の非表示ページも足せる）
   const isAuthPage =
     location.pathname === "/login" || location.pathname === "/register";
-  // 認証済み かつ 認証ページ以外のときだけナビを表示
-  const showNav = isAuthenticated && !isAuthPage;
+  // 認証済み&認証ページ以外のときだけナビを表示
+  const showHamburger = isAuthenticated && !isAuthPage;
 
   return (
     <header className="header">
       <div className="container">
         <div className="header-content">
-          {/* ロゴは常に表示（ログイン画面でもOK） */}
+          {/* ロゴは常に表示 */}
           <div
             className="logo"
             onClick={() => {
               // 認証済みの場合はマイページへ、未認証の場合はログインページへ
               if (isAuthenticated && user) {
-                navigate("/mypage");
+                navigate(`/portfolio/${user.id}`);
               } else {
                 navigate("/login");
               }
@@ -53,10 +52,9 @@ const Header: React.FC = () => {
             <h1>Meetolio</h1>
           </div>
 
-          {/* 以下、ナビ関連は showNav のときだけ描画 */}
-          {showNav && (
+          {/* ナビ関連 */}
+          {showHamburger && (
             <>
-              {/* ハンバーガーメニューボタン */}
               <button
                 className={`mobile-menu-toggle ${
                   isMobileMenuOpen ? "active" : ""
@@ -70,7 +68,6 @@ const Header: React.FC = () => {
                 <span></span>
               </button>
 
-              {/* モバイルメニューのオーバーレイ */}
               <div
                 className={`nav-overlay ${isMobileMenuOpen ? "active" : ""}`}
                 onClick={closeMobileMenu}
@@ -79,14 +76,14 @@ const Header: React.FC = () => {
               <nav className={`nav ${isMobileMenuOpen ? "active" : ""}`}>
                 <div className="nav-links">
                   <Link
-                    to="/mypage"
+                    to={`/portfolio/${user?.id}`}
                     className="nav-link"
                     onClick={handleNavLinkClick}
                   >
-                    マイページ
+                    ホーム
                   </Link>
                   <Link
-                    to="/profile/edit"
+                    to={`/portfolio/${user?.id}/edit`}
                     className="nav-link"
                     onClick={handleNavLinkClick}
                   >

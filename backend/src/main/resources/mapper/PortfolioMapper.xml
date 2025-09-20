@@ -11,4 +11,24 @@
         FROM portfolios
         WHERE user_id = #{userId}
     </select>
+
+    <!-- ポートフォリオ作成・更新（UPSERT） -->
+    <insert id="save">
+        INSERT INTO portfolios (user_id, name, name_kana, company, occupation, description)
+        VALUES (#{userId}, #{name}, #{nameKana}, #{company}, #{occupation}, #{description})
+        ON CONFLICT (user_id)
+        DO UPDATE SET
+            name = EXCLUDED.name,
+            name_kana = EXCLUDED.name_kana,
+            company = EXCLUDED.company,
+            occupation = EXCLUDED.occupation,
+            description = EXCLUDED.description,
+            updated_at = NOW()
+    </insert>
+
+    <!-- ユーザーIDでポートフォリオ削除 -->
+    <delete id="deleteByUserId">
+        DELETE FROM portfolios
+        WHERE user_id = #{userId}
+    </delete>
 </mapper>

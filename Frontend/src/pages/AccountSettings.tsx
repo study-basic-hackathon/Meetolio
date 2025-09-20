@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
-import "./Settings.css";
+import "./AccountSettings.css";
 
-const Settings: React.FC = () => {
-  const { user } = useAuth();
+const AccountSettings: React.FC = () => {
+  const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  if (!user) {
+  // 認証チェック
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
+  }, [isAuthenticated, navigate]);
+
+  if (!user || !isAuthenticated) {
     return null;
   }
 
@@ -62,4 +70,4 @@ const Settings: React.FC = () => {
   );
 };
 
-export default Settings;
+export default AccountSettings;

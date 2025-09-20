@@ -8,9 +8,18 @@ import com.meetolio.backend.entity.UserEntity;
 @Mapper
 public interface UserRepository {
 
+    /** ID検索 */
+    public UserEntity findById(Integer id);
+
     /** メールアドレス検索 */
     public UserEntity findByEmail(String email);
 
     /** ユーザー作成 */
     public void save(UserEntity userEntity);
+
+    /** 更新 */
+    public void update(UserEntity userEntity);
+
+    /** 削除 */
+    public void deleteById(Integer id);
 }

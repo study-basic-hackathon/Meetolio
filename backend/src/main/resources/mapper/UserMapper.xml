@@ -5,6 +5,13 @@
 <!-- ユーザーテーブルMapper -->
 <mapper namespace="com.meetolio.backend.repository.UserRepository">
 
+    <!-- ID検索 -->
+    <select id="findById">
+        SELECT id, email, password_hash, created_at, updated_at
+        FROM users
+        WHERE id = #{id}
+    </select>
+
     <!-- メールアドレス検索 -->
     <select id="findByEmail">
         SELECT id, email, password_hash, created_at, updated_at
@@ -17,4 +24,17 @@
         INSERT INTO users(email, password_hash)
         VALUES(#{email}, #{passwordHash})
     </insert>
+
+    <!-- 更新 -->
+    <update id="update">
+        UPDATE users
+        SET email = #{email}, password_hash = #{passwordHash}, updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <!-- ユーザー削除 -->
+    <delete id="deleteById">
+        DELETE FROM users
+        WHERE id = #{id}
+    </delete>
 </mapper>

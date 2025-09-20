@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.meetolio.backend.common.error.DuplicateException;
+import com.meetolio.backend.common.error.UnauthorizedException;
 import com.meetolio.backend.entity.UserEntity;
+import com.meetolio.backend.form.LoginForm;
 import com.meetolio.backend.form.SignupForm;
 import com.meetolio.backend.repository.UserRepository;
 
@@ -38,5 +40,24 @@ public class AuthService {
         userRepository.save(userEntity);
 
         return userEntity.getId();
+    }
+
+    /** ログイン */
+    public Integer login(LoginForm form) {
+        UserEntity userEntity = userRepository.findByEmail(form.getEmail());
+
+        // メールアドレス不一致とパスワード不一致のエラーメッセージは一緒だが、今後の拡張可能性のため処理をわけている。：T.ARAKI
+        if (userEntity == null) {
+            // TODO: メッセージ共通化
+            throw new UnauthorizedException("メールアドレス または パスワードが違います");
+        }
+
+        if (!passwordEncoder.matches(form.getPassword(), userEntity.getPasswordHash())) {
+            // TODO: メッセージ共通化
+            throw new UnauthorizedException("メールアドレス または パスワードが違います");
+        }
+
+        return userEntity.getId();
+
     }
 }

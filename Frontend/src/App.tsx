@@ -1,5 +1,3 @@
-// ここは触れない方がいいかも
-
 import {
   BrowserRouter as Router,
   Routes,
@@ -9,16 +7,16 @@ import {
 import { AuthProvider } from "./contexts/AuthContext";
 import Header from "./components/Header";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
-import MyPage from "./pages/MyPage";
-import ProfileEdit from "./pages/ProfileEdit";
+import PortfolioEdit from "./pages/PortfolioEdit";
 import BusinessCardEdit from "./pages/BusinessCardEdit";
 import BusinessCardDesign from "./pages/BusinessCardDesign";
-import Settings from "./pages/Settings";
+import Settings from "./pages/AccountSettings";
 import ChangeEmail from "./pages/ChangeEmail";
 import ChangePassword from "./pages/ChangePassword";
 import DeleteAccount from "./pages/DeleteAccount";
 import "./App.css";
+import Portfolio from "./pages/Portfolio";
+import AccountRegister from "./pages/AccountRegister";
 
 function App() {
   return (
@@ -30,10 +28,13 @@ function App() {
             <Routes>
               <Route path="/" element={<Navigate to="/login" replace />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/mypage" element={<MyPage />} />
-              <Route path="/profile/:userId" element={<MyPage />} />
-              <Route path="/profile/edit" element={<ProfileEdit />} />
+              <Route path="/register" element={<AccountRegister />} />
+              <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/portfolio/:userId" element={<Portfolio />} />
+              <Route
+                path="/portfolio/:userId/edit"
+                element={<PortfolioEdit />}
+              />
               <Route
                 path="/business-card/edit"
                 element={<BusinessCardEdit />}
