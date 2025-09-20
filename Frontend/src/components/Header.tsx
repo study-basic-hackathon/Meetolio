@@ -42,7 +42,7 @@ const Header: React.FC = () => {
             onClick={() => {
               // 認証済みの場合はマイページへ、未認証の場合はログインページへ
               if (isAuthenticated && user) {
-                navigate("/portfolio");
+                navigate(`/portfolio/${user.id}`);
               } else {
                 navigate("/login");
               }
@@ -76,7 +76,7 @@ const Header: React.FC = () => {
               <nav className={`nav ${isMobileMenuOpen ? "active" : ""}`}>
                 <div className="nav-links">
                   <Link
-                    to="/portfolio"
+                    to={`/portfolio/${user?.id}`}
                     className="nav-link"
                     onClick={handleNavLinkClick}
                   >
@@ -90,7 +90,7 @@ const Header: React.FC = () => {
                     プロフィール編集
                   </Link>
                   <Link
-                    to="/settings"
+                    to={`/settings/${user?.id}`}
                     className="nav-link"
                     onClick={handleNavLinkClick}
                   >

@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import type { ChangeEmailForm } from "../types";
 import "./ChangeEmail.css";
 
 const ChangeEmail: React.FC = () => {
-  const { user } = useAuth();
+  const { user, updateUser, isAuthenticated } = useAuth();
+  const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
   const [formData, setFormData] = useState<ChangeEmailForm>({
     currentEmail: user?.email || "",
@@ -14,6 +15,39 @@ const ChangeEmail: React.FC = () => {
   });
   const [isSaving, setIsSaving] = useState(false);
   const [errors, setErrors] = useState<Partial<ChangeEmailForm>>({});
+
+  // 認証チェックと権限確認
+  useEffect(() => {
+    console.log(
+      "ChangeEmail useEffect - isAuthenticated:",
+      isAuthenticated,
+      "user:",
+      user,
+      "userId:",
+      userId
+    );
+
+    if (!isAuthenticated) {
+      console.log("Not authenticated, redirecting to login");
+      navigate("/login");
+      return;
+    }
+
+    // URLのuserIdとログインユーザーのIDが一致するかチェック
+    if (userId !== user?.id) {
+      console.log(
+        "User ID mismatch, redirecting to settings. userId:",
+        userId,
+        "user.id:",
+        user?.id
+      );
+      // 権限がない場合は自分の設定ページにリダイレクト
+      navigate(`/settings/${user?.id}`);
+      return;
+    }
+
+    console.log("Auth check passed");
+  }, [isAuthenticated, user, navigate, userId]);
 
   const handleInputChange = (field: keyof ChangeEmailForm, value: string) => {
     setFormData({
@@ -60,23 +94,71 @@ const ChangeEmail: React.FC = () => {
     setIsSaving(true);
 
     try {
-      // モックAPI呼び出し
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const res = await fetch("/api/account/me/email", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+        body: JSON.stringify({
+          email: formData.newEmail,
+          password: formData.password,
+        }),
+      });
 
-      // 成功時の処理
-      console.log("メールアドレスを変更しました:", formData);
-      navigate("/settings");
-    } catch (error) {
-      console.error("メールアドレスの変更に失敗しました:", error);
+      if (!res.ok) {
+        throw new Error("メールアドレスの変更に失敗しました");
+      }
+
+      // ユーザー情報を更新
+      if (user) {
+        const updatedUser = {
+          ...user,
+          email: formData.newEmail,
+        };
+        updateUser(updatedUser);
+      }
+
+      alert("メールアドレスを変更しました");
+      console.log("メールアドレスを変更しました", formData);
+      navigate(`/settings/${user?.id}`);
+    } catch (err) {
+      console.error(err);
+      setErrors((prev) => ({
+        ...prev,
+        newEmail: (err as Error).message,
+      }));
     } finally {
       setIsSaving(false);
     }
   };
 
   const handleCancel = () => {
-    navigate("/settings");
+    navigate(`/settings/${user?.id}`);
   };
 
+  console.log(
+    "ChangeEmail render - isAuthenticated:",
+    isAuthenticated,
+    "user:",
+    user,
+    "userId:",
+    userId
+  );
+
+  // 認証されていない場合やユーザー情報がない場合
+  if (!isAuthenticated || !user) {
+    console.log("Rendering null - not authenticated or no user");
+    return null;
+  }
+
+  // 権限がない場合
+  if (userId !== user.id) {
+    console.log("Rendering null - user ID mismatch");
+    return null;
+  }
+
+  console.log("Rendering ChangeEmail component");
   return (
     <div className="change-email">
       <div className="container">

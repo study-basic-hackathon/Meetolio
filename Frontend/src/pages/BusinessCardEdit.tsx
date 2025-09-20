@@ -24,8 +24,8 @@ const BusinessCardEdit: React.FC = () => {
     // モックプロフィールデータを取得
     const mockProfile: Profile = {
       id: "1",
-      userId: user?.id || "1",
-      name: user?.name || "田中太郎",
+      userId: "1",
+      name: "田中太郎",
       nameKana: "たなか たろう",
       company: "テック株式会社",
       occupation: "フロントエンドエンジニア",

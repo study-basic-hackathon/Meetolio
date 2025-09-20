@@ -25,6 +25,7 @@ type AuthAction =
   | { type: "REGISTER_START" }
   | { type: "REGISTER_SUCCESS"; payload: User }
   | { type: "REGISTER_FAILURE"; payload: string }
+  | { type: "UPDATE_USER"; payload: User }
   | { type: "CLEAR_ERROR" }
   | { type: "CLEAR_JUST_LOGGED_IN" };
 
@@ -114,6 +115,11 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         ...state,
         justLoggedIn: false,
       };
+    case "UPDATE_USER":
+      return {
+        ...state,
+        user: action.payload,
+      };
     default:
       return state;
   }
@@ -126,6 +132,7 @@ interface AuthContextType extends AuthState {
   logout: () => void;
   clearError: () => void;
   clearJustLoggedIn: () => void;
+  updateUser: (user: User) => void;
 }
 
 // グローバルに使える認証箱
@@ -298,6 +305,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     dispatch({ type: "CLEAR_JUST_LOGGED_IN" });
   };
 
+  const updateUser = (user: User) => {
+    setUser(user); // localStorageも更新
+    dispatch({ type: "UPDATE_USER", payload: user });
+  };
+
   const value: AuthContextType = {
     ...state,
     login,
@@ -305,6 +317,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     logout,
     clearError,
     clearJustLoggedIn,
+    updateUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
