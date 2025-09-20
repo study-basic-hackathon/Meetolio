@@ -216,7 +216,7 @@ const Portfolio: React.FC = () => {
                   type="button"
                   className="change-card-btn"
                   onClick={() => {
-                    navigate("/business-card/edit");
+                    navigate(`/portfolio/${user.id}/edit`);
                   }}
                 >
                   名刺画像をアップロードする
