@@ -285,9 +285,7 @@ const PortfolioEdit: React.FC = () => {
                       className="card-image"
                     />
                   ) : (
-                    <p style={{ margin: 20 }}>
-                      現在アップロードされている名刺はありません
-                    </p>
+                    <span>現在アップロードされている名刺はありません</span>
                   )}
                 </div>
               </div>
