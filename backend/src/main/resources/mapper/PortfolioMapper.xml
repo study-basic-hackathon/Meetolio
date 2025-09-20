@@ -7,15 +7,15 @@
 
     <!-- ポートフォリオID検索 -->
     <select id="findById">
-        SELECT user_id, name, name_kana, company, occupation, description, created_at, updated_at
+        SELECT user_id, name, name_kana, company, occupation, description, name_card_img_url, email, twitter, linkedin, github, website, created_at, updated_at
         FROM portfolios
         WHERE user_id = #{userId}
     </select>
 
     <!-- ポートフォリオ作成・更新（UPSERT） -->
     <insert id="save">
-        INSERT INTO portfolios (user_id, name, name_kana, company, occupation, description, email, website, twitter, github, linkedin)
-        VALUES (#{userId}, #{name}, #{nameKana}, #{company}, #{occupation}, #{description}, #{email}, #{website}, #{twitter}, #{github}, #{linkedin})
+        INSERT INTO portfolios (user_id, name, name_kana, company, occupation, description, name_card_img_url, email, twitter, linkedin, github, website)
+        VALUES (#{userId}, #{name}, #{nameKana}, #{company}, #{occupation}, #{description}, #{nameCardImgUrl}, #{email}, #{twitter}, #{linkedin}, #{github}, #{website})
         ON CONFLICT (user_id)
         DO UPDATE SET
             name = EXCLUDED.name,
@@ -23,11 +23,12 @@
             company = EXCLUDED.company,
             occupation = EXCLUDED.occupation,
             description = EXCLUDED.description,
+            name_card_img_url = EXCLUDED.name_card_img_url,
             email = EXCLUDED.email,
-            website = EXCLUDED.website,
             twitter = EXCLUDED.twitter,
-            github = EXCLUDED.github,
             linkedin = EXCLUDED.linkedin,
+            github = EXCLUDED.github,
+            website = EXCLUDED.website,
             updated_at = NOW()
     </insert>
 

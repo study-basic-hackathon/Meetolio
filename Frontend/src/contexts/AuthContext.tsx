@@ -39,6 +39,7 @@ const initialState: AuthState = {
   isLoading: false,
   error: null,
   justLoggedIn: false,
+  isAuthReady: false,
 };
 
 // ReducerでlocalStorageの保存はやらない
@@ -51,6 +52,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         isAuthenticated: !!action.payload,
         isLoading: false,
         justLoggedIn: false,
+        isAuthReady: true,
       };
     case "LOGIN_START":
       return {
@@ -66,6 +68,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         isLoading: false,
         error: null,
         justLoggedIn: true,
+        isAuthReady: true,
       };
     case "LOGIN_FAILURE":
       return {
@@ -75,6 +78,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         isLoading: false,
         error: action.payload,
         justLoggedIn: false,
+        isAuthReady: true,
       };
     case "LOGOUT":
       return {
@@ -84,6 +88,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         isLoading: false,
         error: null,
         justLoggedIn: false,
+        isAuthReady: true,
       };
     case "REGISTER_START":
       return {
@@ -99,6 +104,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         isLoading: false,
         error: null,
         justLoggedIn: true,
+        isAuthReady: true,
       };
     case "REGISTER_FAILURE":
       return {
@@ -108,6 +114,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         isLoading: false,
         error: action.payload,
         justLoggedIn: false,
+        isAuthReady: true,
       };
     case "CLEAR_ERROR":
       return {
@@ -169,6 +176,7 @@ interface AuthContextType extends AuthState {
     currentPassword: string,
     newPassword: string
   ) => Promise<boolean>;
+  getToken: () => string | null;
 }
 
 // グローバルに使える認証箱
@@ -419,6 +427,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     updateUser,
     deleteAccount,
     changePassword,
+    getToken,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -5,16 +5,17 @@ import { useAuth } from "../contexts/AuthContext";
 import "./AccountSettings.css";
 
 const AccountSettings: React.FC = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, isAuthReady } = useAuth();
   const navigate = useNavigate();
 
   // 認証チェック
   useEffect(() => {
+    if (!isAuthReady) return;
     if (!isAuthenticated) {
       navigate("/login");
       return;
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, isAuthReady, navigate]);
 
   if (!user || !isAuthenticated) {
     return null;

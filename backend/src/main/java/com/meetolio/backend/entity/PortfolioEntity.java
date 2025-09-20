@@ -13,12 +13,12 @@ public class PortfolioEntity {
     private String company; // 会社名
     private String occupation; // 職種
     private String description; // 自己紹介
-    private String email; // メールアドレス
-    private String website; // ウェブサイト
-    private String twitter; // Twitterアカウント
-    private String github; // GitHubアカウント
-    private String linkedin; // LinkedInアカウント
     private String nameCardImgUrl; // 名刺画像URL
+    private String email; // メールアドレス
+    private String twitter; // Twitter URL
+    private String linkedin; // LinkedIn URL
+    private String github; // GitHub URL
+    private String website; // ウェブサイト URL
     private LocalDateTime createdAt; // 作成日時
     private LocalDateTime updatedAt; // 更新日時
 }

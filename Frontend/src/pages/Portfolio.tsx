@@ -35,18 +35,11 @@ const Portfolio: React.FC = () => {
             nameCardImgUrl: dto.nameCardImgUrl ?? "",
             skills: [],
             interests: [],
-            contactInfo: {
-              email: "",
-              phone: "",
-              sns: {
-                twitter: "",
-                linkedin: "",
-                facebook: "",
-                instagram: "",
-                github: "",
-              },
-              website: "",
-            },
+            email: dto.email ?? "",
+            twitter: dto.twitter ?? "",
+            linkedin: dto.linkedin ?? "",
+            github: dto.github ?? "",
+            website: dto.website ?? "",
             isPublic: true,
             createdAt: new Date(),
             updatedAt: new Date(),
@@ -228,9 +221,9 @@ const Portfolio: React.FC = () => {
           <div className="sns-section">
             <div className="sns-grid">
               {/* メール */}
-              {profile.contactInfo.email && (
+              {profile.email && (
                 <a
-                  href={`mailto:${profile.contactInfo.email}`}
+                  href={`mailto:${profile.email}`}
                   className="sns-card email-card"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -238,35 +231,15 @@ const Portfolio: React.FC = () => {
                   <div className="sns-icon">📧</div>
                   <div className="sns-info">
                     <span className="sns-label">メール</span>
-                    <span className="sns-value">
-                      {profile.contactInfo.email}
-                    </span>
-                  </div>
-                </a>
-              )}
-
-              {/* 電話番号 */}
-              {profile.contactInfo.phone && (
-                <a
-                  href={`tel:${profile.contactInfo.phone}`}
-                  className="sns-card phone-card"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <div className="sns-icon">📞</div>
-                  <div className="sns-info">
-                    <span className="sns-label">電話番号</span>
-                    <span className="sns-value">
-                      {profile.contactInfo.phone}
-                    </span>
+                    <span className="sns-value">{profile.email}</span>
                   </div>
                 </a>
               )}
 
               {/* ウェブサイト */}
-              {profile.contactInfo.website && (
+              {profile.website && (
                 <a
-                  href={profile.contactInfo.website}
+                  href={profile.website}
                   className="sns-card website-card"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -274,17 +247,15 @@ const Portfolio: React.FC = () => {
                   <div className="sns-icon">🌐</div>
                   <div className="sns-info">
                     <span className="sns-label">ウェブサイト</span>
-                    <span className="sns-value">
-                      {profile.contactInfo.website}
-                    </span>
+                    <span className="sns-value">{profile.website}</span>
                   </div>
                 </a>
               )}
 
               {/* Twitter */}
-              {profile.contactInfo.sns?.twitter && (
+              {profile.twitter && (
                 <a
-                  href={`https://twitter.com/${profile.contactInfo.sns.twitter}`}
+                  href={`https://twitter.com/${profile.twitter}`}
                   className="sns-card twitter-card"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -292,17 +263,15 @@ const Portfolio: React.FC = () => {
                   <div className="sns-icon">🐦</div>
                   <div className="sns-info">
                     <span className="sns-label">Twitter</span>
-                    <span className="sns-value">
-                      {profile.contactInfo.sns.twitter}
-                    </span>
+                    <span className="sns-value">{profile.twitter}</span>
                   </div>
                 </a>
               )}
 
               {/* LinkedIn */}
-              {profile.contactInfo.sns?.linkedin && (
+              {profile.linkedin && (
                 <a
-                  href={`https://${profile.contactInfo.sns.linkedin}`}
+                  href={`https://${profile.linkedin}`}
                   className="sns-card linkedin-card"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -310,53 +279,15 @@ const Portfolio: React.FC = () => {
                   <div className="sns-icon">💼</div>
                   <div className="sns-info">
                     <span className="sns-label">LinkedIn</span>
-                    <span className="sns-value">
-                      {profile.contactInfo.sns.linkedin}
-                    </span>
-                  </div>
-                </a>
-              )}
-
-              {/* Facebook */}
-              {profile.contactInfo.sns?.facebook && (
-                <a
-                  href={`https://${profile.contactInfo.sns.facebook}`}
-                  className="sns-card facebook-card"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <div className="sns-icon">📘</div>
-                  <div className="sns-info">
-                    <span className="sns-label">Facebook</span>
-                    <span className="sns-value">
-                      {profile.contactInfo.sns.facebook}
-                    </span>
-                  </div>
-                </a>
-              )}
-
-              {/* Instagram */}
-              {profile.contactInfo.sns?.instagram && (
-                <a
-                  href={`https://instagram.com/${profile.contactInfo.sns.instagram}`}
-                  className="sns-card instagram-card"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <div className="sns-icon">📷</div>
-                  <div className="sns-info">
-                    <span className="sns-label">Instagram</span>
-                    <span className="sns-value">
-                      {profile.contactInfo.sns.instagram}
-                    </span>
+                    <span className="sns-value">{profile.linkedin}</span>
                   </div>
                 </a>
               )}
 
               {/* GitHub */}
-              {profile.contactInfo.sns?.github && (
+              {profile.github && (
                 <a
-                  href={`https://github.com/${profile.contactInfo.sns.github}`}
+                  href={`https://github.com/${profile.github}`}
                   className="sns-card github-card"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -364,9 +295,7 @@ const Portfolio: React.FC = () => {
                   <div className="sns-icon">💻</div>
                   <div className="sns-info">
                     <span className="sns-label">GitHub</span>
-                    <span className="sns-value">
-                      {profile.contactInfo.sns.github}
-                    </span>
+                    <span className="sns-value">{profile.github}</span>
                   </div>
                 </a>
               )}

@@ -5,7 +5,7 @@ import type { Profile } from "../types";
 import "./PortfolioEdit.css";
 
 const PortfolioEdit: React.FC = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, isAuthReady, logout, getToken } = useAuth();
   const navigate = useNavigate();
   const { userId } = useParams<{ userId: string }>();
 
@@ -13,9 +13,10 @@ const PortfolioEdit: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [isCardFlipped, setIsCardFlipped] = useState(false);
-  const token = localStorage.getItem("access_token") ?? "";
 
   useEffect(() => {
+    if (!isAuthReady) return;
+
     if (!isAuthenticated) {
       navigate("/login");
       return;
@@ -31,9 +32,10 @@ const PortfolioEdit: React.FC = () => {
     // 既存のプロフィールを取得する
     const loadProfile = async () => {
       try {
+        const token = getToken();
         const res = await fetch(`/api/portfolio/${userId}`, {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token ?? ""}`,
           },
         });
 
@@ -53,17 +55,11 @@ const PortfolioEdit: React.FC = () => {
             nameCardImgUrl: dto.nameCardImgUrl || "",
             skills: [],
             interests: [],
-            contactInfo: {
-              email: "",
-              phone: "",
-              sns: {
-                twitter: "",
-                linkedin: "",
-                github: "",
-                instagram: "",
-              },
-              website: "",
-            },
+            email: dto.email || "",
+            twitter: dto.twitter || "",
+            linkedin: dto.linkedin || "",
+            github: dto.github || "",
+            website: dto.website || "",
             isPublic: true,
             createdAt: new Date(),
             updatedAt: new Date(),
@@ -81,17 +77,11 @@ const PortfolioEdit: React.FC = () => {
             description: "",
             skills: [],
             interests: [],
-            contactInfo: {
-              email: "",
-              phone: "",
-              sns: {
-                twitter: "",
-                linkedin: "",
-                github: "",
-                instagram: "",
-              },
-              website: "",
-            },
+            email: "",
+            twitter: "",
+            linkedin: "",
+            github: "",
+            website: "",
             isPublic: true,
             createdAt: new Date(),
             updatedAt: new Date(),
@@ -113,17 +103,11 @@ const PortfolioEdit: React.FC = () => {
           description: "",
           skills: [],
           interests: [],
-          contactInfo: {
-            email: "",
-            phone: "",
-            sns: {
-              twitter: "",
-              linkedin: "",
-              github: "",
-              instagram: "",
-            },
-            website: "",
-          },
+          email: "",
+          twitter: "",
+          linkedin: "",
+          github: "",
+          website: "",
           isPublic: true,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -135,7 +119,7 @@ const PortfolioEdit: React.FC = () => {
     };
 
     loadProfile();
-  }, [isAuthenticated, user, navigate, userId, token]);
+  }, [isAuthReady, isAuthenticated, user, navigate, userId, getToken]);
 
   // Cardを表にしたり裏返したり
   const handleCardFlip = () => {
@@ -147,38 +131,6 @@ const PortfolioEdit: React.FC = () => {
     setProfile({
       ...profile,
       [field]: value,
-    });
-  };
-
-  const handleContactInfoChange = (
-    field: keyof Profile["contactInfo"],
-    value: any
-  ) => {
-    if (!profile) return;
-    setProfile({
-      ...profile,
-      contactInfo: {
-        ...profile.contactInfo,
-        [field]: value,
-      },
-    });
-  };
-
-  const handleSnsChange = (
-    platform: keyof Profile["contactInfo"]["sns"],
-    value: string
-  ) => {
-    if (!profile) return;
-
-    setProfile({
-      ...profile,
-      contactInfo: {
-        ...profile.contactInfo,
-        sns: {
-          ...profile.contactInfo.sns,
-          [platform]: value,
-        },
-      },
     });
   };
 
@@ -217,14 +169,23 @@ const PortfolioEdit: React.FC = () => {
 
       // バックエンドDTOに合わせて組み替え
       const dto = {
-        userId: parseInt(profile.userId), // バックエンドはInteger型を期待
         name: profile.name,
         nameKana: profile.nameKana,
         company: profile.company,
         occupation: profile.occupation,
         description: profile.description,
         nameCardImgUrl: null,
+        email: profile.email,
+        twitter: profile.twitter,
+        linkedin: profile.linkedin,
+        github: profile.github,
+        website: profile.website,
       };
+
+      // POSTの場合はuserIdも含める
+      if (!profile.id) {
+        (dto as any).userId = parseInt(profile.userId);
+      }
 
       const method = profile.id ? "PUT" : "POST";
       const url = profile.id
@@ -235,14 +196,26 @@ const PortfolioEdit: React.FC = () => {
         method,
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getToken() ?? ""}`,
         },
         body: JSON.stringify(dto),
       });
 
       if (!res.ok) {
         if (res.status === 401) {
-          alert("認証が切れました。ログインし直してください。");
+          // トークンが無効な場合のみログアウト
+          const token = getToken();
+          if (!token) {
+            logout();
+            alert("認証が切れました。ログインし直してください。");
+            navigate("/login");
+            return;
+          }
+          // トークンが存在するのに401が返された場合は、他の原因の可能性があるため詳細なエラーメッセージを表示
+          console.error("401 error with valid token:", token);
+          alert(
+            "認証エラーが発生しました。しばらく待ってから再試行してください。"
+          );
           return;
         }
         const text = await res.text().catch(() => "");
@@ -411,8 +384,8 @@ const PortfolioEdit: React.FC = () => {
             <input
               type="email"
               id="email"
-              value={profile.contactInfo.email}
-              onChange={(e) => handleContactInfoChange("email", e.target.value)}
+              value={profile.email}
+              onChange={(e) => handleInputChange("email", e.target.value)}
               placeholder="example@email.com"
             />
           </div>
@@ -422,10 +395,8 @@ const PortfolioEdit: React.FC = () => {
             <input
               type="url"
               id="website"
-              value={profile.contactInfo.website || ""}
-              onChange={(e) =>
-                handleContactInfoChange("website", e.target.value)
-              }
+              value={profile.website || ""}
+              onChange={(e) => handleInputChange("website", e.target.value)}
               placeholder="https://example.com"
             />
           </div>
@@ -436,8 +407,8 @@ const PortfolioEdit: React.FC = () => {
             <input
               type="text"
               id="twitter"
-              value={profile.contactInfo.sns.twitter || ""}
-              onChange={(e) => handleSnsChange("twitter", e.target.value)}
+              value={profile.twitter || ""}
+              onChange={(e) => handleInputChange("twitter", e.target.value)}
               placeholder="@username"
             />
           </div>
@@ -447,8 +418,8 @@ const PortfolioEdit: React.FC = () => {
             <input
               type="text"
               id="github"
-              value={profile.contactInfo.sns.github || ""}
-              onChange={(e) => handleSnsChange("github", e.target.value)}
+              value={profile.github || ""}
+              onChange={(e) => handleInputChange("github", e.target.value)}
               placeholder="username"
             />
           </div>
@@ -458,8 +429,8 @@ const PortfolioEdit: React.FC = () => {
             <input
               type="text"
               id="linkedin"
-              value={profile.contactInfo.sns.linkedin || ""}
-              onChange={(e) => handleSnsChange("linkedin", e.target.value)}
+              value={profile.linkedin || ""}
+              onChange={(e) => handleInputChange("linkedin", e.target.value)}
               placeholder="username"
             />
           </div>

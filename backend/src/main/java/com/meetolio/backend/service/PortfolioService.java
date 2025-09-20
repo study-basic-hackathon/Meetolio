@@ -58,12 +58,12 @@ public class PortfolioService {
         entity.setCompany(request.getCompany());
         entity.setOccupation(request.getOccupation());
         entity.setDescription(request.getDescription());
-        entity.setEmail(request.getEmail());
-        entity.setWebsite(request.getWebsite());
-        entity.setTwitter(request.getTwitter());
-        entity.setGithub(request.getGithub());
-        entity.setLinkedin(request.getLinkedin());
         entity.setNameCardImgUrl(request.getNameCardImgUrl());
+        entity.setEmail(request.getEmail());
+        entity.setTwitter(request.getTwitter());
+        entity.setLinkedin(request.getLinkedin());
+        entity.setGithub(request.getGithub());
+        entity.setWebsite(request.getWebsite());
 
         portfolioRepository.save(entity);
     }
@@ -82,12 +82,12 @@ public class PortfolioService {
         entity.setCompany(request.getCompany());
         entity.setOccupation(request.getOccupation());
         entity.setDescription(request.getDescription());
-        entity.setEmail(request.getEmail());
-        entity.setWebsite(request.getWebsite());
-        entity.setTwitter(request.getTwitter());
-        entity.setGithub(request.getGithub());
-        entity.setLinkedin(request.getLinkedin());
         entity.setNameCardImgUrl(request.getNameCardImgUrl());
+        entity.setEmail(request.getEmail());
+        entity.setTwitter(request.getTwitter());
+        entity.setLinkedin(request.getLinkedin());
+        entity.setGithub(request.getGithub());
+        entity.setWebsite(request.getWebsite());
 
         portfolioRepository.save(entity);
     }

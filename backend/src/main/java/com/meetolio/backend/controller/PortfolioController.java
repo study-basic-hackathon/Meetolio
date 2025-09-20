@@ -48,18 +48,15 @@ public class PortfolioController {
 
     /** ポートフォリオ更新 */
     @PutMapping("/{userId}")
-    public ResponseEntity<Void> updatePortfolio(
-            Principal principal,
-            @PathVariable Integer userId,
-            @RequestBody PortfolioUpdateRequestDto request) {
-        Integer loginUserId = Integer.parseInt(principal.getName());
-
-        // ログインユーザーと更新対象の一致チェック
-        if (!loginUserId.equals(userId)) {
+    public ResponseEntity<Void> updatePortfolio(Principal principal, @PathVariable Integer userId, @RequestBody PortfolioUpdateRequestDto request) {
+        Integer authenticatedUserId = Integer.parseInt(principal.getName());
+        
+        // 認証されたユーザーIDとパスパラメータのuserIdが一致するかチェック
+        if (!authenticatedUserId.equals(userId)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         portfolioService.updatePortfolio(userId, request);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
