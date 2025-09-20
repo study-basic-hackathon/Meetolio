@@ -280,7 +280,7 @@ const PortfolioEdit: React.FC = () => {
                     />
                   ) : profile.nameCardImgUrl ? (
                     <img
-                      src="/img/sample.jpeg"
+                      src={profile.nameCardImgUrl}
                       alt="名刺（表面）"
                       className="card-image"
                     />

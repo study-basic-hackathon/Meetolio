@@ -146,7 +146,7 @@ const Portfolio: React.FC = () => {
                   {/* 名刺の表面 */}
                   <div className="card-front">
                     <img
-                      src="/img/sample.jpeg"
+                      src={profile.nameCardImgUrl}
                       alt="名刺（表面）"
                       className="card-image"
                       onError={(e) => {
@@ -174,7 +174,7 @@ const Portfolio: React.FC = () => {
                   {/* 名刺の裏面 */}
                   <div className="card-back">
                     <img
-                      src="/img/sample2.jpeg"
+                      src={profile.nameCardImgUrl}
                       alt="名刺（裏面）"
                       className="card-image"
                       onError={(e) => {
