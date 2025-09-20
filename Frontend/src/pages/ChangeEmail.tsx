@@ -5,7 +5,7 @@ import type { ChangeEmailForm } from "../types";
 import "./ChangeEmail.css";
 
 const ChangeEmail: React.FC = () => {
-  const { user, updateUser, isAuthenticated } = useAuth();
+  const { user, updateUser, isAuthenticated, isAuthReady } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState<ChangeEmailForm>({
     currentEmail: user?.email || "",
@@ -17,11 +17,13 @@ const ChangeEmail: React.FC = () => {
 
   // 認証チェック
   useEffect(() => {
+    if (!isAuthReady) return;
+
     if (!isAuthenticated) {
       navigate("/login");
       return;
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, isAuthReady, navigate]);
 
   const handleInputChange = (field: keyof ChangeEmailForm, value: string) => {
     setFormData({

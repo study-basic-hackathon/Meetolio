@@ -15,25 +15,17 @@ export interface Profile {
   occupation?: string;
   company?: string;
   description?: string;
-  contactInfo: ContactInfo;
+  email: string;
+  twitter?: string;
+  linkedin?: string;
+  instagram?: string;
+  github?: string;
+  website?: string;
   skills: string[];
   interests: string[];
   isPublic: boolean;
   createdAt: Date;
   updatedAt: Date;
-}
-
-export interface ContactInfo {
-  email: string;
-  phone?: string;
-  sns: {
-    twitter?: string;
-    linkedin?: string;
-    facebook?: string;
-    instagram?: string;
-    github?: string;
-  };
-  website?: string;
 }
 
 export interface AuthState {
@@ -42,6 +34,7 @@ export interface AuthState {
   isLoading: boolean;
   error: string | null;
   justLoggedIn: boolean;
+  isAuthReady: boolean;
 }
 
 export interface LoginForm {

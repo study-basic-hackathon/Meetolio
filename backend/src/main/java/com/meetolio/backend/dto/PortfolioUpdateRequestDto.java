@@ -11,4 +11,9 @@ public class PortfolioUpdateRequestDto {
     private String occupation;      // 役職
     private String description;     // 自己紹介
     private String nameCardImgUrl;  // 名刺画像URL
+    private String email;           // メールアドレス
+    private String twitter;         // Twitter URL
+    private String linkedin;        // LinkedIn URL
+    private String github;          // GitHub URL
+    private String website;         // ウェブサイト URL
 }

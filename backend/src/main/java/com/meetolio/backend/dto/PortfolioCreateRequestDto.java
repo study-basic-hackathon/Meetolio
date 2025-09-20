@@ -12,4 +12,9 @@ public class PortfolioCreateRequestDto {
     private String occupation; // 職種（任意）
     private String description; // 自己紹介（任意）
     private String nameCardImgUrl; // 名刺画像URL（任意）
+    private String email; // メールアドレス（任意）
+    private String twitter; // Twitter URL（任意）
+    private String linkedin; // LinkedIn URL（任意）
+    private String github; // GitHub URL（任意）
+    private String website; // ウェブサイト URL（任意）
 }
