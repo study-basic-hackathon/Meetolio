@@ -259,36 +259,44 @@ const PortfolioEdit: React.FC = () => {
           {/* 名刺 */}
           <div className="business-card-section">
             {/* 名刺プレビュー（裏表タップ切り替え） */}
-            <div className="card-preview-container">
-              <div
-                className={`business-card ${isCardFlipped ? "flipped" : ""}`}
-                onClick={handleCardFlip}
-              >
-                {/* 名刺の表面 */}
-                <div className="card-front">
-                  <img
-                    src="/img/sample.jpeg"
-                    alt="名刺（表面）"
-                    className="card-image"
-                  />
-                  <div className="flip-hint-overlay">
-                    <p className="flip-hint">タップして裏面を見る</p>
+            {profile.nameCardImgUrl ? (
+              <div className="card-preview-container">
+                <div
+                  className={`business-card ${isCardFlipped ? "flipped" : ""}`}
+                  onClick={handleCardFlip}
+                >
+                  {/* 名刺の表面 */}
+                  <div className="card-front">
+                    <img
+                      src="/img/sample.jpeg"
+                      alt="名刺（表面）"
+                      className="card-image"
+                    />
+                    <div className="flip-hint-overlay">
+                      <p className="flip-hint">タップして裏面を見る</p>
+                    </div>
                   </div>
-                </div>
 
-                {/* 名刺の裏面 */}
-                <div className="card-back">
-                  <img
-                    src="/img/sample2.jpeg"
-                    alt="名刺（裏面）"
-                    className="card-image"
-                  />
-                  <div className="flip-hint-overlay">
-                    <p className="flip-hint">タップして表面に戻る</p>
+                  {/* 名刺の裏面 */}
+                  <div className="card-back">
+                    <img
+                      src="/img/sample2.jpeg"
+                      alt="名刺（裏面）"
+                      className="card-image"
+                    />
+                    <div className="flip-hint-overlay">
+                      <p className="flip-hint">タップして表面に戻る</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <p style={{ margin: 20 }}>
+                自身の名刺画像がアップロードされていません。
+                <br />
+                アップロードしてプロフィールを充実させましょう。
+              </p>
+            )}
 
             {/* 名刺変更ボタン */}
             <div className="card-edit-options">
