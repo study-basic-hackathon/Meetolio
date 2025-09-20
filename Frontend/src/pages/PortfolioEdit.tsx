@@ -15,7 +15,6 @@ const PortfolioEdit: React.FC = () => {
   const [isCardFlipped] = useState(false);
 
   const [uploadedImage, setUploadedImage] = useState<string>();
-  const [uploadedImageFile, setUploadedImageFile] = useState<File | null>(null);
 
   useEffect(() => {
     if (!isAuthReady) return;
@@ -134,7 +133,6 @@ const PortfolioEdit: React.FC = () => {
 
   // 画像アップロード
   const handleImageUpload = (file: File) => {
-    setUploadedImageFile(file);
     // プレビュー用にはDataURLも保持
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -183,7 +181,7 @@ const PortfolioEdit: React.FC = () => {
         company: profile.company,
         occupation: profile.occupation,
         description: profile.description,
-        nameCardImgUrl: null,
+        nameCardImgUrl: uploadedImage ?? profile.nameCardImgUrl ?? null,
         email: profile.email,
         twitter: profile.twitter,
         linkedin: profile.linkedin,
