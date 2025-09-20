@@ -127,75 +127,103 @@ const Portfolio: React.FC = () => {
   // 表示するユーザー名を決定
   const displayName = profile?.name;
 
+  // 表示ページがマイページかの判定
+  const isOwner = user?.id === profile.userId;
+
   return (
     <div className="mypage">
       <div className="container">
         <div className="profile-section">
           {/* 名刺画像セクション */}
-          <div className="business-card-section">
-            <div className="card-container">
-              <div
-                className={`business-card ${isCardFlipped ? "flipped" : ""}`}
-                onClick={handleCardFlip}
-              >
-                {/* 名刺の表面 */}
-                <div className="card-front">
-                  <img
-                    src="/img/sample.jpeg"
-                    alt="名刺（表面）"
-                    className="card-image"
-                    onError={(e) => {
-                      // 画像が読み込めない場合のフォールバック
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = "none";
-                      target.nextElementSibling?.classList.remove("hidden");
-                    }}
-                  />
-                  {/* フォールバック用のプレースホルダー */}
-                  <div className="card-placeholder hidden">
-                    <div className="placeholder-content">
-                      <div className="placeholder-icon">📇</div>
-                      <p className="placeholder-text">名刺画像（表面）</p>
-                      <p className="placeholder-subtext">
-                        画像をアップロードしてください
-                      </p>
+          {/* 名刺画像が存在すれば表示する */}
+          {profile.nameCardImgUrl && (
+            <div className="business-card-section">
+              <div className="card-container">
+                <div
+                  className={`business-card ${isCardFlipped ? "flipped" : ""}`}
+                  onClick={handleCardFlip}
+                >
+                  {/* 名刺の表面 */}
+                  <div className="card-front">
+                    <img
+                      src="/img/sample.jpeg"
+                      alt="名刺（表面）"
+                      className="card-image"
+                      onError={(e) => {
+                        // 画像が読み込めない場合のフォールバック
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = "none";
+                        target.nextElementSibling?.classList.remove("hidden");
+                      }}
+                    />
+                    {/* フォールバック用のプレースホルダー */}
+                    <div className="card-placeholder hidden">
+                      <div className="placeholder-content">
+                        <div className="placeholder-icon">📇</div>
+                        <p className="placeholder-text">名刺画像（表面）</p>
+                        <p className="placeholder-subtext">
+                          画像をアップロードしてください
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flip-hint-overlay">
+                      <p className="flip-hint">タップして裏面を見る</p>
                     </div>
                   </div>
-                  <div className="flip-hint-overlay">
-                    <p className="flip-hint">タップして裏面を見る</p>
-                  </div>
-                </div>
 
-                {/* 名刺の裏面 */}
-                <div className="card-back">
-                  <img
-                    src="/img/sample2.jpeg"
-                    alt="名刺（裏面）"
-                    className="card-image"
-                    onError={(e) => {
-                      // 画像が読み込めない場合のフォールバック
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = "none";
-                      target.nextElementSibling?.classList.remove("hidden");
-                    }}
-                  />
-                  {/* フォールバック用のプレースホルダー */}
-                  <div className="card-placeholder hidden">
-                    <div className="placeholder-content">
-                      <div className="placeholder-icon">📇</div>
-                      <p className="placeholder-text">名刺画像（裏面）</p>
-                      <p className="placeholder-subtext">
-                        画像をアップロードしてください
-                      </p>
+                  {/* 名刺の裏面 */}
+                  <div className="card-back">
+                    <img
+                      src="/img/sample2.jpeg"
+                      alt="名刺（裏面）"
+                      className="card-image"
+                      onError={(e) => {
+                        // 画像が読み込めない場合のフォールバック
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = "none";
+                        target.nextElementSibling?.classList.remove("hidden");
+                      }}
+                    />
+                    {/* フォールバック用のプレースホルダー */}
+                    <div className="card-placeholder hidden">
+                      <div className="placeholder-content">
+                        <div className="placeholder-icon">📇</div>
+                        <p className="placeholder-text">名刺画像（裏面）</p>
+                        <p className="placeholder-subtext">
+                          画像をアップロードしてください
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flip-hint-overlay">
-                    <p className="flip-hint">タップして表面に戻る</p>
+                    <div className="flip-hint-overlay">
+                      <p className="flip-hint">タップして表面に戻る</p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
+
+          {/* 名刺画像が存在せず、マイページの場合はアップロードボタンを表示 */}
+          {!profile.nameCardImgUrl && isOwner && (
+            <div className="business-card-section">
+              <p style={{ margin: 20 }}>
+                自身の名刺画像がアップロードされていません。
+                <br />
+                アップロードしてプロフィールを充実させましょう。
+              </p>
+              <div className="card-edit-options">
+                <button
+                  type="button"
+                  className="change-card-btn"
+                  onClick={() => {
+                    navigate("/business-card/edit");
+                  }}
+                >
+                  名刺画像をアップロードする
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* 自己紹介セクション */}
           {profile.description && (
