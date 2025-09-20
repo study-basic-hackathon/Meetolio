@@ -43,16 +43,10 @@ function App() {
                 path="/business-card/design"
                 element={<BusinessCardDesign />}
               />
-              <Route path="/settings/:userId" element={<Settings />} />
-              <Route path="/settings/:userId/email" element={<ChangeEmail />} />
-              <Route
-                path="/settings/:userId/password"
-                element={<ChangePassword />}
-              />
-              <Route
-                path="/settings/:userId/delete"
-                element={<DeleteAccount />}
-              />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/settings/email" element={<ChangeEmail />} />
+              <Route path="/settings/password" element={<ChangePassword />} />
+              <Route path="/settings/delete" element={<DeleteAccount />} />
             </Routes>
           </main>
         </div>

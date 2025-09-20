@@ -90,7 +90,7 @@ const Header: React.FC = () => {
                     プロフィール編集
                   </Link>
                   <Link
-                    to={`/settings/${user?.id}`}
+                    to="/settings"
                     className="nav-link"
                     onClick={handleNavLinkClick}
                   >

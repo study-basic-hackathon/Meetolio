@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import type { ChangeEmailForm } from "../types";
 import "./ChangeEmail.css";
 
 const ChangeEmail: React.FC = () => {
   const { user, updateUser, isAuthenticated } = useAuth();
-  const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
   const [formData, setFormData] = useState<ChangeEmailForm>({
     currentEmail: user?.email || "",
@@ -16,38 +15,13 @@ const ChangeEmail: React.FC = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [errors, setErrors] = useState<Partial<ChangeEmailForm>>({});
 
-  // 認証チェックと権限確認
+  // 認証チェック
   useEffect(() => {
-    console.log(
-      "ChangeEmail useEffect - isAuthenticated:",
-      isAuthenticated,
-      "user:",
-      user,
-      "userId:",
-      userId
-    );
-
     if (!isAuthenticated) {
-      console.log("Not authenticated, redirecting to login");
       navigate("/login");
       return;
     }
-
-    // URLのuserIdとログインユーザーのIDが一致するかチェック
-    if (userId !== user?.id) {
-      console.log(
-        "User ID mismatch, redirecting to settings. userId:",
-        userId,
-        "user.id:",
-        user?.id
-      );
-      // 権限がない場合は自分の設定ページにリダイレクト
-      navigate(`/settings/${user?.id}`);
-      return;
-    }
-
-    console.log("Auth check passed");
-  }, [isAuthenticated, user, navigate, userId]);
+  }, [isAuthenticated, navigate]);
 
   const handleInputChange = (field: keyof ChangeEmailForm, value: string) => {
     setFormData({
@@ -134,31 +108,13 @@ const ChangeEmail: React.FC = () => {
   };
 
   const handleCancel = () => {
-    navigate(`/settings/${user?.id}`);
+    navigate("/settings");
   };
-
-  console.log(
-    "ChangeEmail render - isAuthenticated:",
-    isAuthenticated,
-    "user:",
-    user,
-    "userId:",
-    userId
-  );
 
   // 認証されていない場合やユーザー情報がない場合
   if (!isAuthenticated || !user) {
-    console.log("Rendering null - not authenticated or no user");
     return null;
   }
-
-  // 権限がない場合
-  if (userId !== user.id) {
-    console.log("Rendering null - user ID mismatch");
-    return null;
-  }
-
-  console.log("Rendering ChangeEmail component");
   return (
     <div className="change-email">
       <div className="container">

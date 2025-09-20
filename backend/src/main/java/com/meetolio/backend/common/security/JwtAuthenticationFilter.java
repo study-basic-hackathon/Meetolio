@@ -37,9 +37,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // トークンを解析し認証
         String token = authHeader.substring(7);
 
-        String userId = jwtService.extractUserId(token);
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userId, null, null);
-        SecurityContextHolder.getContext().setAuthentication(auth);
+        try {
+            String userId = jwtService.extractUserId(token);
+            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userId, null, null);
+            SecurityContextHolder.getContext().setAuthentication(auth);
+        } catch (Exception e) {
+            // トークンが無効な場合は認証なしで次へ
+            // SecurityContextに認証情報を設定せず、Spring Securityがこれを未認証として扱う
+        }
 
         filterChain.doFilter(request, response);
     }

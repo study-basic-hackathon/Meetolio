@@ -27,6 +27,10 @@ type AuthAction =
   | { type: "REGISTER_FAILURE"; payload: string }
   | { type: "UPDATE_USER"; payload: User }
   | { type: "CLEAR_ERROR" }
+  | { type: "DELETE_ACCOUNT_SUCCESS" }
+  | { type: "DELETE_ACCOUNT_FAILURE"; payload: string }
+  | { type: "CHANGE_PASSWORD_SUCCESS" }
+  | { type: "CHANGE_PASSWORD_FAILURE"; payload: string }
   | { type: "CLEAR_JUST_LOGGED_IN" };
 
 const initialState: AuthState = {
@@ -120,6 +124,33 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         ...state,
         user: action.payload,
       };
+    case "DELETE_ACCOUNT_SUCCESS":
+      return {
+        ...state,
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+        error: null,
+        justLoggedIn: false,
+      };
+    case "DELETE_ACCOUNT_FAILURE":
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      };
+    case "CHANGE_PASSWORD_SUCCESS":
+      return {
+        ...state,
+        isLoading: false,
+        error: null,
+      };
+    case "CHANGE_PASSWORD_FAILURE":
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      };
     default:
       return state;
   }
@@ -133,6 +164,11 @@ interface AuthContextType extends AuthState {
   clearError: () => void;
   clearJustLoggedIn: () => void;
   updateUser: (user: User) => void;
+  deleteAccount: (password: string) => Promise<boolean>;
+  changePassword: (
+    currentPassword: string,
+    newPassword: string
+  ) => Promise<boolean>;
 }
 
 // グローバルに使える認証箱
@@ -310,6 +346,69 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     dispatch({ type: "UPDATE_USER", payload: user });
   };
 
+  const deleteAccount = async (password: string): Promise<boolean> => {
+    dispatch({ type: "LOGIN_START" }); // ローディング状態に
+
+    try {
+      const token = getToken();
+      const res = await fetch("/api/account/me", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ password }),
+      });
+
+      if (!res.ok) {
+        throw new Error("アカウント削除に失敗しました");
+      }
+
+      clearToken();
+      dispatch({ type: "DELETE_ACCOUNT_SUCCESS" });
+      return true;
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "アカウント削除に失敗しました";
+      dispatch({ type: "DELETE_ACCOUNT_FAILURE", payload: errorMessage });
+      return false;
+    }
+  };
+
+  const changePassword = async (
+    currentPassword: string,
+    newPassword: string
+  ): Promise<boolean> => {
+    dispatch({ type: "LOGIN_START" }); // ローディング状態に
+
+    try {
+      const token = getToken();
+      const res = await fetch("/api/account/me/password", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          currentPassword,
+          newPassword,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("パスワード変更に失敗しました");
+      }
+
+      dispatch({ type: "CHANGE_PASSWORD_SUCCESS" });
+      return true;
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "パスワード変更に失敗しました";
+      dispatch({ type: "CHANGE_PASSWORD_FAILURE", payload: errorMessage });
+      return false;
+    }
+  };
+
   const value: AuthContextType = {
     ...state,
     login,
@@ -318,6 +417,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     clearError,
     clearJustLoggedIn,
     updateUser,
+    deleteAccount,
+    changePassword,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

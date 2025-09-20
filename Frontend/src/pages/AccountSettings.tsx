@@ -1,30 +1,22 @@
 import React, { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 import "./AccountSettings.css";
 
 const AccountSettings: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
-  const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
 
-  // 認証チェックと権限確認
+  // 認証チェック
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/login");
       return;
     }
+  }, [isAuthenticated, navigate]);
 
-    // URLのuserIdとログインユーザーのIDが一致するかチェック
-    if (userId !== user?.id) {
-      // 権限がない場合は自分の設定ページにリダイレクト
-      navigate(`/settings/${user?.id}`);
-      return;
-    }
-  }, [isAuthenticated, user, navigate, userId]);
-
-  if (!user || !isAuthenticated || userId !== user.id) {
+  if (!user || !isAuthenticated) {
     return null;
   }
 
@@ -39,7 +31,7 @@ const AccountSettings: React.FC = () => {
               {/* メールアドレス変更 */}
               <div
                 className="account-item clickable"
-                onClick={() => navigate(`/settings/${userId}/email`)}
+                onClick={() => navigate("/settings/email")}
               >
                 <div className="account-item-content">
                   <div className="account-item-label">メールアドレス</div>
@@ -51,7 +43,7 @@ const AccountSettings: React.FC = () => {
               {/* パスワード変更 */}
               <div
                 className="account-item clickable"
-                onClick={() => navigate(`/settings/${userId}/password`)}
+                onClick={() => navigate("/settings/password")}
               >
                 <div className="account-item-content">
                   <div className="account-item-label">パスワード</div>
@@ -63,7 +55,7 @@ const AccountSettings: React.FC = () => {
               {/* 退会処理 */}
               <div
                 className="account-item clickable"
-                onClick={() => navigate(`/settings/${userId}/delete`)}
+                onClick={() => navigate("/settings/delete")}
               >
                 <div className="account-item-content">
                   <div className="account-item-label">退会処理</div>
