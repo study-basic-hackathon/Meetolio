@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import type { ChangeEmailForm } from "../types";
 import "./ChangeEmail.css";
 
 const ChangeEmail: React.FC = () => {
-  const { user } = useAuth();
+  const { user, updateUser, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState<ChangeEmailForm>({
     currentEmail: user?.email || "",
@@ -14,6 +14,14 @@ const ChangeEmail: React.FC = () => {
   });
   const [isSaving, setIsSaving] = useState(false);
   const [errors, setErrors] = useState<Partial<ChangeEmailForm>>({});
+
+  // 認証チェック
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleInputChange = (field: keyof ChangeEmailForm, value: string) => {
     setFormData({
@@ -60,14 +68,40 @@ const ChangeEmail: React.FC = () => {
     setIsSaving(true);
 
     try {
-      // モックAPI呼び出し
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const res = await fetch("/api/account/me/email", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+        body: JSON.stringify({
+          email: formData.newEmail,
+          password: formData.password,
+        }),
+      });
 
-      // 成功時の処理
-      console.log("メールアドレスを変更しました:", formData);
+      if (!res.ok) {
+        throw new Error("メールアドレスの変更に失敗しました");
+      }
+
+      // ユーザー情報を更新
+      if (user) {
+        const updatedUser = {
+          ...user,
+          email: formData.newEmail,
+        };
+        updateUser(updatedUser);
+      }
+
+      alert("メールアドレスを変更しました");
+      console.log("メールアドレスを変更しました", formData);
       navigate("/settings");
-    } catch (error) {
-      console.error("メールアドレスの変更に失敗しました:", error);
+    } catch (err) {
+      console.error(err);
+      setErrors((prev) => ({
+        ...prev,
+        newEmail: (err as Error).message,
+      }));
     } finally {
       setIsSaving(false);
     }
@@ -77,6 +111,10 @@ const ChangeEmail: React.FC = () => {
     navigate("/settings");
   };
 
+  // 認証されていない場合やユーザー情報がない場合
+  if (!isAuthenticated || !user) {
+    return null;
+  }
   return (
     <div className="change-email">
       <div className="container">

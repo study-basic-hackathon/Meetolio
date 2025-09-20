@@ -317,15 +317,29 @@
 
 /* ログアウトボタン専用スタイル */
 .btn-logout {
-  background: #6b7280 !important;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
   color: white !important;
-  border: 2px solid #6b7280 !important;
+  border: none !important;
   position: relative;
   overflow: hidden;
-  font-weight: 500 !important;
-  letter-spacing: 0.25px;
-  transition: all 0.3s ease !important;
-  box-shadow: 0 2px 8px rgba(107, 114, 128, 0.2);
+  font-weight: 600 !important;
+  letter-spacing: 0.5px;
+  font-size: 14px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logout-icon {
+  font-size: 14px;
+  transition: transform 0.3s ease;
+}
+
+.btn-logout:hover .logout-icon {
+  transform: scale(1.1) rotate(5deg);
 }
 
 .btn-logout::before {
@@ -337,34 +351,56 @@
   height: 100%;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.15) 0%,
-    rgba(255, 255, 255, 0.05) 100%
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.1) 100%
   );
-  transition: left 0.3s ease;
+  transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-logout::after {
+  content: "👋";
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: all 0.3s ease;
+  font-size: 12px;
 }
 
 .btn-logout:hover {
-  background: #374151 !important;
-  transform: translateY(-1px) !important;
-  box-shadow: 0 4px 12px rgba(55, 65, 81, 0.25) !important;
-  border-color: #374151 !important;
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4) !important;
+  letter-spacing: 0.75px;
 }
 
 .btn-logout:hover::before {
   left: 0;
 }
 
+.btn-logout:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(-2px);
+}
+
 .btn-logout:active {
-  transform: translateY(0) !important;
-  box-shadow: 0 2px 8px rgba(55, 65, 81, 0.2) !important;
+  transform: translateY(-1px) scale(0.98) !important;
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3) !important;
 }
 
 /* モバイル版のログアウトボタン */
 @media (max-width: 768px) {
   .nav .btn-logout {
     margin: 8px 0;
-    font-size: 14px;
-    letter-spacing: 0.3px;
+    font-size: 13px;
+    letter-spacing: 0.4px;
+    padding: 8px 16px;
+  }
+
+  .btn-logout::after {
+    font-size: 10px;
+    right: 6px;
   }
 }
 
@@ -372,11 +408,16 @@
 @media (hover: none) {
   .btn-logout:hover {
     transform: none !important;
-    box-shadow: 0 2px 8px rgba(107, 114, 128, 0.2) !important;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3) !important;
   }
 
   .btn-logout:hover::before {
     left: -100%;
+  }
+
+  .btn-logout:hover::after {
+    opacity: 0;
   }
 }
 

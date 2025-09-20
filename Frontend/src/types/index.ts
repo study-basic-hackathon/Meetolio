@@ -85,6 +85,5 @@ export interface ChangePasswordForm {
 }
 
 export interface DeleteAccountForm {
-  reason: string;
   password: string;
 }

@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
 import type { ChangePasswordForm } from "../types";
 import "./ChangePassword.css";
 
 const ChangePassword: React.FC = () => {
-  const { user } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState<ChangePasswordForm>({
     currentPassword: "",
@@ -65,11 +63,25 @@ const ChangePassword: React.FC = () => {
     setIsSaving(true);
 
     try {
-      // モックAPI呼び出し
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const res = await fetch("/api/account/me/password", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+        body: JSON.stringify({
+          currentPassword: formData.currentPassword,
+          newPassword: formData.newPassword,
+          confirmNewPassword: formData.confirmNewPassword,
+        }),
+      });
 
-      // 成功時の処理
-      console.log("パスワードを変更しました");
+      if (!res.ok) {
+        throw new Error("パスワードを変更に失敗しました");
+      }
+
+      alert("パスワードを変更しました");
+      console.log("パスワードを変更しました", formData);
       navigate("/settings");
     } catch (error) {
       console.error("パスワードの変更に失敗しました:", error);
