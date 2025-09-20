@@ -14,8 +14,8 @@
 
     <!-- ポートフォリオ作成・更新（UPSERT） -->
     <insert id="save">
-        INSERT INTO portfolios (user_id, name, name_kana, company, occupation, description)
-        VALUES (#{userId}, #{name}, #{nameKana}, #{company}, #{occupation}, #{description})
+        INSERT INTO portfolios (user_id, name, name_kana, company, occupation, description, email, website, twitter, github, linkedin)
+        VALUES (#{userId}, #{name}, #{nameKana}, #{company}, #{occupation}, #{description}, #{email}, #{website}, #{twitter}, #{github}, #{linkedin})
         ON CONFLICT (user_id)
         DO UPDATE SET
             name = EXCLUDED.name,
@@ -23,6 +23,11 @@
             company = EXCLUDED.company,
             occupation = EXCLUDED.occupation,
             description = EXCLUDED.description,
+            email = EXCLUDED.email,
+            website = EXCLUDED.website,
+            twitter = EXCLUDED.twitter,
+            github = EXCLUDED.github,
+            linkedin = EXCLUDED.linkedin,
             updated_at = NOW()
     </insert>
 
