@@ -95,7 +95,7 @@ const ChangeEmail: React.FC = () => {
 
       alert("メールアドレスを変更しました");
       console.log("メールアドレスを変更しました", formData);
-      navigate(`/settings/${user?.id}`);
+      navigate("/settings");
     } catch (err) {
       console.error(err);
       setErrors((prev) => ({
