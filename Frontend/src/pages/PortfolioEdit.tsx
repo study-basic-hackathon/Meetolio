@@ -12,7 +12,9 @@ const PortfolioEdit: React.FC = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const [isCardFlipped, setIsCardFlipped] = useState(false);
+  const [isCardFlipped] = useState(false);
+
+  const [uploadedImage, setUploadedImage] = useState<string>();
 
   useEffect(() => {
     if (!isAuthReady) return;
@@ -121,17 +123,22 @@ const PortfolioEdit: React.FC = () => {
     loadProfile();
   }, [isAuthReady, isAuthenticated, user, navigate, userId, getToken]);
 
-  // Cardを表にしたり裏返したり
-  const handleCardFlip = () => {
-    setIsCardFlipped(!isCardFlipped);
-  };
-
   const handleInputChange = (field: keyof Profile, value: any) => {
     if (!profile) return;
     setProfile({
       ...profile,
       [field]: value,
     });
+  };
+
+  // 画像アップロード
+  const handleImageUpload = (file: File) => {
+    // プレビュー用にはDataURLも保持
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setUploadedImage(e.target?.result as string);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSave = async () => {
@@ -174,7 +181,7 @@ const PortfolioEdit: React.FC = () => {
         company: profile.company,
         occupation: profile.occupation,
         description: profile.description,
-        nameCardImgUrl: null,
+        nameCardImgUrl: uploadedImage ?? profile.nameCardImgUrl ?? null,
         email: profile.email,
         twitter: profile.twitter,
         linkedin: profile.linkedin,
@@ -262,30 +269,24 @@ const PortfolioEdit: React.FC = () => {
             <div className="card-preview-container">
               <div
                 className={`business-card ${isCardFlipped ? "flipped" : ""}`}
-                onClick={handleCardFlip}
               >
                 {/* 名刺の表面 */}
                 <div className="card-front">
-                  <img
-                    src="/img/sample.jpeg"
-                    alt="名刺（表面）"
-                    className="card-image"
-                  />
-                  <div className="flip-hint-overlay">
-                    <p className="flip-hint">タップして裏面を見る</p>
-                  </div>
-                </div>
-
-                {/* 名刺の裏面 */}
-                <div className="card-back">
-                  <img
-                    src="/img/sample2.jpeg"
-                    alt="名刺（裏面）"
-                    className="card-image"
-                  />
-                  <div className="flip-hint-overlay">
-                    <p className="flip-hint">タップして表面に戻る</p>
-                  </div>
+                  {uploadedImage ? (
+                    <img
+                      src={uploadedImage}
+                      alt="名刺（表面）"
+                      className="card-image"
+                    />
+                  ) : profile.nameCardImgUrl ? (
+                    <img
+                      src={profile.nameCardImgUrl}
+                      alt="名刺（表面）"
+                      className="card-image"
+                    />
+                  ) : (
+                    <span>現在アップロードされている名刺はありません</span>
+                  )}
                 </div>
               </div>
             </div>
@@ -296,10 +297,23 @@ const PortfolioEdit: React.FC = () => {
                 type="button"
                 className="change-card-btn"
                 onClick={() => {
-                  navigate("/business-card/edit");
+                  const input = document.getElementById("upload");
+                  input?.click();
                 }}
               >
-                名刺を変更
+                <input
+                  type="file"
+                  id="upload"
+                  accept="image/*"
+                  className="file-input"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      handleImageUpload(file);
+                    }
+                  }}
+                />
+                <span>名刺を変更</span>
               </button>
             </div>
           </div>

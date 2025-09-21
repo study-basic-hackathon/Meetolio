@@ -6,61 +6,70 @@ import type { Profile } from "../types";
 import "./BusinessCardEdit.css";
 
 const BusinessCardEdit: React.FC = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, getToken } = useAuth();
   const navigate = useNavigate();
-  const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [uploadedImages, setUploadedImages] = useState<{
     front?: string;
     back?: string;
   }>({});
 
+  // 空のプロフィールを用意
+  const emptyProfile: Profile = {
+    id: "",
+    userId: user?.id || "",
+    name: "",
+    nameKana: "",
+    company: "",
+    occupation: "",
+    description: "",
+    nameCardImgUrl: "",
+    skills: [],
+    interests: [],
+    email: "",
+    twitter: "",
+    linkedin: "",
+    github: "",
+    website: "",
+    isPublic: false,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+
+  const [profile, setProfile] = useState<Profile>(emptyProfile);
+
+  // 初期表示処理
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/login");
       return;
     }
 
-    // モックプロフィールデータを取得
-    const mockProfile: Profile = {
-      id: "1",
-      userId: "1",
-      name: "田中太郎",
-      nameKana: "たなか たろう",
-      company: "テック株式会社",
-      occupation: "フロントエンドエンジニア",
-      description:
-        "Web開発に携わって5年目です。React、TypeScript、Node.jsを中心に開発を行っています。ユーザビリティを重視した設計を心がけています。",
-      skills: [
-        "React",
-        "TypeScript",
-        "Node.js",
-        "CSS",
-        "HTML",
-        "JavaScript",
-        "Git",
-        "AWS",
-      ],
-      interests: ["プログラミング", "読書", "旅行", "料理", "音楽"],
-      contactInfo: {
-        email: "taro.tech@example.com",
-        phone: "090-1234-5678",
-        sns: {
-          twitter: "taro_tech",
-          linkedin: "taro-tech",
-          github: "taro-tech",
-          instagram: "taro_tech_dev",
-        },
-        website: "https://taro-tech.dev",
-      },
-      isPublic: true,
-      createdAt: new Date("2024-01-01"),
-      updatedAt: new Date(),
-    };
+    loadProfile();
 
-    setProfile(mockProfile);
     setIsLoading(false);
   }, [isAuthenticated, user, navigate]);
+
+  // プロフィール取得
+  const loadProfile = async () => {
+    try {
+      const token = getToken();
+      const res = await fetch(`/api/portfolio/${user?.id}`, {
+        headers: {
+          Authorization: `Bearer ${token ?? ""}`,
+        },
+      });
+
+      if (res.ok) {
+        setProfile(await res.json());
+        console.log(profile);
+      } else {
+        setProfile(emptyProfile);
+      }
+    } catch (error) {
+      console.error("APIエラー：", error);
+    }
+  };
 
   const handleImageUpload = (side: "front" | "back", file: File) => {
     const reader = new FileReader();
@@ -76,14 +85,11 @@ const BusinessCardEdit: React.FC = () => {
   };
 
   const handleSave = async () => {
-    if (!profile) return;
-
     try {
       // モックAPI呼び出し
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // 成功時の処理
-      console.log("名刺を保存しました:", profile);
       console.log("アップロードされた画像:", uploadedImages);
       navigate(`/portfolio/${user?.id}/edit`);
     } catch (error) {
@@ -105,16 +111,6 @@ const BusinessCardEdit: React.FC = () => {
     );
   }
 
-  if (!profile) {
-    return (
-      <div className="business-card-edit">
-        <div className="container">
-          <div className="error">プロフィールが見つかりません</div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="business-card-edit">
       <div className="container">
@@ -124,14 +120,27 @@ const BusinessCardEdit: React.FC = () => {
             <label>現在の名刺</label>
             <div className="card-preview-container">
               <div className="preview-section">
-                <h4 className="preview-title">表面</h4>
+                <h4 className="preview-title"></h4>
                 <div className="card-preview-item">
-                  <img
-                    src={uploadedImages.front || "/img/sample.jpeg"}
-                    alt="名刺（表面）"
-                    className="card-preview-image"
-                  />
+                  {uploadedImages.front ? (
+                    <img
+                      src={uploadedImages.front}
+                      alt="名刺（表面）"
+                      className="card-preview-image"
+                    />
+                  ) : profile.nameCardImgUrl ? (
+                    <img
+                      src={profile.nameCardImgUrl}
+                      alt="名刺（表面）"
+                      className="card-preview-image"
+                    />
+                  ) : (
+                    <p style={{ margin: 20 }}>
+                      現在アップロードされている名刺はありません
+                    </p>
+                  )}
                 </div>
+
                 <div className="preview-actions">
                   <div className="action-item">
                     <button
@@ -159,66 +168,6 @@ const BusinessCardEdit: React.FC = () => {
                       }}
                     />
                     <span className="action-label">画像をアップロード</span>
-                  </div>
-                  <div className="action-item">
-                    <button
-                      type="button"
-                      className="action-btn design-btn"
-                      onClick={() => navigate("/business-card/design")}
-                    >
-                      ✏
-                    </button>
-                    <span className="action-label">自分でデザイン</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="preview-section">
-                <h4 className="preview-title">裏面</h4>
-                <div className="card-preview-item">
-                  <img
-                    src={uploadedImages.back || "/img/sample2.jpeg"}
-                    alt="名刺（裏面）"
-                    className="card-preview-image"
-                  />
-                </div>
-                <div className="preview-actions">
-                  <div className="action-item">
-                    <button
-                      type="button"
-                      className="action-btn upload-btn"
-                      onClick={() => {
-                        const input = document.getElementById(
-                          "back-upload"
-                        ) as HTMLInputElement;
-                        input?.click();
-                      }}
-                    >
-                      ⬆
-                    </button>
-                    <input
-                      type="file"
-                      id="back-upload"
-                      accept="image/*"
-                      className="file-input"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          handleImageUpload("back", file);
-                        }
-                      }}
-                    />
-                    <span className="action-label">画像をアップロード</span>
-                  </div>
-                  <div className="action-item">
-                    <button
-                      type="button"
-                      className="action-btn design-btn"
-                      onClick={() => navigate("/business-card/design")}
-                    >
-                      ✏
-                    </button>
-                    <span className="action-label">自分でデザイン</span>
                   </div>
                 </div>
               </div>
