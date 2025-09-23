@@ -56,18 +56,11 @@ const DeleteAccount: React.FC = () => {
     <div className="delete-account">
       <div className="container">
         <div className="edit-form">
-          <div className="form-header">
-            <h2 className="form-title">Meetolioを退会</h2>
-            <p className="form-description">
-              アカウントを削除すると、すべてのデータが完全に削除され、復元できません。
-              この操作は取り消せません。
-            </p>
-          </div>
-
           <form onSubmit={handleSubmit}>
             {/* 入力欄なし（確認のみ） */}
             <div className="form-group">
-              <label>退会する前に</label>
+              <h2 className="form-title">Meetolioを退会</h2>
+              <label>※退会する前に必ずお読みください</label>
               <div className="warning-section">
                 <ul className="warning-list">
                   <li>削除されたデータは復元できません。</li>
