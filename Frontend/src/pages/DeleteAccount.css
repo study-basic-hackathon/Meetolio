@@ -175,10 +175,6 @@
   list-style: none;
 }
 
-.warning-list li {
-  margin-bottom: 8px;
-}
-
 .warning-list li:last-child {
   margin-bottom: 0;
 }
