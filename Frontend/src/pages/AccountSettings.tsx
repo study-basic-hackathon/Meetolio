@@ -29,6 +29,18 @@ const AccountSettings: React.FC = () => {
             <div className="settings-section">
               <h2 className="settings-title">アカウント設定</h2>
 
+              {/* QRコード確認 */}
+              <div
+                className="account-item clickable"
+                onClick={() => navigate("/settings/qrcode")}
+              >
+                <div className="account-item-content">
+                  <div className="account-item-label">QRコード</div>
+                  <div className="account-item-value">QRコードの確認と共有</div>
+                </div>
+                <div className="account-change-hint">確認 &gt;</div>
+              </div>
+
               {/* メールアドレス変更 */}
               <div
                 className="account-item clickable"
