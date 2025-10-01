@@ -17,6 +17,7 @@ import DeleteAccount from "./pages/DeleteAccount";
 import "./App.css";
 import Portfolio from "./pages/Portfolio";
 import AccountRegister from "./pages/AccountRegister";
+import QRCodePage from "./pages/QRCodePage";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
                 element={<BusinessCardDesign />}
               />
               <Route path="/settings" element={<Settings />} />
+              <Route path="settings/qrcode" element={<QRCodePage />} />
               <Route path="/settings/email" element={<ChangeEmail />} />
               <Route path="/settings/password" element={<ChangePassword />} />
               <Route path="/settings/delete" element={<DeleteAccount />} />
