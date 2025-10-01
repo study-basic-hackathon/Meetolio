@@ -1,11 +1,16 @@
-import React, { useState } from "react";
 import "./QRCodePage.css";
 import QRCode from "react-qr-code";
 
 const QRCodePage: React.FC = () => {
-  // const [text, setText] = useState("https://www.jbs.co.jp/");
+  const url = "https://www.jbs.co.jp/";
 
-  return <div>QRCodePage</div>;
+  return (
+    <div className="qr-page">
+      <div className="qr-container">
+        <QRCode value={url} size={220} />
+      </div>
+    </div>
+  );
 };
 
 export default QRCodePage;

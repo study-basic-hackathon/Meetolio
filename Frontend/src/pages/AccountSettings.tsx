@@ -36,7 +36,7 @@ const AccountSettings: React.FC = () => {
               >
                 <div className="account-item-content">
                   <div className="account-item-label">QRコード</div>
-                  <div className="account-item-value">QRコードの確認と共有</div>
+                  <div className="account-item-value">あなたのQRコードです</div>
                 </div>
                 <div className="account-change-hint">確認 &gt;</div>
               </div>
